@@ -151,5 +151,77 @@
     "createdAt": "2025-11-19 20:30:44.681",
     "updatedAt": "2025-11-24 21:22:25.364",
     "visible": true
+  },
+  {
+    "id": "frk_651b5bc3da3877d883014ab6",
+    "name": "NIST 800-53 Rev. 5",
+    "description": "Security and Privacy Controls for Information Systems and Organizations",
+    "version": "Rev. 5",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000",
+    "visible": false
+  },
+  {
+    "id": "frk_beaa31e6b28f12693424057e",
+    "name": "NIST 800-53 Rev. 5 NSS",
+    "description": "NIST 800-53 Rev. 5 controls with the National Security Systems overlay",
+    "version": "Rev. 5",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000",
+    "visible": false
+  },
+  {
+    "id": "frk_068c037257b80e088c80c4c9",
+    "name": "FedRAMP Low",
+    "description": "FedRAMP Low baseline mapped to NIST 800-53 Rev. 5",
+    "version": "Rev. 5",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000",
+    "visible": false
+  },
+  {
+    "id": "frk_4d3afeb33f6115241978c3dc",
+    "name": "FedRAMP High",
+    "description": "FedRAMP High baseline mapped to NIST 800-53 Rev. 5",
+    "version": "Rev. 5",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000",
+    "visible": false
+  },
+  {
+    "id": "frk_682e2b8775e5e4b09fe5a01d",
+    "name": "CMMC Level 1",
+    "description": "Cybersecurity Maturity Model Certification Level 1",
+    "version": "2.0",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000",
+    "visible": false
+  },
+  {
+    "id": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "CMMC Level 2",
+    "description": "Cybersecurity Maturity Model Certification Level 2",
+    "version": "2.0",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000",
+    "visible": false
+  },
+  {
+    "id": "frk_041cd9baac0846c22201a570",
+    "name": "CMMC Level 3",
+    "description": "Cybersecurity Maturity Model Certification Level 3",
+    "version": "2.0",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000",
+    "visible": false
+  },
+  {
+    "id": "frk_df6d25307ba889ab61ba27bc",
+    "name": "NIST 800-171 Rev. 3",
+    "description": "Protecting Controlled Unclassified Information in Nonfederal Systems and Organizations",
+    "version": "Rev. 3",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000",
+    "visible": false
   }
 ]

@@ -2,6 +2,7 @@
 
 import { initializeOrganization } from '@/actions/organization/lib/initialize-organization';
 import { authActionClientWithoutOrg } from '@/actions/safe-action';
+import { shouldSkipAsyncOnboardingJobs } from '@/app/(app)/onboarding/lib/async-onboarding';
 import { createTrainingVideoEntries } from '@/lib/db/employee';
 import { createFleetLabelForOrg } from '@/trigger/tasks/device/create-fleet-label-for-org';
 import { onboardOrganization as onboardOrganizationTask } from '@/trigger/tasks/onboarding/onboard-organization';
@@ -129,33 +130,52 @@ export const createOrganization = authActionClientWithoutOrg
         revalidatePath(`/${org.organizationId}`);
       }
 
-      const handle = await tasks.trigger<typeof onboardOrganizationTask>('onboard-organization', {
-        organizationId: orgId,
-      });
+      const skipAsyncJobs = shouldSkipAsyncOnboardingJobs();
+      let handle: { id: string; publicAccessToken: string } | null = null;
 
-      // Set triggerJobId to signal that the job is running.
-      await db.onboarding.update({
-        where: {
+      if (skipAsyncJobs) {
+        console.warn(
+          `[create-organization] Local development without TRIGGER_SECRET_KEY; skipping async onboarding jobs for org ${orgId}`,
+        );
+
+        await db.onboarding.update({
+          where: {
+            organizationId: orgId,
+          },
+          data: {
+            triggerJobId: null,
+            triggerJobCompleted: true,
+          },
+        });
+      } else {
+        handle = await tasks.trigger<typeof onboardOrganizationTask>('onboard-organization', {
           organizationId: orgId,
-        },
-        data: { triggerJobId: handle.id },
-      });
+        });
+
+        // Set triggerJobId to signal that the job is running.
+        await db.onboarding.update({
+          where: {
+            organizationId: orgId,
+          },
+          data: { triggerJobId: handle.id },
+        });
+
+        (await cookies()).set('publicAccessToken', handle.publicAccessToken);
+
+        // Create Fleet Label.
+        await tasks.trigger<typeof createFleetLabelForOrg>('create-fleet-label-for-org', {
+          organizationId: orgId,
+        });
+      }
 
       revalidatePath('/');
       revalidatePath(`/${orgId}`);
       revalidatePath('/setup');
 
-      (await cookies()).set('publicAccessToken', handle.publicAccessToken);
-
-      // Create Fleet Label.
-      await tasks.trigger<typeof createFleetLabelForOrg>('create-fleet-label-for-org', {
-        organizationId: orgId,
-      });
-
       return {
         success: true,
-        handle: handle.id,
-        publicAccessToken: handle.publicAccessToken,
+        handle: handle?.id ?? null,
+        publicAccessToken: handle?.publicAccessToken ?? null,
         organizationId: orgId,
       };
     } catch (error) {

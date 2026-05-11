@@ -8818,5 +8818,2219 @@
     "identifier": "QMS-10.2-01",
     "createdAt": "2025-11-19 20:44:19.831",
     "updatedAt": "2025-11-19 20:44:19.831"
+  },
+  {
+    "id": "frk_rq_200a7cdcf6abb06cc2b7e11e",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Account Management",
+    "description": "Define the types of system accounts allowed and prohibited.\nCreate, enable, modify, disable, and remove system accounts in accordance with policy, procedures, prerequisites, and criteria.\nSpecify:\nAuthorized users of the system,\nGroup and role membership, and\nAccess authorizations (i.e., privileges) for each account.\nAuthorize access to the system based on:\nA valid access authorization and\nIntended system usage.\nMonitor the use of system accounts.\nDisable system accounts when:\nThe accounts have expired,\nThe accounts have been inactive for [Assignment: organization-defined time period],\nThe accounts are no longer associated with a user or individual,\nThe accounts are in violation of organizational policy, or\nSignificant risks associated with individuals are discovered.\nNotify account managers and designated personnel or roles within:\n[Assignment: organization-defined time period] when accounts are no longer required.\n[Assignment: organization-defined time period] when users are terminated or transferred.\n[Assignment: organization-defined time period] when system usage or the need-to-know changes for an individual.\nRequire that users log out of the system after [Assignment: organization-defined time period] of expected inactivity or when [Assignment: organization-defined circumstances].",
+    "identifier": "03.01.01",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_2886e5325ef69db1333f568d",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Access Enforcement",
+    "description": "Enforce approved authorizations for logical access to CUI and system resources in accordance with applicable access control policies.",
+    "identifier": "03.01.02",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_a11dd4dffb5945d03e0e7108",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Information Flow Enforcement",
+    "description": "Enforce approved authorizations for controlling the flow of CUI within the system and between connected systems.",
+    "identifier": "03.01.03",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_90602079016f20bdbd2cd608",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Separation of Duties",
+    "description": "Identify the duties of individuals requiring separation.\nDefine system access authorizations to support separation of duties.",
+    "identifier": "03.01.04",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_3c83f0bf19ea8ed652e0d1b8",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Least Privilege",
+    "description": "Allow only authorized system access for users (or processes acting on behalf of users) that is necessary to accomplish assigned organizational tasks.\nAuthorize access to [Assignment: organization-defined security functions] and [Assignment: organization-defined security-relevant information].\nReview the privileges assigned to roles or classes of users [Assignment: organization-defined frequency] to validate the need for such privileges.\nReassign or remove privileges, as necessary.",
+    "identifier": "03.01.05",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_7fe2cff6f863155b99d7cbf1",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Least Privilege – Privileged Accounts",
+    "description": "Restrict privileged accounts on the system to [Assignment: organization-defined personnel or roles].\nRequire that users (or roles) with privileged accounts use non-privileged accounts when accessing non-security functions or non-security information.",
+    "identifier": "03.01.06",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_43aeb7f6958b42518d3027c6",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Least Privilege – Privileged Functions",
+    "description": "Prevent non-privileged users from executing privileged functions.\nLog the execution of privileged functions.",
+    "identifier": "03.01.07",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_12ad0b78416386bfb53f008a",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Unsuccessful Logon Attempts",
+    "description": "Enforce a limit of [Assignment: organization-defined number] consecutive invalid logon attempts by a user during a [Assignment: organization-defined time period].\nAutomatically [Selection (one or more): lock the account or node for an [Assignment: organization-defined time period]; lock the account or node until released by an administrator; delay next logon prompt; notify system administrator; take other action] when the maximum number of unsuccessful attempts is exceeded.",
+    "identifier": "03.01.08",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_68396aa6f4b0ede106165b54",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "System Use Notification",
+    "description": "Display a system use notification message with privacy and security notices consistent with applicable CUI rules before granting access to the system.",
+    "identifier": "03.01.09",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_e99969850172f9a8df1796aa",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Device Lock",
+    "description": "Prevent access to the system by [Selection (one or more): initiating a device lock after [Assignment: organization-defined time period] of inactivity; requiring the user to initiate a device lock before leaving the system unattended].\nRetain the device lock until the user reestablishes access using established identification and authentication procedures.\nConceal, via the device lock, information previously visible on the display with a publicly viewable image.",
+    "identifier": "03.01.10",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_434436fdac3aaab48305f552",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Session Termination",
+    "description": "Terminate a user session automatically after [Assignment: organization-defined conditions or trigger events requiring session disconnect].",
+    "identifier": "03.01.11",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_6ffc64dea2ef1c3f9cea8148",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Remote Access",
+    "description": "Establish usage restrictions, configuration requirements, and connection requirements for each type of allowable remote system access.\nAuthorize each type of remote system access prior to establishing such connections.\nRoute remote access to the system through authorized and managed access control points.\nAuthorize the remote execution of privileged commands and remote access to security-relevant information.",
+    "identifier": "03.01.12",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_e4bf40a9cab9b5c6d8df2975",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Wireless Access",
+    "description": "Establish usage restrictions, configuration requirements, and connection requirements for each type of wireless access to the system.\nAuthorize each type of wireless access to the system prior to establishing such connections.\nDisable, when not intended for use, wireless networking capabilities prior to issuance and deployment.\nProtect wireless access to the system using authentication and encryption.",
+    "identifier": "03.01.16",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_de0c182810f1f2a9b9cda049",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Access Control for Mobile Devices",
+    "description": "Establish usage restrictions, configuration requirements, and connection requirements for mobile devices.\nAuthorize the connection of mobile devices to the system.\nImplement full-device or container-based encryption to protect the confidentiality of CUI on mobile devices.",
+    "identifier": "03.01.18",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_1128d826df2020d7eb13800c",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Use of External Systems",
+    "description": "Prohibit the use of external systems unless the systems are specifically authorized.\nEstablish the following security requirements to be satisfied on external systems prior to allowing use of or access to those systems by authorized individuals: [Assignment: organization-defined security requirements].\nPermit authorized individuals to use external systems to access the organizational system or to process, store, or transmit CUI only after:\nVerifying that the security requirements on the external systems as specified in the organization’s system security plans have been satisfied and\nRetaining approved system connection or processing agreements with the organizational entities hosting the external systems.\nRestrict the use of organization-controlled portable storage devices by authorized individuals on external systems.",
+    "identifier": "03.01.20",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_e3612249c41796eb839693fb",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Publicly Accessible Content",
+    "description": "Train authorized individuals to ensure that publicly accessible information does not contain CUI.\nReview the content on publicly accessible systems for CUI and remove such information, if discovered.",
+    "identifier": "03.01.22",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_e2a6c1c81f79f1589155f8b6",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Literacy Training and Awareness",
+    "description": "Provide security literacy training to system users:\nAs part of initial training for new users and [Assignment: organization-defined frequency] thereafter,\nWhen required by system changes or following [Assignment: organization-defined events], and\nOn recognizing and reporting indicators of insider threat, social engineering, and social mining.\nUpdate security literacy training content [Assignment: organization-defined frequency] and following [Assignment: organization-defined events].",
+    "identifier": "03.02.01",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_a5aa172da52b6e8a73d21b47",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Role-Based Training",
+    "description": "Provide role-based security training to organizational personnel:\nBefore authorizing access to the system or CUI, before performing assigned duties, and [Assignment: organization-defined frequency] thereafter\nWhen required by system changes or following [Assignment: organization-defined events].\nUpdate role-based training content [Assignment: organization-defined frequency] and following [Assignment: organization-defined events].",
+    "identifier": "03.02.02",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_7c45f53486746b9aac35d0e9",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Event Logging",
+    "description": "Specify the following event types selected for logging within the system: [Assignment: organization-defined event types].\nReview and update the event types selected for logging [Assignment: organization-defined frequency].",
+    "identifier": "03.03.01",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_cc17d7cc07e1abd717e46bb3",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Audit Record Content",
+    "description": "Include the following content in audit records:\nWhat type of event occurred\nWhen the event occurred\nWhere the event occurred\nSource of the event\nOutcome of the event\nIdentity of the individuals, subjects, objects, or entities associated with the event\nProvide additional information for audit records as needed.",
+    "identifier": "03.03.02",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_5fc76b7d2fde2e30600f01f4",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Audit Record Generation",
+    "description": "Generate audit records for the selected event types and audit record content specified in 03.03.01 and 03.03.02.\nRetain audit records for a time period consistent with the records retention policy.",
+    "identifier": "03.03.03",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_dea6c608273b4a9e6387748a",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Response to Audit Logging Process Failures",
+    "description": "Alert organizational personnel or roles within [Assignment: organization-defined time period] in the event of an audit logging process failure.\nTake the following additional actions: [Assignment: organization-defined additional actions].",
+    "identifier": "03.03.04",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_535e5bbb03cae41b198fbc66",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Audit Record Review, Analysis, and Reporting",
+    "description": "Review and analyze system audit records [Assignment: organization-defined frequency] for indications and the potential impact of inappropriate or unusual activity.\nReport findings to organizational personnel or roles.\nAnalyze and correlate audit records across different repositories to gain organization-wide situational awareness.",
+    "identifier": "03.03.05",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_63fab8d10de6fc3770842e1c",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Audit Record Reduction and Report Generation",
+    "description": "Implement an audit record reduction and report generation capability that supports audit record review, analysis, reporting requirements, and after-the-fact investigations of incidents.\nPreserve the original content and time ordering of audit records.",
+    "identifier": "03.03.06",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_b50702b26b91de1b0be2f5ca",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Time Stamps",
+    "description": "Use internal system clocks to generate time stamps for audit records.\nRecord time stamps for audit records that meet [Assignment: organization-defined granularity of time measurement] and that use Coordinated Universal Time (UTC), have a fixed local time offset from UTC, or include the local time offset as part of the time stamp.",
+    "identifier": "03.03.07",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_e7568b6a8527f0a3ef282f69",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Protection of Audit Information",
+    "description": "Protect audit information and audit logging tools from unauthorized access, modification, and deletion.\nAuthorize access to management of audit logging functionality to only a subset of privileged users or roles.",
+    "identifier": "03.03.08",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_66f14b8872163dbc3864a9b8",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Baseline Configuration",
+    "description": "Develop and maintain under configuration control, a current baseline configuration of the system.\nReview and update the baseline configuration of the system [Assignment: organization-defined frequency] and when system components are installed or modified.",
+    "identifier": "03.04.01",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_68cbf13559e1fbb5f6231364",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Configuration Settings",
+    "description": "Establish, document, and implement the following configuration settings for the system that reflect the most restrictive mode consistent with operational requirements: [Assignment: organization-defined configuration settings].\nIdentify, document, and approve any deviations from established configuration settings.",
+    "identifier": "03.04.02",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_df7d688c37adc209303643a3",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Configuration Change Control",
+    "description": "Define the types of changes to the system that are configuration-controlled.\nReview proposed configuration-controlled changes to the system, and approve or disapprove such changes with explicit consideration for security impacts.\nImplement and document approved configuration-controlled changes to the system.\nMonitor and review activities associated with configuration-controlled changes to the system.",
+    "identifier": "03.04.03",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_4053555473d5bfbd41f3f0a3",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Impact Analyses",
+    "description": "Analyze changes to the system to determine potential security impacts prior to change implementation.\nVerify that the security requirements for the system continue to be satisfied after the system changes have been implemented.",
+    "identifier": "03.04.04",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_8d79c86d62cb26343b3ac341",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Access Restrictions for Change",
+    "description": "Define, document, approve, and enforce physical and logical access restrictions associated with changes to the system.",
+    "identifier": "03.04.05",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_02b974264c4a196b25ed4b93",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Least Functionality",
+    "description": "Configure the system to provide only mission-essential capabilities.\nProhibit or restrict use of the following functions, ports, protocols, connections, and services: [Assignment: organization-defined functions, ports, protocols, connections, and services].\nReview the system [Assignment: organization-defined frequency] to identify unnecessary or nonsecure functions, ports, protocols, connections, and services.\nDisable or remove functions, ports, protocols, connections, and services that are unnecessary or nonsecure.",
+    "identifier": "03.04.06",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_8882a9fde963d0d669194c41",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Authorized Software – Allow by Exception",
+    "description": "Identify software programs authorized to execute on the system.\nImplement a deny-all, allow-by-exception policy for the execution of authorized software programs on the system.\nReview and update the list of authorized software programs [Assignment: organization-defined frequency].",
+    "identifier": "03.04.08",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_a044663e10ba30040241e787",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "System Component Inventory",
+    "description": "Develop and document an inventory of system components.\nReview and update the system component inventory [Assignment: organization-defined frequency].\nUpdate the system component inventory as part of installations, removals, and system updates.",
+    "identifier": "03.04.10",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_d07089b01ebe49c1a81fb7c1",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Information Location",
+    "description": "Identify and document the location of CUI and the system components on which the information is processed and stored.\nDocument changes to the system or system component location where CUI is processed and stored.",
+    "identifier": "03.04.11",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_d92da9f3df3c73c1e66d7ee0",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "System and Component Configuration for High-Risk Areas",
+    "description": "Issue systems or system components with the following configurations to individuals traveling to high-risk locations: [Assignment: organization-defined system configurations].\nApply the following security requirements to the systems or components when the individuals return from travel: [Assignment: organization-defined security requirements].",
+    "identifier": "03.04.12",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_44dab49899984dc1c7a184a4",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "User Identification and Authentication",
+    "description": "Uniquely identify and authenticate system users, and associate that unique identification with processes acting on behalf of those users.\nRe-authenticate users when [Assignment: organization-defined circumstances or situations requiring re-authentication].",
+    "identifier": "03.05.01",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_2d9714fe103fad54b52c9369",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Device Identification and Authentication",
+    "description": "Uniquely identify and authenticate [Assignment: organization-defined devices or types of devices] before establishing a system connection.",
+    "identifier": "03.05.02",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_84fab00a8b0ab12e8515c7c2",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Multi-Factor Authentication",
+    "description": "Implement multi-factor authentication for access to privileged and non-privileged accounts.",
+    "identifier": "03.05.03",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_326e0a207d28a8ca6a5aae7b",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Replay-Resistant Authentication",
+    "description": "Implement replay-resistant authentication mechanisms for access to privileged and non-privileged accounts.",
+    "identifier": "03.05.04",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_0c9aea99ba547fdcd66c9248",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Identifier Management",
+    "description": "Receive authorization from organizational personnel or roles to assign an individual, group, role, service, or device identifier.\nSelect and assign an identifier that identifies an individual, group, role, service, or device.\nPrevent the reuse of identifiers for [Assignment: organization-defined time period].\nManage individual identifiers by uniquely identifying each individual as [Assignment: organization-defined characteristic identifying individual status].",
+    "identifier": "03.05.05",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_f30a20ee217e91a1b99bcb90",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Password Management",
+    "description": "Maintain a list of commonly-used, expected, or compromised passwords, and update the list [Assignment: organization-defined frequency] and when organizational passwords are suspected to have been compromised.\nVerify that passwords are not found on the list of commonly used, expected, or compromised passwords when users create or update passwords.\nTransmit passwords only over cryptographically protected channels.\nStore passwords in a cryptographically protected form.\nSelect a new password upon first use after account recovery.\nEnforce the following composition and complexity rules for passwords: [Assignment: organization-defined composition and complexity rules].",
+    "identifier": "03.05.07",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_7338e95fc71e61c79f96bc25",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Authentication Feedback",
+    "description": "Obscure feedback of authentication information during the authentication process.",
+    "identifier": "03.05.11",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_867727f57ba554615b42ae70",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Authenticator Management",
+    "description": "Verify the identity of the individual, group, role, service, or device receiving the authenticator as part of the initial authenticator distribution.\nEstablish initial authenticator content for any authenticators issued by the organization.\nEstablish and implement administrative procedures for initial authenticator distribution; for lost, compromised, or damaged authenticators; and for revoking authenticators.\nChange default authenticators at first use.\nChange or refresh authenticators [Assignment: organization-defined frequency] or when the following events occur: [Assignment: organization-defined events].\nProtect authenticator content from unauthorized disclosure and modification.",
+    "identifier": "03.05.12",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_bf07d9c891a677a477fc9989",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Incident Handling",
+    "description": "Implement an incident-handling capability that is consistent with the incident response plan and includes preparation, detection and analysis, containment, eradication, and recovery.",
+    "identifier": "03.06.01",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_f51e975f6233d678e91aae4e",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Incident Monitoring, Reporting, and Response Assistance",
+    "description": "Track and document system security incidents.\n[Assignment: organization-defined time period].\nReport incident information to [Assignment: organization-defined authorities].\nProvide an incident response support resource that offers advice and assistance to system users on handling and reporting incidents.",
+    "identifier": "03.06.02",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_2afd1737e8caaca8cf88cfc3",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Incident Response Testing",
+    "description": "Test the effectiveness of the incident response capability [Assignment: organization-defined frequency].",
+    "identifier": "03.06.03",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_22f519709aaef7f71c364a91",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Incident Response Training",
+    "description": "Provide incident response training to system users consistent with assigned roles and responsibilities:\nWithin [Assignment: organization-defined time period] of assuming an incident response role or responsibility or acquiring system access,\nWhen required by system changes, and\n[Assignment: organization-defined frequency] thereafter.\nReview and update incident response training content [Assignment: organization-defined frequency] and following [Assignment: organization-defined events].",
+    "identifier": "03.06.04",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_a075278e50c6f9964f60bf0c",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Incident Response Plan",
+    "description": "Develop an incident response plan that:\nProvides the organization with a roadmap for implementing its incident response capability,\nDescribes the structure and organization of the incident response capability,\nProvides a high-level approach for how the incident response capability fits into the overall organization,\nDefines reportable incidents,\nAddresses the sharing of incident information, and\nDesignates responsibilities to organizational entities, personnel, or roles.\nDistribute copies of the incident response plan to designated incident response personnel (identified by name and/or by role) and organizational elements.\nUpdate the incident response plan to address system and organizational changes or problems encountered during plan implementation, execution, or testing.\nProtect the incident response plan from unauthorized disclosure.",
+    "identifier": "03.06.05",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_938332acb8138307cce98288",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Maintenance Tools",
+    "description": "Approve, control, and monitor the use of system maintenance tools.\nCheck media with diagnostic and test programs for malicious code before it is used in the system.\nPrevent the removal of system maintenance equipment containing CUI by verifying that there is no CUI on the equipment, sanitizing or destroying the equipment, or retaining the equipment within the facility.",
+    "identifier": "03.07.04",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_894c014c12beb324d9ca2f12",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Nonlocal Maintenance",
+    "description": "Approve and monitor nonlocal maintenance and diagnostic activities.\nImplement multi-factor authentication and replay resistance in the establishment of nonlocal maintenance and diagnostic sessions.\nTerminate session and network connections when nonlocal maintenance is completed.",
+    "identifier": "03.07.05",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_7efbf40b131a143438cf3e8e",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Maintenance Personnel",
+    "description": "Establish a process for maintenance personnel authorization.\nMaintain a list of authorized maintenance organizations or personnel.\nVerify that non-escorted personnel who perform maintenance on the system possess the required access authorizations.\nDesignate organizational personnel with required access authorizations and technical competence to supervise the maintenance activities of personnel who do not possess the required access authorizations.",
+    "identifier": "03.07.06",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_c4e6813b6395a236365d8d2f",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Media Storage",
+    "description": "Physically control and securely store system media that contain CUI.",
+    "identifier": "03.08.01",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_9c03f667095f7b1ca6b13a97",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Media Access",
+    "description": "Restrict access to CUI on system media to authorized personnel or roles.",
+    "identifier": "03.08.02",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_10ba7ff480a7bc481629ee26",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Media Sanitization",
+    "description": "Sanitize system media that contain CUI prior to disposal, release out of organizational control, or release for reuse.",
+    "identifier": "03.08.03",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_6b6b0ba058c2592940dc0f2f",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Media Marking",
+    "description": "Mark system media that contain CUI to indicate distribution limitations, handling caveats, and applicable CUI markings.",
+    "identifier": "03.08.04",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_6c46bbff783375ac18540ce5",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Media Transport",
+    "description": "Protect and control system media that contain CUI during transport outside of controlled areas.\nMaintain accountability of system media that contain CUI during transport outside of controlled areas.\nDocument activities associated with the transport of system media that contain CUI.",
+    "identifier": "03.08.05",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_51dd00e9abb6a3c2c69d85c8",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Media Use",
+    "description": "Restrict or prohibit the use of [Assignment: organization-defined types of system media].\nProhibit the use of removable system media without an identifiable owner.",
+    "identifier": "03.08.07",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_8e66cea2a8b7430e7daab97a",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "System Backup – Cryptographic Protection",
+    "description": "Protect the confidentiality of backup information.\nImplement cryptographic mechanisms to prevent the unauthorized disclosure of CUI at backup storage locations.",
+    "identifier": "03.08.09",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_e0c8b4302a533a891806d182",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Personnel Screening",
+    "description": "Screen individuals prior to authorizing access to the system.\nRescreen individuals in accordance with [Assignment: organization-defined conditions requiring rescreening].",
+    "identifier": "03.09.01",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_902d9b839f9fe3fb50429eb1",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Personnel Termination and Transfer",
+    "description": "When individual employment is terminated:\nDisable system access within [Assignment: organization-defined time period],\nTerminate or revoke authenticators and credentials associated with the individual, and\nRetrieve security-related system property.\nWhen individuals are reassigned or transferred to other positions in the organization:\nReview and confirm the ongoing operational need for current logical and physical access authorizations to the system and facility, and\nModify access authorization to correspond with any changes in operational need.",
+    "identifier": "03.09.02",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_50679a151edf9d8436472b47",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Physical Access Authorizations",
+    "description": "Develop, approve, and maintain a list of individuals with authorized access to the facility where the system resides.\nIssue authorization credentials for facility access.\nReview the facility access list [Assignment: organization-defined frequency].\nRemove individuals from the facility access list when access is no longer required.",
+    "identifier": "03.10.01",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_9243a0746a475fb80662b8c3",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Monitoring Physical Access",
+    "description": "Monitor physical access to the facility where the system resides to detect and respond to physical security incidents.\nReview physical access logs [Assignment: organization-defined frequency] and upon occurrence of [Assignment: organization-defined events or potential indications of events].",
+    "identifier": "03.10.02",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_b10a53725ac12e2458bb243f",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Alternate Work Site",
+    "description": "Determine alternate work sites allowed for use by employees.\nEmploy the following security requirements at alternate work sites: [Assignment: organization-defined security requirements].",
+    "identifier": "03.10.06",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_604bc67279f348613766a2dd",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Physical Access Control",
+    "description": "Enforce physical access authorizations at entry and exit points to the facility where the system resides by:\nVerifying individual physical access authorizations before granting access to the facility and\nControlling ingress and egress with physical access control systems, devices, or guards.\nMaintain physical access audit logs for entry or exit points.\nEscort visitors, and control visitor activity.\nSecure keys, combinations, and other physical access devices.\nControl physical access to output devices to prevent unauthorized individuals from obtaining access to CUI.",
+    "identifier": "03.10.07",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_f2101d7fe086b3a8040d92ef",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Access Control for Transmission",
+    "description": "Control physical access to system distribution and transmission lines within organizational facilities.",
+    "identifier": "03.10.08",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_a57cb7b3cd608e4586597d86",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Risk Assessment",
+    "description": "Assess the risk (including supply chain risk) of unauthorized disclosure resulting from the processing, storage, or transmission of CUI.\nUpdate risk assessments [Assignment: organization-defined frequency].",
+    "identifier": "03.11.01",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_d29482447f49a43ead83307e",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Vulnerability Monitoring and Scanning",
+    "description": "Monitor and scan the system for vulnerabilities [Assignment: organization-defined frequency] and when new vulnerabilities affecting the system are identified.\nRemediate system vulnerabilities within [Assignment: organization-defined response times].\nUpdate system vulnerabilities to be scanned [Assignment: organization-defined frequency] and when new vulnerabilities are identified and reported.",
+    "identifier": "03.11.02",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_95550e8e8d412e105b9fe824",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Risk Response",
+    "description": "Respond to findings from security assessments, monitoring, and audits.",
+    "identifier": "03.11.04",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_630a1295234c47f047099ffb",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Security Assessment",
+    "description": "Assess the security requirements for the system and its environment of operation [Assignment: organization-defined frequency] to determine if the requirements have been satisfied.",
+    "identifier": "03.12.01",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_98e11b5a09d2c8e6e7fe5ac6",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Plan of Action and Milestones",
+    "description": "Develop a plan of action and milestones for the system:\nTo document the planned remediation actions to correct weaknesses or deficiencies noted during security assessments and\nTo reduce or eliminate known system vulnerabilities.\nUpdate the existing plan of action and milestones based on the findings from:\nSecurity assessments,\nAudits or reviews, and\nContinuous monitoring activities.",
+    "identifier": "03.12.02",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_3b0f2d83bce3ef907c9e788f",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Continuous Monitoring",
+    "description": "Develop and implement a system-level continuous monitoring strategy that includes ongoing monitoring and security assessments.",
+    "identifier": "03.12.03",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_9e6556f0bf3b0b48134026f7",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Information Exchange",
+    "description": "Approve and manage the exchange of CUI between the system and other systems using [Selection (one or more): interconnection security agreements; information exchange security agreements; memoranda of understanding or agreement; service-level agreements; user agreements; non-disclosure agreements; other types of agreements].\nDocument interface characteristics, security requirements, and responsibilities for each system as part of the exchange agreements.\nReview and update the exchange agreements [Assignment: organization-defined frequency].",
+    "identifier": "03.12.05",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_4ee964ffd1b04fb7b92fbb95",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Boundary Protection",
+    "description": "Monitor and control communications at external managed interfaces to the system and key internal managed interfaces within the system.\nImplement subnetworks for publicly accessible system components that are physically or logically separated from internal networks.\nConnect to external systems only through managed interfaces that consist of boundary protection devices arranged in accordance with an organizational security architecture.",
+    "identifier": "03.13.01",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_bee80d2da845a1c83cd46087",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Information in Shared System Resources",
+    "description": "Prevent unauthorized and unintended information transfer via shared system resources.",
+    "identifier": "03.13.04",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_dae4c3c4e60d360a4151a0b2",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Network Communications – Deny by Default – Allow by Exception",
+    "description": "Deny network communications traffic by default, and allow network communications traffic by exception.",
+    "identifier": "03.13.06",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_0b378eb3d26baa917c074a36",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Transmission and Storage Confidentiality",
+    "description": "Implement cryptographic mechanisms to prevent the unauthorized disclosure of CUI during transmission and while in storage.",
+    "identifier": "03.13.08",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_4e3b8b7cbb8566d058280dd8",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Network Disconnect",
+    "description": "Terminate the network connection associated with a communications session at the end of the session or after [Assignment: organization-defined time period] of inactivity.",
+    "identifier": "03.13.09",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_982afa29d9c217e652398795",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Cryptographic Key Establishment and Management",
+    "description": "Establish and manage cryptographic keys in the system in accordance with the following key management requirements: [Assignment: organization-defined requirements for key generation, distribution, storage, access, and destruction].",
+    "identifier": "03.13.10",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_e049393f57533ab7c89a783a",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Cryptographic Protection",
+    "description": "Implement the following types of cryptography to protect the confidentiality of CUI: [Assignment: organization-defined types of cryptography].",
+    "identifier": "03.13.11",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_b8a0d66a9e006916b1fa2180",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Collaborative Computing Devices and Applications",
+    "description": "Prohibit the remote activation of collaborative computing devices and applications with the following exceptions: [Assignment: organization-defined exceptions where remote activation is to be allowed].\nProvide an explicit indication of use to users physically present at the devices.",
+    "identifier": "03.13.12",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_d68ba89b188d0a2ff94ddd28",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Mobile Code",
+    "description": "Define acceptable mobile code and mobile code technologies.\nAuthorize, monitor, and control the use of mobile code.",
+    "identifier": "03.13.13",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_e2570e136b27dce338c26c9f",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Session Authenticity",
+    "description": "Protect the authenticity of communications sessions.",
+    "identifier": "03.13.15",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_047fb85d23d9ca38136af4ca",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Flaw Remediation",
+    "description": "Identify, report, and correct system flaws.\nInstall security-relevant software and firmware updates within [Assignment: organization-defined time period] of the release of the updates.",
+    "identifier": "03.14.01",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_c4db9f110e5ee5ddfccbc4ae",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Malicious Code Protection",
+    "description": "Implement malicious code protection mechanisms at system entry and exit points to detect and eradicate malicious code.\nUpdate malicious code protection mechanisms as new releases are available in accordance with configuration management policies and procedures.\nConfigure malicious code protection mechanisms to:\nPerform scans of the system [Assignment: organization-defined frequency] and real-time scans of files from external sources at endpoints or system entry and exit points as the files are downloaded, opened, or executed; and\nBlock malicious code, quarantine malicious code, or take other mitigation actions in response to malicious code detection.",
+    "identifier": "03.14.02",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_eeccae553f5923cff3ee5bfc",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Security Alerts, Advisories, and Directives",
+    "description": "Receive system security alerts, advisories, and directives from external organizations on an ongoing basis.\nGenerate and disseminate internal system security alerts, advisories, and directives, as necessary.",
+    "identifier": "03.14.03",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_028608c9ffe4e489cab8f4ae",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "System Monitoring",
+    "description": "Monitor the system to detect:\nAttacks and indicators of potential attacks and\nUnauthorized connections.\nIdentify unauthorized use of the system.\nMonitor inbound and outbound communications traffic to detect unusual or unauthorized activities or conditions.",
+    "identifier": "03.14.06",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_0a04fcdfb8f62204e7204a6a",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Information Management and Retention",
+    "description": "Manage and retain CUI within the system and CUI output from the system in accordance with applicable laws, Executive Orders, directives, regulations, policies, standards, guidelines, and operational requirements.",
+    "identifier": "03.14.08",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_af3c151b0f91b0e81d4c2638",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Policy and Procedures",
+    "description": "Develop, document, and disseminate to organizational personnel or roles the policies and procedures needed to satisfy the security requirements for the protection of CUI.\nReview and update policies and procedures [Assignment: organization-defined frequency].",
+    "identifier": "03.15.01",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_cc186e0251153ab9ed776a57",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "System Security Plan",
+    "description": "Develop a system security plan that:\nDefines the constituent system components;\nIdentifies the information types processed, stored, and transmitted by the system;\nDescribes specific threats to the system that are of concern to the organization;\nDescribes the operational environment for the system and any dependencies on or connections to other systems or system components;\nProvides an overview of the security requirements for the system;\nDescribes the safeguards in place or planned for meeting the security requirements;\nIdentifies individuals that fulfill system roles and responsibilities; and\nIncludes other relevant information necessary for the protection of CUI.\nReview and update the system security plan [Assignment: organization-defined frequency].\nProtect the system security plan from unauthorized disclosure.",
+    "identifier": "03.15.02",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_7e14535b02b059c53089e604",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Rules of Behavior",
+    "description": "Establish rules that describe the responsibilities and expected behavior for system usage and protecting CUI.\nProvide rules to individuals who require access to the system.\nReceive a documented acknowledgement from individuals indicating that they have read, understand, and agree to abide by the rules of behavior before authorizing access to CUI and the system.\nReview and update the rules of behavior [Assignment: organization-defined frequency].",
+    "identifier": "03.15.03",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_cda9ff4565cce673b92e299a",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Security Engineering Principles",
+    "description": "Apply the following systems security engineering principles to the development or modification of the system and system components: [Assignment: organization-defined systems security engineering principles].",
+    "identifier": "03.16.01",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_502eeade485e1d7d2aad0f36",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Unsupported System Components",
+    "description": "Replace system components when support for the components is no longer available from the developer, vendor, or manufacturer.\nProvide options for risk mitigation or alternative sources for continued support for unsupported components that cannot be replaced.",
+    "identifier": "03.16.02",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_a09cb1aee53066b7d155a2a4",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "External System Services",
+    "description": "Require the providers of external system services used for the processing, storage, or transmission of CUI to comply with the following security requirements: [Assignment: organization-defined security requirements].\nDefine and document user roles and responsibilities with regard to external system services, including shared responsibilities with external service providers.\nImplement processes, methods, and techniques to monitor security requirement compliance by external service providers on an ongoing basis.",
+    "identifier": "03.16.03",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_b1f6e4c49d5cabc8222ac87d",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Supply Chain Risk Management Plan",
+    "description": "Develop a plan for managing supply chain risks associated with the research and development, design, manufacturing, acquisition, delivery, integration, operations, maintenance, and disposal of the system, system components, or system services.\nReview and update the supply chain risk management plan [Assignment: organization-defined frequency].\nProtect the supply chain risk management plan from unauthorized disclosure.",
+    "identifier": "03.17.01",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_26bf85e3b6a11967e2280eeb",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Acquisition Strategies, Tools, and Methods",
+    "description": "Develop and implement acquisition strategies, contract tools, and procurement methods to identify, protect against, and mitigate supply chain risks.",
+    "identifier": "03.17.02",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_d009ab20d9ab3dc464a7b9d9",
+    "frameworkId": "frk_df6d25307ba889ab61ba27bc",
+    "name": "Supply Chain Requirements and Processes",
+    "description": "Establish a process for identifying and addressing weaknesses or deficiencies in the supply chain elements and processes.\nEnforce the following security requirements to protect against supply chain risks to the system, system components, or system services and to limit the harm or consequences from supply chain-related events: [Assignment: organization-defined security requirements].",
+    "identifier": "03.17.03",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_57eb96089cd2e7fa0ce6fd4f",
+    "frameworkId": "frk_682e2b8775e5e4b09fe5a01d",
+    "name": "Authorized Users, Processes, and Devices",
+    "description": "Limit information system access to authorized users, processes acting on behalf of authorized users, or devices (including other information systems).",
+    "identifier": "AC.L1-b.1.i",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_e0055cb6e3fde841af3ad5f8",
+    "frameworkId": "frk_682e2b8775e5e4b09fe5a01d",
+    "name": "Authorized Transactions and Functions",
+    "description": "Limit information system access to the types of transactions and functions that authorized users are permitted to execute.",
+    "identifier": "AC.L1-b.1.ii",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_8fd38263b49579b6dbb602e4",
+    "frameworkId": "frk_682e2b8775e5e4b09fe5a01d",
+    "name": "External System Connections and Use",
+    "description": "Verify and control/limit connections to and use of external information systems.",
+    "identifier": "AC.L1-b.1.iii",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_6213dbc448fde1e143334a5d",
+    "frameworkId": "frk_682e2b8775e5e4b09fe5a01d",
+    "name": "Publicly Accessible Information Control",
+    "description": "Control information posted or processed on publicly accessible information systems.",
+    "identifier": "AC.L1-b.1.iv",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_6235d0acec968c2146ddb46c",
+    "frameworkId": "frk_682e2b8775e5e4b09fe5a01d",
+    "name": "Identification of Users, Processes, and Devices",
+    "description": "Identify information system users, processes acting on behalf of users, or devices.",
+    "identifier": "IA.L1-b.1.v",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_d2fca33208d8464e914cd944",
+    "frameworkId": "frk_682e2b8775e5e4b09fe5a01d",
+    "name": "Identity Authentication",
+    "description": "Authenticate (or verify) the identities of those users, processes, or devices, as a prerequisite to allowing access to organizational information systems.",
+    "identifier": "IA.L1-b.1.vi",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_aca1c65e16a9ffb4f39e54ac",
+    "frameworkId": "frk_682e2b8775e5e4b09fe5a01d",
+    "name": "Media Sanitization and Destruction",
+    "description": "Sanitize or destroy information system media containing Federal Contract Information before disposal or release for reuse.",
+    "identifier": "MP.L1-b.1.vii",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_77f5b8ab265a4209c4a4b5c5",
+    "frameworkId": "frk_682e2b8775e5e4b09fe5a01d",
+    "name": "Physical Access Limitation",
+    "description": "Limit physical access to organizational information systems, equipment, and the respective operating environments to authorized individuals.",
+    "identifier": "PE.L1-b.1.viii",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_2566ff5917051f00f75fa3f0",
+    "frameworkId": "frk_682e2b8775e5e4b09fe5a01d",
+    "name": "Visitor Escort and Physical Access Logging",
+    "description": "Escort visitors and monitor visitor activity; maintain audit logs of physical access; and control and manage physical access devices.",
+    "identifier": "PE.L1-b.1.ix",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_b2be6c919a301801a8e6a0be",
+    "frameworkId": "frk_682e2b8775e5e4b09fe5a01d",
+    "name": "Boundary Communications Protection",
+    "description": "Monitor, control, and protect organizational communications (i.e., information transmitted or received by organizational information systems) at the external boundaries and key internal boundaries of the information systems.",
+    "identifier": "SC.L1-b.1.x",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_c8269434ceec48c654c2addf",
+    "frameworkId": "frk_682e2b8775e5e4b09fe5a01d",
+    "name": "Public System Subnetwork Separation",
+    "description": "Implement subnetworks for publicly accessible system components that are physically or logically separated from internal networks.",
+    "identifier": "SC.L1-b.1.xi",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_0c641027e4ed5b3b7c44dcba",
+    "frameworkId": "frk_682e2b8775e5e4b09fe5a01d",
+    "name": "Flaw Identification, Reporting, and Correction",
+    "description": "Identify, report, and correct information and information system flaws in a timely manner.",
+    "identifier": "SI.L1-b.1.xii",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_67b3f209f09b75a68bf728d2",
+    "frameworkId": "frk_682e2b8775e5e4b09fe5a01d",
+    "name": "Protection from Malicious Code",
+    "description": "Provide protection from malicious code at appropriate locations within organizational information systems.",
+    "identifier": "SI.L1-b.1.xiii",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_6d3e2248cc3be492de2751b2",
+    "frameworkId": "frk_682e2b8775e5e4b09fe5a01d",
+    "name": "Malicious Code Protection Updates",
+    "description": "Update malicious code protection mechanisms when new releases are available.",
+    "identifier": "SI.L1-b.1.xiv",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_2e608ae5d200d7f9fc0cf5f2",
+    "frameworkId": "frk_682e2b8775e5e4b09fe5a01d",
+    "name": "Periodic and Real-Time File Scanning",
+    "description": "Perform periodic scans of the information system and real-time scans of files from external sources as files are downloaded, opened, or executed.",
+    "identifier": "SI.L1-b.1.xv",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_6ecf1347812377503c4e1282",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Account Management",
+    "description": "Limit system access to authorized users, processes acting on behalf of authorized users, and devices (including other systems).",
+    "identifier": "AC.L2-3.1.1",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_e9ae686e341c867b15207548",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Access Enforcement",
+    "description": "Limit system access to the types of transactions and functions that authorized users are permitted to execute.",
+    "identifier": "AC.L2-3.1.2",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_0a1c788369dbe3c6ea4df111",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Information Flow Enforcement",
+    "description": "Control the flow of CUI in accordance with approved authorizations.",
+    "identifier": "AC.L2-3.1.3",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_74e0e07f58cc76098881f712",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Separation of Duties",
+    "description": "Separate the duties of individuals to reduce the risk of malevolent activity without collusion.",
+    "identifier": "AC.L2-3.1.4",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_579d996889e799e44aec951c",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Least Privilege",
+    "description": "Employ the principle of least privilege, including for specific security functions and privileged accounts.",
+    "identifier": "AC.L2-3.1.5",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_f87bd3a5bb736798a1e3a158",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Least Privilege – Privileged Accounts",
+    "description": "Use non-privileged accounts or roles when accessing nonsecurity functions",
+    "identifier": "AC.L2-3.1.6",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_fcb09a1e19db240896f878cd",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Least Privilege – Privileged Functions",
+    "description": "Prevent non-privileged users from executing privileged functions and capture the execution of such functions in audit logs.",
+    "identifier": "AC.L2-3.1.7",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_f8ee5240345947ceb36f3876",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Unsuccessful Logon Attempts",
+    "description": "Limit unsuccessful logon attempts.",
+    "identifier": "AC.L2-3.1.8",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_a82b1a8a783b6736ef6f6843",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "System Use Notification",
+    "description": "Provide privacy and security notices consistent with applicable CUI rules.",
+    "identifier": "AC.L2-3.1.9",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_123b63b0fc830eee1ee8159c",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Device Lock",
+    "description": "Use session lock with pattern-hiding displays to prevent access and viewing of data after a period of inactivity",
+    "identifier": "AC.L2-3.1.10",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_3ce5e6b38e95d4f7dc3757ad",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Session Termination",
+    "description": "Terminate (automatically) a user session after a defined condition.",
+    "identifier": "AC.L2-3.1.11",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_ffb12767efc5d65403745bc3",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Remote Access",
+    "description": "Monitor and control remote access sessions.",
+    "identifier": "AC.L2-3.1.12",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_2a34e2d551df859776ac20f4",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Remote Session Cryptographic Protection",
+    "description": "Employ cryptographic mechanisms to protect the confidentiality of remote access sessions.",
+    "identifier": "AC.L2-3.1.13",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_5eaf682416e4a5d85066e3ef",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Managed Access Control Points",
+    "description": "Route remote access via managed access control points.",
+    "identifier": "AC.L2-3.1.14",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_dd101a53d5430a571b0c8253",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Remote Privileged Access Authorization",
+    "description": "Authorize remote execution of privileged commands and remote access to security-relevant information.",
+    "identifier": "AC.L2-3.1.15",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_6b33371a0751be0341a1e422",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Wireless Access",
+    "description": "Authorize wireless access prior to allowing such connections",
+    "identifier": "AC.L2-3.1.16",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_b85dd4980fdb408d1aedd49a",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Wireless Authentication and Encryption",
+    "description": "Protect wireless access using authentication and encryption",
+    "identifier": "AC.L2-3.1.17",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_08190ffa5d1f2beb42ac0103",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Access Control for Mobile Devices",
+    "description": "Control connection of mobile devices.",
+    "identifier": "AC.L2-3.1.18",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_d78e9f0ff905f008c885c906",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Mobile Device Encryption",
+    "description": "Encrypt CUI on mobile devices and mobile computing platforms.",
+    "identifier": "AC.L2-3.1.19",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_dc0799ed0e7cf15f4ca0eb1e",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Use of External Systems",
+    "description": "Verify and control/limit connections to and use of external systems.",
+    "identifier": "AC.L2-3.1.20",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_930448ef265ba3b91b3b4eb9",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Portable Storage on External Systems",
+    "description": "Limit use of portable storage devices on external systems.",
+    "identifier": "AC.L2-3.1.21",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_3c40bd8ebda66120174a0e07",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Publicly Accessible Content",
+    "description": "Control CUI posted or processed on publicly accessible systems.",
+    "identifier": "AC.L2-3.1.22",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_3d71741ddb641b6b3bab2805",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Literacy Training and Awareness",
+    "description": "Ensure that managers, systems administrators, and users of organizational systems are made aware of the security risks associated with their activities and of the applicable policies, standards, and procedures related to the security of those systems.",
+    "identifier": "AT.L2-3.2.1",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_327bc0a61c6705da0a1d238f",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Role-Based Training",
+    "description": "Ensure that personnel are trained to carry out their assigned information security-related duties and responsibilities.",
+    "identifier": "AT.L2-3.2.2",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_26f1f30656f8947e2e949eb7",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Insider Threat Awareness",
+    "description": "Provide security awareness training on recognizing and reporting potential indicators of insider threat.",
+    "identifier": "AT.L2-3.2.3",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_b8331b5828ae98ad122c2d47",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Event Logging",
+    "description": "Create and retain system audit logs and records to the extent needed to enable the monitoring, analysis, investigation, and reporting of unlawful or unauthorized system activity",
+    "identifier": "AU.L2-3.3.1",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_8d3348bb675d9e7a004f56ea",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Audit Record Content",
+    "description": "Ensure that the actions of individual system users can be uniquely traced to those users, so they can be held accountable for their actions.",
+    "identifier": "AU.L2-3.3.2",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_ba0d85857baca78c770c551e",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Audit Record Generation",
+    "description": "Review and update logged events.",
+    "identifier": "AU.L2-3.3.3",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_e3d857972516f8efaa1467bb",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Response to Audit Logging Process Failures",
+    "description": "Alert in the event of an audit logging process failure.",
+    "identifier": "AU.L2-3.3.4",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_414439cfdd1c83dcd7dff34c",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Audit Record Review, Analysis, and Reporting",
+    "description": "Correlate audit record review, analysis, and reporting processes for investigation and response to indications of unlawful, unauthorized, suspicious, or unusual activity.",
+    "identifier": "AU.L2-3.3.5",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_2788647e0dbed9d976741210",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Audit Record Reduction and Report Generation",
+    "description": "Provide audit record reduction and report generation to support on-demand analysis and reporting.",
+    "identifier": "AU.L2-3.3.6",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_88ab485ad81082f6864e574e",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Time Stamps",
+    "description": "Provide a system capability that compares and synchronizes internal system clocks with an authoritative source to generate time stamps for audit records",
+    "identifier": "AU.L2-3.3.7",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_f32dae502e40030305201e1f",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Protection of Audit Information",
+    "description": "Protect audit information and audit logging tools from unauthorized access, modification, and deletion.",
+    "identifier": "AU.L2-3.3.8",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_72732f5079a4e8cc6e7ac4ed",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Audit Logging Privileged Access",
+    "description": "Limit management of audit logging functionality to a subset of privileged users.",
+    "identifier": "AU.L2-3.3.9",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_13cbf33d2cdf04666ae2b2a0",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Baseline Configuration",
+    "description": "Establish and maintain baseline configurations and inventories of organizational systems (including hardware, software, firmware, and documentation) throughout the respective system development life cycles.",
+    "identifier": "CM.L2-3.4.1",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_34e5f75be41fb54fb87f662e",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Configuration Settings",
+    "description": "Establish and enforce security configuration settings for information technology products employed in organizational systems.",
+    "identifier": "CM.L2-3.4.2",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_5c0cbbef64b4c77ee9ce5d0b",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Configuration Change Control",
+    "description": "Track, review, approve or disapprove, and log changes to organizational systems.",
+    "identifier": "CM.L2-3.4.3",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_d07e816f3b30e3fb3d9980d2",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Impact Analyses",
+    "description": "Analyze the security impact of changes prior to implementation.",
+    "identifier": "CM.L2-3.4.4",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_2f96e22919fe4b1a3da4a24a",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Access Restrictions for Change",
+    "description": "Define, document, approve, and enforce physical and logical access restrictions associated with changes to organizational systems.",
+    "identifier": "CM.L2-3.4.5",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_edd176fc0042c54ede29ed49",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Least Functionality",
+    "description": "Employ the principle of least functionality by configuring organizational systems to provide only essential capabilities.",
+    "identifier": "CM.L2-3.4.6",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_0e8c8373fa6c409b0fb1440b",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Least Functionality Enforcement",
+    "description": "Restrict, disable, or prevent the use of nonessential programs, functions, ports, protocols, and services.",
+    "identifier": "CM.L2-3.4.7",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_9e0fb98882672465544128ac",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Authorized Software – Allow by Exception",
+    "description": "Apply deny-by-exception (blacklisting) policy to prevent the use of unauthorized software or deny-all, permit-by-exception (whitelisting) policy to allow the execution of authorized software.",
+    "identifier": "CM.L2-3.4.8",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_36557b0520095d7d5160ad4c",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "User-Installed Software",
+    "description": "Control and monitor user-installed software.",
+    "identifier": "CM.L2-3.4.9",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_e4d2da8e1b87f89efc80629a",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "User Identification and Authentication",
+    "description": "Identify system users, processes acting on behalf of users, and devices.",
+    "identifier": "IA.L2-3.5.1",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_4373042e70cf99d896034850",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Device Identification and Authentication",
+    "description": "Authenticate (or verify) the identities of users, processes, or devices, as a prerequisite to allowing access to organizational systems.",
+    "identifier": "IA.L2-3.5.2",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_ed688cda80d8dc533e1d60d6",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Multi-Factor Authentication",
+    "description": "Use multifactor authentication for local and network access to privileged accounts and for network access to non-privileged accounts.",
+    "identifier": "IA.L2-3.5.3",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_6de09c01fd3d340679c6dd92",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Replay-Resistant Authentication",
+    "description": "Employ replay-resistant authentication mechanisms for network access to privileged and non-privileged accounts.",
+    "identifier": "IA.L2-3.5.4",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_403c7bb3eff65da12db5ad05",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Identifier Management",
+    "description": "Prevent reuse of identifiers for a defined period.",
+    "identifier": "IA.L2-3.5.5",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_1d9b4f2017ca871e3778e8f6",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Inactive Identifier Management",
+    "description": "Disable identifiers after a defined period of inactivity.",
+    "identifier": "IA.L2-3.5.6",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_fdeb5438047de737081fb59f",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Password Management",
+    "description": "Enforce a minimum password complexity and change of characters when new passwords are created.",
+    "identifier": "IA.L2-3.5.7",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_54d9eed8a3fb0d3db643e572",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Password Reuse Restrictions",
+    "description": "Prohibit password reuse for a specified number of generations.",
+    "identifier": "IA.L2-3.5.8",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_06df518571d897918b908fec",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Temporary Password Changes",
+    "description": "Allow temporary password use for system logons with an immediate change to a permanent password.",
+    "identifier": "IA.L2-3.5.9",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_a6cb59552e4294776961a2e6",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Cryptographically Protected Passwords",
+    "description": "Store and transmit only cryptographically-protected passwords.",
+    "identifier": "IA.L2-3.5.10",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_48e796912816933a7fb2ea99",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Authentication Feedback",
+    "description": "Obscure feedback of authentication information",
+    "identifier": "IA.L2-3.5.11",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_7a39d48f1ffd24c86af16cc9",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Incident Handling",
+    "description": "Establish an operational incident-handling capability for organizational systems that includes preparation, detection, analysis, containment, recovery, and user response activities.",
+    "identifier": "IR.L2-3.6.1",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_6b663674a6478e8406867a9b",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Incident Monitoring, Reporting, and Response Assistance",
+    "description": "Track, document, and report incidents to designated officials and/or authorities both internal and external to the organization.",
+    "identifier": "IR.L2-3.6.2",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_9af39665fe9574483411d97d",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Incident Response Testing",
+    "description": "Test the organizational incident response capability.",
+    "identifier": "IR.L2-3.6.3",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_e6a9b7294da31a8044f212d3",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "System Maintenance",
+    "description": "Perform maintenance on organizational systems.",
+    "identifier": "MA.L2-3.7.1",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_d7bf6f09e314d4ef9a918d17",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Controlled System Maintenance",
+    "description": "Provide controls on the tools, techniques, mechanisms, and personnel used to conduct system maintenance.",
+    "identifier": "MA.L2-3.7.2",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_372650591538693a745bc9ff",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Off-Site Maintenance Sanitization",
+    "description": "Ensure equipment removed for off-site maintenance is sanitized of any CUI.",
+    "identifier": "MA.L2-3.7.3",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_aacb772a6cad7d24629624a9",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Maintenance Tools",
+    "description": "Check media containing diagnostic and test programs for malicious code before the media are used in organizational systems.",
+    "identifier": "MA.L2-3.7.4",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_b67d2bd7e4f01c7a6366542c",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Nonlocal Maintenance",
+    "description": "Require multifactor authentication to establish nonlocal maintenance sessions via external network connections and terminate such connections when nonlocal maintenance is complete.",
+    "identifier": "MA.L2-3.7.5",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_2d1fa31d1eee6414fec76947",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Maintenance Personnel",
+    "description": "Supervise the maintenance activities of maintenance personnel without required access authorization.",
+    "identifier": "MA.L2-3.7.6",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_fa3ddfd42bbf4fdbfe6c1cd0",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Media Storage",
+    "description": "Protect (i.e., physically control and securely store) system media containing CUI, both paper and digital.",
+    "identifier": "MP.L2-3.8.1",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_079bc39c648fbe20fdfb572f",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Media Access",
+    "description": "Limit access to CUI on system media to authorized users",
+    "identifier": "MP.L2-3.8.2",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_3a012dd68511b58dcfea7b31",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Media Sanitization",
+    "description": "Sanitize or destroy system media containing CUI before disposal or release for reuse.",
+    "identifier": "MP.L2-3.8.3",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_3170c7dd4fc529d2d197462c",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Media Marking",
+    "description": "Mark media with necessary CUI markings and distribution limitations.",
+    "identifier": "MP.L2-3.8.4",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_d3a99d29c531160b1badc880",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Media Transport",
+    "description": "Control access to media containing CUI and maintain accountability for media during transport outside of controlled areas.",
+    "identifier": "MP.L2-3.8.5",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_66e2f872fef7dbbf3649df8d",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Media Transport Cryptographic Protection",
+    "description": "Implement cryptographic mechanisms to protect the confidentiality of CUI stored on digital media during transport unless otherwise protected by alternative physical safeguards.",
+    "identifier": "MP.L2-3.8.6",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_6997bd2093210c94bdd5cbd8",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Media Use",
+    "description": "Control the use of removable media on system components.",
+    "identifier": "MP.L2-3.8.7",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_7992bab5d8dbd0258abacc86",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Portable Storage Device Ownership",
+    "description": "Prohibit the use of portable storage devices when such devices have no identifiable owner.",
+    "identifier": "MP.L2-3.8.8",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_3d7927c86c11a2f7e241d841",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "System Backup – Cryptographic Protection",
+    "description": "Protect the confidentiality of backup CUI at storage locations.",
+    "identifier": "MP.L2-3.8.9",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_4c9ff117cfbd91cfd33df37a",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Personnel Screening",
+    "description": "Screen individuals prior to authorizing access to organizational systems containing CUI.",
+    "identifier": "PS.L2-3.9.1",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_8ab3c7d13d10725043d2c1bf",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Personnel Termination and Transfer",
+    "description": "Ensure that organizational systems containing CUI are protected during and after personnel actions such as terminations and transfers",
+    "identifier": "PS.L2-3.9.2",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_fcef68118466d5f289f94c6e",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Physical Access Authorizations",
+    "description": "Limit physical access to organizational systems, equipment, and the respective operating environments to authorized individuals.",
+    "identifier": "PE.L2-3.10.1",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_c7e5641cd088954f917b1d95",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Monitoring Physical Access",
+    "description": "Protect and monitor the physical facility and support infrastructure for organizational systems.",
+    "identifier": "PE.L2-3.10.2",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_31074e9d934c594d47696869",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Visitor Escorting and Monitoring",
+    "description": "Escort visitors and monitor visitor activity.",
+    "identifier": "PE.L2-3.10.3",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_8dc8b252420bf193eaf5299f",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Physical Access Logging",
+    "description": "Maintain audit logs of physical access.",
+    "identifier": "PE.L2-3.10.4",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_952d262a9a33ca94f7104806",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Physical Access Device Management",
+    "description": "Control and manage physical access devices.",
+    "identifier": "PE.L2-3.10.5",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_444251439ddb3001126274f4",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Alternate Work Site",
+    "description": "Enforce safeguarding measures for CUI at alternate work sites.",
+    "identifier": "PE.L2-3.10.6",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_bf1b066b2b3633d903183356",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Risk Assessment",
+    "description": "Periodically assess the risk to organizational operations (including mission, functions, image, or reputation), organizational assets, and individuals, resulting from the operation of organizational systems and the associated processing, storage, or transmission of CUI",
+    "identifier": "RA.L2-3.11.1",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_250a8a463afff40b819ce43e",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Vulnerability Monitoring and Scanning",
+    "description": "Scan for vulnerabilities in organizational systems and applications periodically and when new vulnerabilities affecting those systems and applications are identified.",
+    "identifier": "RA.L2-3.11.2",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_c8b7176aade372cbebeeac41",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Vulnerability Remediation",
+    "description": "Remediate vulnerabilities in accordance with risk assessments.",
+    "identifier": "RA.L2-3.11.3",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_13faeb729e251e2430a9e5ea",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Security Assessment",
+    "description": "Periodically assess the security controls in organizational systems to determine if the controls are effective in their application.",
+    "identifier": "CA.L2-3.12.1",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_a7974cf9549877d11f69c3e4",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Plan of Action and Milestones",
+    "description": "Develop and implement plans of action designed to correct deficiencies and reduce or eliminate vulnerabilities in organizational systems.",
+    "identifier": "CA.L2-3.12.2",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_7503a926a88e1b92260874bb",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Continuous Monitoring",
+    "description": "Monitor security controls on an ongoing basis to ensure the continued effectiveness of the controls.",
+    "identifier": "CA.L2-3.12.3",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_2c0be587806e0ce3f5687acb",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "System Security Plans",
+    "description": "Develop, document, and periodically update system security plans that describe system boundaries, system environments of operation, how security requirements are implemented, and the relationships with or connections to other systems.",
+    "identifier": "CA.L2-3.12.4",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_9f757667453732ce03356742",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Boundary Protection",
+    "description": "Monitor, control, and protect communications (i.e., information transmitted or received by organizational systems) at the external boundaries and key internal boundaries of organizational systems.",
+    "identifier": "SC.L2-3.13.1",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_08499cf2b998295ac65a8fe8",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Security Engineering Principles",
+    "description": "Employ architectural designs, software development techniques, and systems engineering principles that promote effective information security within organizational systems.",
+    "identifier": "SC.L2-3.13.2",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_edea51536ca32849e7eef0a3",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "User and System Management Separation",
+    "description": "Separate user functionality from system management functionality.",
+    "identifier": "SC.L2-3.13.3",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_0c2331d7f8f20684edb3bd40",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Information in Shared System Resources",
+    "description": "Prevent unauthorized and unintended information transfer via shared system resources.",
+    "identifier": "SC.L2-3.13.4",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_708dfe4fc3214fae4ac38f41",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Publicly Accessible Subnetworks",
+    "description": "Implement subnetworks for publicly accessible system components that are physically or logically separated from internal networks.",
+    "identifier": "SC.L2-3.13.5",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_1d5ebb63e0df364d2cedab99",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Network Communications – Deny by Default – Allow by Exception",
+    "description": "Deny network communications traffic by default and allow network communications traffic by exception (i.e., deny all, permit by exception).",
+    "identifier": "SC.L2-3.13.6",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_b8211891f5106be073c3992d",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Split Tunneling Prevention",
+    "description": "Prevent remote devices from simultaneously establishing non-remote connections with organizational systems and communicating via some other connection to resources in external networks (i.e., split tunneling).",
+    "identifier": "SC.L2-3.13.7",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_b42706896c6e214637f512f4",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Transmission and Storage Confidentiality",
+    "description": "Implement cryptographic mechanisms to prevent unauthorized disclosure of CUI during transmission unless otherwise protected by alternative physical safeguards.",
+    "identifier": "SC.L2-3.13.8",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_39707152af92632ecbac85e7",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Network Disconnect",
+    "description": "Terminate network connections associated with communications sessions at the end of the sessions or after a defined period of inactivity.",
+    "identifier": "SC.L2-3.13.9",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_3bd86ea66c4f5e44eb5c2074",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Cryptographic Key Establishment and Management",
+    "description": "Establish and manage cryptographic keys for cryptography employed in organizational systems.",
+    "identifier": "SC.L2-3.13.10",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_bcbce62f058a80b1036742e4",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Cryptographic Protection",
+    "description": "Employ FIPS-validated cryptography when used to protect the confidentiality of CUI.",
+    "identifier": "SC.L2-3.13.11",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_7384021dde83d6a3a62c952c",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Collaborative Computing Devices and Applications",
+    "description": "Prohibit remote activation of collaborative computing devices and provide indication of devices in use to users present at the device.",
+    "identifier": "SC.L2-3.13.12",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_a707f0e4c82db8cb005328cf",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Mobile Code",
+    "description": "Control and monitor the use of mobile code.",
+    "identifier": "SC.L2-3.13.13",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_5cac4bc8a90965e54608e030",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Voice over Internet Protocol Controls",
+    "description": "Control and monitor the use of Voice over Internet Protocol (VoIP) technologies.",
+    "identifier": "SC.L2-3.13.14",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_ef8945025a0eac78c3c1001c",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Session Authenticity",
+    "description": "Protect the authenticity of communications sessions.",
+    "identifier": "SC.L2-3.13.15",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_823ddf3a93a580b913580b86",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "CUI at Rest Protection",
+    "description": "Protect the confidentiality of CUI at rest.",
+    "identifier": "SC.L2-3.13.16",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_032c33533d5656f17f1f46ef",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Flaw Remediation",
+    "description": "Identify, report, and correct system flaws in a timely manner.",
+    "identifier": "SI.L2-3.14.1",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_c5b9c477dc1225dbf59097e8",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Malicious Code Protection",
+    "description": "Provide protection from malicious code at designated locations within organizational systems.",
+    "identifier": "SI.L2-3.14.2",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_025eb1a4a0d326883a3c6445",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Security Alerts, Advisories, and Directives",
+    "description": "Monitor system security alerts and advisories and take action in response.",
+    "identifier": "SI.L2-3.14.3",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_092617762f10034c841d38f5",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Malicious Code Protection Updates",
+    "description": "Update malicious code protection mechanisms when new releases are available.",
+    "identifier": "SI.L2-3.14.4",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_e06935cbb07270b1f8798a10",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Periodic and Real-Time Malicious Code Scans",
+    "description": "Perform periodic scans of organizational systems and real-time scans of files from external sources as files are downloaded, opened, or executed.",
+    "identifier": "SI.L2-3.14.5",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_e9aad221b154c8573bc05618",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "System Monitoring",
+    "description": "Monitor organizational systems, including inbound and outbound communications traffic, to detect attacks and indicators of potential attacks.",
+    "identifier": "SI.L2-3.14.6",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_1197289dbd1244269c48c635",
+    "frameworkId": "frk_3d3cab66a36ab3277a652dc3",
+    "name": "Unauthorized System Use Detection",
+    "description": "Identify unauthorized use of organizational systems.",
+    "identifier": "SI.L2-3.14.7",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_6db918ca224e9e6af8cfe777",
+    "frameworkId": "frk_041cd9baac0846c22201a570",
+    "name": "Organization-Provisioned Resource Access",
+    "description": "Restrict access to systems and system components to only those information resources that are owned, provisioned, or issued by the organization.",
+    "identifier": "AC.L3-3.1.2e",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_7bfb89e6a81e0e688e866869",
+    "frameworkId": "frk_041cd9baac0846c22201a570",
+    "name": "Secure Cross-Domain Information Transfer",
+    "description": "Employ secure information transfer solutions to control information flows between security domains on connected systems.",
+    "identifier": "AC.L3-3.1.3e",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_7054a52b64c716b3d55785dc",
+    "frameworkId": "frk_041cd9baac0846c22201a570",
+    "name": "Advanced Threat Awareness Training",
+    "description": "Provide awareness training upon initial hire, following a significant cyber event, and at least annually, focused on recognizing and responding to threats from social engineering, advanced persistent threat actors, breaches, and suspicious behaviors; update the training at least annually or when there are significant changes to the threat.",
+    "identifier": "AT.L3-3.2.1e",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_e9e2887db3a16c70800456a7",
+    "frameworkId": "frk_041cd9baac0846c22201a570",
+    "name": "Role-Tailored Practical Awareness Exercises",
+    "description": "Include practical exercises in awareness training for all users, tailored by roles, to include general users, users with specialized roles, and privileged users, that are aligned with current threat scenarios and provide feedback to individuals involved in the training and their supervisors.",
+    "identifier": "AT.L3-3.2.2e",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_55a73d16f920e4193231c66e",
+    "frameworkId": "frk_041cd9baac0846c22201a570",
+    "name": "Penetration Testing",
+    "description": "Conduct penetration testing at least annually or when significant security changes are made to the system, leveraging automated scanning tools and ad hoc tests using subject matter experts.",
+    "identifier": "CA.L3-3.12.1e",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_43ba4795df00b174dcec249a",
+    "frameworkId": "frk_041cd9baac0846c22201a570",
+    "name": "Authoritative Component Repository",
+    "description": "Establish and maintain an authoritative source and repository to provide a trusted source and accountability for approved and implemented system components.",
+    "identifier": "CM.L3-3.4.1e",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_5b1d0e726af92300ec7741f1",
+    "frameworkId": "frk_041cd9baac0846c22201a570",
+    "name": "Unauthorized Component Detection and Quarantine",
+    "description": "Employ automated mechanisms to detect misconfigured or unauthorized system components; after detection, remove the components or place the components in a quarantine or remediation network to facilitate patching, re-configuration, or other mitigations.",
+    "identifier": "CM.L3-3.4.2e",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_8e8d72e62e45e9fc8a7b741f",
+    "frameworkId": "frk_041cd9baac0846c22201a570",
+    "name": "Automated Component Inventory",
+    "description": "Employ automated discovery and management tools to maintain an up-to-date, complete, accurate, and readily available inventory of system components.",
+    "identifier": "CM.L3-3.4.3e",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_063d567fea1f03046b1aaf07",
+    "frameworkId": "frk_041cd9baac0846c22201a570",
+    "name": "Bidirectional System Authentication",
+    "description": "Identify and authenticate systems and system components, where possible, before establishing a network connection using bidirectional authentication that is cryptographically based and replay resistant.",
+    "identifier": "IA.L3-3.5.1e",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_20d276c31598bf4668316931",
+    "frameworkId": "frk_041cd9baac0846c22201a570",
+    "name": "Comply-to-Connect",
+    "description": "Employ automated or manual/procedural mechanisms to prohibit system components from connecting to organizational systems unless the components are known, authenticated, in a properly configured state, or in a trust profile.",
+    "identifier": "IA.L3-3.5.3e",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_39787a92b0398d60080dcf45",
+    "frameworkId": "frk_041cd9baac0846c22201a570",
+    "name": "Security Operations Center",
+    "description": "Establish and maintain a security operations center capability that operates 24/7, with allowance for remote/on-call staff.",
+    "identifier": "IR.L3-3.6.1e",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_c378e016eab413f3774c065f",
+    "frameworkId": "frk_041cd9baac0846c22201a570",
+    "name": "Cyber Incident Response Team",
+    "description": "Establish and maintain a cyber-incident response team that can be deployed by the organization within 24 hours.",
+    "identifier": "IR.L3-3.6.2e",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_038348bded04df54f2e81faa",
+    "frameworkId": "frk_041cd9baac0846c22201a570",
+    "name": "Adverse Information",
+    "description": "Ensure that organizational systems are protected if adverse information develops or is obtained about individuals with access to CUI.",
+    "identifier": "PS.L3-3.9.2e",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_1cfc7ea0339eee2d96f120d4",
+    "frameworkId": "frk_041cd9baac0846c22201a570",
+    "name": "Threat-Informed Risk Assessment",
+    "description": "Employ threat intelligence, at a minimum from open or commercial sources, and any DoD-provided sources, as part of a risk assessment to guide and inform the development of organizational systems, security architectures, selection of security solutions, monitoring, threat hunting, and response and recovery activities.",
+    "identifier": "RA.L3-3.11.1e",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_28b00dd6d016944946be9fc2",
+    "frameworkId": "frk_041cd9baac0846c22201a570",
+    "name": "Cyber Threat Hunting",
+    "description": "Conduct cyber threat hunting activities on an on-going aperiodic basis or when indications warrant, to search for indicators of compromise in organizational systems and detect, track, and disrupt threats that evade existing controls.",
+    "identifier": "RA.L3-3.11.2e",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_b31142276788c4b237955410",
+    "frameworkId": "frk_041cd9baac0846c22201a570",
+    "name": "Advanced Risk Analytics",
+    "description": "Employ advanced automation and analytics capabilities in support of analysts to predict and identify risks to organizations, systems, and system components.",
+    "identifier": "RA.L3-3.11.3e",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_625571e0d52ae3e23dad0166",
+    "frameworkId": "frk_041cd9baac0846c22201a570",
+    "name": "Security Solution Rationale",
+    "description": "Document or reference in the system security plan the security solution selected, the rationale for the security solution, and the risk determination.",
+    "identifier": "RA.L3-3.11.4e",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_dc3f74470b6cf039761a3096",
+    "frameworkId": "frk_041cd9baac0846c22201a570",
+    "name": "Security Solution Effectiveness Reviews",
+    "description": "Assess the effectiveness of security solutions at least annually or upon receipt of relevant cyber threat information, or in response to a relevant cyber incident, to address anticipated risk to organizational systems and the organization based on current and accumulated threat intelligence.",
+    "identifier": "RA.L3-3.11.5e",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_02ca30d7eb60f768a5a36b2e",
+    "frameworkId": "frk_041cd9baac0846c22201a570",
+    "name": "Supply Chain Risk Response",
+    "description": "Assess, respond to, and monitor supply chain risks associated with organizational systems and system components.",
+    "identifier": "RA.L3-3.11.6e",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_1781ad50f8791b9d4faceed9",
+    "frameworkId": "frk_041cd9baac0846c22201a570",
+    "name": "Supply Chain Risk Plan",
+    "description": "Develop a plan for managing supply chain risks associated with organizational systems and system components; update the plan at least annually, and upon receipt of relevant cyber threat information, or in response to a relevant cyber incident.",
+    "identifier": "RA.L3-3.11.7e",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_d6a1a1f820ec80d440f339b2",
+    "frameworkId": "frk_041cd9baac0846c22201a570",
+    "name": "System and Component Isolation",
+    "description": "Employ physical isolation techniques or logical isolation techniques or both in organizational systems and system components.",
+    "identifier": "SC.L3-3.13.4e",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_161dc4e594f5dd27e8f67b1e",
+    "frameworkId": "frk_041cd9baac0846c22201a570",
+    "name": "Critical Software Integrity Verification",
+    "description": "Verify the integrity of security critical and essential software using root of trust mechanisms or cryptographic signatures.",
+    "identifier": "SI.L3-3.14.1e",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_369f4a42632c67e512b6fa0c",
+    "frameworkId": "frk_041cd9baac0846c22201a570",
+    "name": "Specialized Asset Segmentation",
+    "description": "Ensure that specialized assets including IoT, IIoT, OT, GFE, Restricted Information Systems, and test equipment are included in the scope of the specified enhanced security requirements or are segregated in purpose-specific networks.",
+    "identifier": "SI.L3-3.14.3e",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
+  },
+  {
+    "id": "frk_rq_16cfe44b8f7ec9fa4b1dc0b1",
+    "frameworkId": "frk_041cd9baac0846c22201a570",
+    "name": "Threat-Informed Intrusion Detection and Hunting",
+    "description": "Use threat indicator information and effective mitigations obtained from, at a minimum, open or commercial sources, and any DoD-provided sources, to guide and inform intrusion detection and threat hunting.",
+    "identifier": "SI.L3-3.14.6e",
+    "createdAt": "2026-05-06 00:00:00.000",
+    "updatedAt": "2026-05-06 00:00:00.000"
   }
 ]

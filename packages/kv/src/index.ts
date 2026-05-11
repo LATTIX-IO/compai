@@ -2,9 +2,21 @@ import 'server-only';
 
 import { Redis } from '@upstash/redis';
 
+const globalForMockRedis = globalThis as typeof globalThis & {
+  __compaiMockRedisStorage?: Map<string, any>;
+};
+
+function getMockRedisStorage(): Map<string, any> {
+  if (!globalForMockRedis.__compaiMockRedisStorage) {
+    globalForMockRedis.__compaiMockRedisStorage = new Map<string, any>();
+  }
+
+  return globalForMockRedis.__compaiMockRedisStorage;
+}
+
 // Mock Redis client for E2E tests
 class MockRedis {
-  private storage = new Map<string, any>();
+  private storage = getMockRedisStorage();
 
   async get(key: string) {
     return this.storage.get(key) || null;

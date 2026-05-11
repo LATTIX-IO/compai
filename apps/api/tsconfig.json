@@ -23,7 +23,17 @@
     "noFallthroughCasesInSwitch": false,
     "paths": {
       "@/*": ["./src/*"],
-      "@db": ["./prisma/index"]
+      "@db": ["./prisma/index"],
+      "@trycompai/auth": ["../../packages/auth/src/index.ts"],
+      "@trycompai/billing": ["../../packages/billing/src/index.ts"],
+      "@trycompai/company": ["../../packages/company/src/index.ts"],
+      "@trycompai/db": ["./prisma/index"],
+      "@trycompai/email": ["../../packages/email/index.ts"],
+      "@trycompai/integration-platform": [
+        "../../packages/integration-platform/src/index.ts"
+      ],
+      "@trycompai/utils": ["../../packages/utils/src/index.ts"],
+      "@trycompai/utils/*": ["../../packages/utils/src/*"]
     },
     "jsx": "react-jsx"
   }

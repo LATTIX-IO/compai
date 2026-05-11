@@ -4,44 +4,43 @@ const APP_AWS_REGION = process.env.APP_AWS_REGION;
 const APP_AWS_ACCESS_KEY_ID = process.env.APP_AWS_ACCESS_KEY_ID;
 const APP_AWS_SECRET_ACCESS_KEY = process.env.APP_AWS_SECRET_ACCESS_KEY;
 const APP_AWS_ENDPOINT = process.env.APP_AWS_ENDPOINT;
+const S3_WARNING_ENV_KEY = 'COMP_AI_APP_S3_CONFIG_WARNING_SHOWN';
+const globalForS3 = globalThis as typeof globalThis & {
+  __compaiAppS3ConfigWarningShown?: boolean;
+};
 
 export const BUCKET_NAME = process.env.APP_AWS_BUCKET_NAME;
 export const APP_AWS_QUESTIONNAIRE_UPLOAD_BUCKET = process.env.APP_AWS_QUESTIONNAIRE_UPLOAD_BUCKET;
 export const APP_AWS_KNOWLEDGE_BASE_BUCKET = process.env.APP_AWS_KNOWLEDGE_BASE_BUCKET;
 export const APP_AWS_ORG_ASSETS_BUCKET = process.env.APP_AWS_ORG_ASSETS_BUCKET;
 
-let s3ClientInstance: S3Client;
+const hasS3Config = Boolean(
+  APP_AWS_ACCESS_KEY_ID && APP_AWS_SECRET_ACCESS_KEY && BUCKET_NAME && APP_AWS_REGION,
+);
 
-try {
-  if (!APP_AWS_ACCESS_KEY_ID || !APP_AWS_SECRET_ACCESS_KEY || !BUCKET_NAME || !APP_AWS_REGION) {
-    console.error('[S3] AWS S3 credentials or configuration missing. Check environment variables.');
-    throw new Error('AWS S3 credentials or configuration missing. Check environment variables.');
-  }
-
-  s3ClientInstance = new S3Client({
-    endpoint: APP_AWS_ENDPOINT || undefined,
-    region: APP_AWS_REGION,
-    credentials: {
-      accessKeyId: APP_AWS_ACCESS_KEY_ID,
-      secretAccessKey: APP_AWS_SECRET_ACCESS_KEY,
-    },
-    forcePathStyle: !!APP_AWS_ENDPOINT,
-  });
-} catch (error) {
-  console.error('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
-  console.error('!!! FAILED TO INITIALIZE S3 CLIENT !!!');
-  console.error('!!! This is likely due to missing or invalid environment variables. !!!');
-  console.error('Error:', error);
-  console.error('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
-
-  // Create a dummy client that will fail gracefully at runtime instead of crashing during initialization
-  s3ClientInstance = null as any;
-  console.error(
-    '[S3] Creating dummy S3 client - file uploads will fail until credentials are fixed',
+if (
+  !hasS3Config &&
+  !globalForS3.__compaiAppS3ConfigWarningShown &&
+  process.env[S3_WARNING_ENV_KEY] !== '1'
+) {
+  console.warn(
+    '[S3] AWS S3 credentials or configuration are missing. File uploads and signed asset URLs will stay disabled until APP_AWS_* variables are configured.',
   );
+  globalForS3.__compaiAppS3ConfigWarningShown = true;
+  process.env[S3_WARNING_ENV_KEY] = '1';
 }
 
-export const s3Client = s3ClientInstance;
+export const s3Client: S3Client | null = hasS3Config
+  ? new S3Client({
+      endpoint: APP_AWS_ENDPOINT || undefined,
+      region: APP_AWS_REGION,
+      credentials: {
+        accessKeyId: APP_AWS_ACCESS_KEY_ID!,
+        secretAccessKey: APP_AWS_SECRET_ACCESS_KEY!,
+      },
+      forcePathStyle: !!APP_AWS_ENDPOINT,
+    })
+  : null;
 
 /**
  * Validates if a hostname is a valid AWS S3 endpoint
@@ -125,6 +124,10 @@ export function extractS3KeyFromUrl(url: string): string {
 export async function getFleetAgent({ os }: { os: 'macos' | 'windows' | 'linux' }) {
   const fleetBucketName = process.env.FLEET_AGENT_BUCKET_NAME;
   const fleetAgentFileName = 'Comp AI Agent-1.0.0-arm64.dmg';
+
+  if (!s3Client) {
+    throw new Error('S3 client is not configured. Set APP_AWS_* variables to enable downloads.');
+  }
 
   if (!fleetBucketName) {
     throw new Error('FLEET_AGENT_BUCKET_NAME is not defined.');

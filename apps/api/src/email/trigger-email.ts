@@ -4,6 +4,18 @@ import type { ReactElement } from 'react';
 import type { sendEmailTask } from '../trigger/email/send-email';
 import type { EmailAttachment } from './resend';
 
+function extractFirstLink(html: string): string | null {
+  const match = html.match(/href=["']([^"']+)["']/i);
+  return match?.[1] ?? null;
+}
+
+function shouldUseLocalEmailPreview(): boolean {
+  return (
+    process.env.NODE_ENV === 'development' &&
+    (!process.env.TRIGGER_SECRET_KEY || !process.env.RESEND_API_KEY)
+  );
+}
+
 export async function triggerEmail(params: {
   to: string;
   subject: string;
@@ -16,6 +28,20 @@ export async function triggerEmail(params: {
 }): Promise<{ id: string }> {
   try {
     const html = await render(params.react);
+    const previewLink = extractFirstLink(html);
+
+    if (shouldUseLocalEmailPreview()) {
+      console.info(
+        '[triggerEmail] Local dev preview enabled - skipping email delivery',
+        {
+          to: params.to,
+          subject: params.subject,
+          previewLink,
+        },
+      );
+
+      return { id: `local-email-preview-${Date.now()}` };
+    }
 
     const fromMarketing = process.env.RESEND_FROM_MARKETING;
     const fromSystem = process.env.RESEND_FROM_SYSTEM;

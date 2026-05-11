@@ -140,4 +140,43 @@ describe('filterDescriptionByFrameworks', () => {
 
     expect(result).toBe('Architecture Diagram: Draw a single-page diagram.');
   });
+
+  it('matches NIST 800-53 Rev. 5 content when the task only says NIST 800-53', () => {
+    const desc =
+      'General control guidance.\n\nFor NIST 800-53: Capture baseline-specific implementation evidence.\n\nFor GDPR: Maintain data subject request procedures.';
+
+    const result = filterDescriptionByFrameworks(desc, ['NIST 800-53 Rev. 5']);
+
+    expect(result).toContain('For NIST 800-53');
+    expect(result).not.toContain('For GDPR');
+  });
+
+  it('matches NIST 800-171 Rev. 3 content when the task uses the shorter framework label', () => {
+    const desc =
+      'General supplier guidance.\n\nFor NIST 800-171: Track controlled unclassified information handling procedures.\n\nFor HIPAA: Track ePHI handling procedures.';
+
+    const result = filterDescriptionByFrameworks(desc, ['NIST 800-171 Rev. 3']);
+
+    expect(result).toContain('For NIST 800-171');
+    expect(result).not.toContain('For HIPAA');
+  });
+
+  it('matches FedRAMP and CMMC alias variants case-insensitively', () => {
+    const fedrampDesc =
+      'General monitoring guidance.\n\nFor FedRAMP Low: Keep SSP evidence current.\n\nFor ISO 27001: Keep ISMS evidence current.';
+    const cmmcDesc =
+      'General access guidance.\n\nFor CMMC L2: Record access reviews for in-scope systems.\n\nFor GDPR: Record access review exceptions.';
+
+    const fedrampResult = filterDescriptionByFrameworks(fedrampDesc, [
+      'fedramp low',
+    ]);
+    const cmmcResult = filterDescriptionByFrameworks(cmmcDesc, [
+      'CMMC Level 2',
+    ]);
+
+    expect(fedrampResult).toContain('For FedRAMP Low');
+    expect(fedrampResult).not.toContain('For ISO 27001');
+    expect(cmmcResult).toContain('For CMMC L2');
+    expect(cmmcResult).not.toContain('For GDPR');
+  });
 });

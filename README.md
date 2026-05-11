@@ -89,9 +89,12 @@ To get the project working locally with all integrations, follow these extended 
 
 ```sh
 cp apps/app/.env.example apps/app/.env
+cp apps/api/.env.example apps/api/.env
 cp apps/portal/.env.example apps/portal/.env
 cp packages/db/.env.example packages/db/.env
 ```
+
+`packages/db/.env.example` is preconfigured for the default local Docker database (`postgresql://postgres:postgres@127.0.0.1:5432/comp`). If you changed the database credentials, update `packages/db/.env` before running migrations.
 
 ## Get code running locally
 
@@ -121,6 +124,12 @@ bun run docker:up # Spin up docker container
 bun run db:migrate # Run migrations
 ```
 
+If `bun run db:migrate` complains that `datasource.url` is required, make sure `packages/db/.env` exists and contains a valid `DATABASE_URL`. The default Docker setup uses:
+
+```env
+DATABASE_URL="postgresql://postgres:postgres@127.0.0.1:5432/comp"
+```
+
 5. Generate Prisma Types for each app
 
 ```sh
@@ -145,6 +154,7 @@ bun run dev
 Create the following `.env` files and fill them out with your credentials
 
 - `comp/apps/app/.env`
+- `comp/apps/api/.env`
 - `comp/apps/portal/.env`
 - `comp/packages/db/.env`
 
@@ -154,6 +164,7 @@ You can copy from the `.env.example` files:
 
 ```sh
 cp apps/app/.env.example apps/app/.env
+cp apps/api/.env.example apps/api/.env
 cp apps/portal/.env.example apps/portal/.env
 cp packages/db/.env.example packages/db/.env
 ```
@@ -162,6 +173,7 @@ cp packages/db/.env.example packages/db/.env
 
 ```cmd
 copy apps\app\.env.example apps\app\.env
+copy apps\api\.env.example apps\api\.env
 copy apps\portal\.env.example apps\portal\.env
 copy packages\db\.env.example packages\db\.env
 ```
@@ -170,6 +182,7 @@ copy packages\db\.env.example packages\db\.env
 
 ```powershell
 Copy-Item apps\app\.env.example -Destination apps\app\.env
+Copy-Item apps\api\.env.example -Destination apps\api\.env
 Copy-Item apps\portal\.env.example -Destination apps\portal\.env
 Copy-Item packages\db\.env.example -Destination packages\db\.env
 ```

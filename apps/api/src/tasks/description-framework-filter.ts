@@ -16,6 +16,28 @@ const FRAMEWORK_ALIASES: Record<string, string[]> = {
   'nen 7510': ['nen 7510', 'nen7510'],
   'nist csf': ['nist csf'],
   'nist 800-53': ['nist 800-53'],
+  'nist 800-53 rev. 5': [
+    'nist 800-53 rev. 5',
+    'nist 800-53 rev 5',
+    'nist 800-53 r5',
+    'nist 800-53',
+  ],
+  'nist 800-53 rev. 5 nss': [
+    'nist 800-53 rev. 5 nss',
+    'nist 800-53 rev 5 nss',
+    'nist 800-53 nss',
+  ],
+  'fedramp low': ['fedramp low'],
+  'fedramp high': ['fedramp high'],
+  'cmmc level 1': ['cmmc level 1', 'cmmc l1', 'cmmc 1'],
+  'cmmc level 2': ['cmmc level 2', 'cmmc l2', 'cmmc 2'],
+  'cmmc level 3': ['cmmc level 3', 'cmmc l3', 'cmmc 3'],
+  'nist 800-171 rev. 3': [
+    'nist 800-171 rev. 3',
+    'nist 800-171 rev 3',
+    'nist 800-171 r3',
+    'nist 800-171',
+  ],
   'nis 2': ['nis 2', 'nis2'],
 };
 

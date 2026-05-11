@@ -7,6 +7,22 @@ import { frameworkEditorModelSchemas } from './frameworkEditorSchemas';
 const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL! });
 const prisma = new PrismaClient({ adapter });
 
+function getBaseJsonFileName(fileName: string): string {
+  const fileExtension = path.extname(fileName);
+  const fileStem = fileName.slice(0, -fileExtension.length);
+  const shardSeparatorIndex = fileStem.indexOf('__');
+
+  if (shardSeparatorIndex === -1) {
+    return fileName;
+  }
+
+  return `${fileStem.slice(0, shardSeparatorIndex)}${fileExtension}`;
+}
+
+function getBaseJsonFileStem(fileName: string): string {
+  return getBaseJsonFileName(fileName).replace(/\.json$/u, '');
+}
+
 async function seedJsonFiles(subDirectory: string) {
   const directoryPath = path.join(__dirname, subDirectory);
   console.log(`Starting to seed files from: ${directoryPath}`);
@@ -18,10 +34,12 @@ async function seedJsonFiles(subDirectory: string) {
   if (subDirectory === 'primitives') {
     const priorityOrder = ['FrameworkEditorFramework.json'];
     const getPriority = (fileName: string) => {
-      const index = priorityOrder.indexOf(fileName);
+      const index = priorityOrder.indexOf(getBaseJsonFileName(fileName));
       return index === -1 ? Number.MAX_SAFE_INTEGER : index;
     };
-    jsonFiles.sort((a, b) => getPriority(a) - getPriority(b));
+    jsonFiles.sort((a, b) => getPriority(a) - getPriority(b) || a.localeCompare(b));
+  } else {
+    jsonFiles.sort((a, b) => a.localeCompare(b));
   }
 
   for (const jsonFile of jsonFiles) {
@@ -36,7 +54,7 @@ async function seedJsonFiles(subDirectory: string) {
       }
 
       if (subDirectory === 'primitives') {
-        const modelNameForPrisma = jsonFile.replace('.json', '');
+        const modelNameForPrisma = getBaseJsonFileStem(jsonFile);
         const prismaModelKey =
           modelNameForPrisma.charAt(0).toLowerCase() + modelNameForPrisma.slice(1);
         const zodModelKey = modelNameForPrisma as keyof typeof frameworkEditorModelSchemas;
@@ -103,12 +121,14 @@ async function seedJsonFiles(subDirectory: string) {
         console.log(`Finished seeding ${jsonFile} from primitives.`);
       } else if (subDirectory === 'relations') {
         // Expected filename format: _ModelAToModelB.json
-        if (!jsonFile.startsWith('_') || !jsonFile.includes('To')) {
+        const relationFileName = getBaseJsonFileName(jsonFile);
+
+        if (!relationFileName.startsWith('_') || !relationFileName.includes('To')) {
           console.warn(`Skipping relation file with unexpected format: ${jsonFile}`);
           continue;
         }
 
-        const modelNamesPart = jsonFile.substring(1, jsonFile.indexOf('.json'));
+        const modelNamesPart = relationFileName.substring(1, relationFileName.indexOf('.json'));
         const [modelANamePascal, modelBNamePascal] = modelNamesPart.split('To');
 
         if (!modelANamePascal || !modelBNamePascal) {
