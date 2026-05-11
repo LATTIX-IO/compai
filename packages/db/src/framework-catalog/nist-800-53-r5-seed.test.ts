@@ -133,8 +133,14 @@ describe('nist-800-53 rev. 5 seed coverage', () => {
       nistRequirements.every((row) => row.frameworkId === NIST_800_53_R5_FRAMEWORK_ID),
       true,
     );
-    assert.equal(nistRequirements.every((row) => row.description.trim().length > 0), true);
-    assert.equal(nistControlTemplates.every((row) => row.description.trim().length > 0), true);
+    assert.equal(
+      nistRequirements.every((row) => row.description.trim().length > 0),
+      true,
+    );
+    assert.equal(
+      nistControlTemplates.every((row) => row.description.trim().length > 0),
+      true,
+    );
   });
 
   it('uses deterministic ids and stable sample names for representative controls', () => {
@@ -142,7 +148,11 @@ describe('nist-800-53 rev. 5 seed coverage', () => {
 
     const sampleExpectations = [
       ['AC-1', 'Policy and Procedures', 'AC-1 Policy and Procedures'],
-      ['AC-2(1)', 'Automated System Account Management', 'AC-2(1) Automated System Account Management'],
+      [
+        'AC-2(1)',
+        'Automated System Account Management',
+        'AC-2(1) Automated System Account Management',
+      ],
       ['SC-7', 'Boundary Protection', 'SC-7 Boundary Protection'],
       ['SI-4', 'System Monitoring', 'SI-4 System Monitoring'],
     ] as const;

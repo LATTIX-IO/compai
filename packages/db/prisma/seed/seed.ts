@@ -1,5 +1,5 @@
-import { PrismaClient } from '@prisma/client';
 import { PrismaPg } from '@prisma/adapter-pg';
+import { PrismaClient } from '@prisma/client';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { frameworkEditorModelSchemas } from './frameworkEditorSchemas';
@@ -217,9 +217,8 @@ async function main() {
     // On a fresh `migrate reset`, the backfill data migration runs against empty
     // tables and is a no-op; seed then creates the framework rows. Without this
     // call, local onboarding would fail because it reads from FrameworkVersion.
-    const { backfillFrameworkVersions } = await import(
-      '../../src/scripts/backfill-framework-versions'
-    );
+    const { backfillFrameworkVersions } =
+      await import('../../src/scripts/backfill-framework-versions');
     const result = await backfillFrameworkVersions();
     console.log('FrameworkVersion backfill:', result);
     await prisma.$disconnect();

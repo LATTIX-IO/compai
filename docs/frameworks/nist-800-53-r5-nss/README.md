@@ -34,11 +34,11 @@
   - Physical Access Control Systems, and
   - Federal PKI Systems.
 - The fetched NIST-developed overlay page surfaced examples such as:
-   - Operational Technology (OT),
-   - Email Messaging Systems,
-   - Cybersecurity Supply Chain Risk Management,
-   - Controlled Unclassified Information (CUI), and
-   - Control Overlays for Securing AI Systems.
+  - Operational Technology (OT),
+  - Email Messaging Systems,
+  - Cybersecurity Supply Chain Risk Management,
+  - Controlled Unclassified Information (CUI), and
+  - Control Overlays for Securing AI Systems.
 - The fetched public overlay submissions page appeared empty during the latest review.
 - The fetched government-wide page did **not** surface an obvious dedicated NSS-specific overlay in the visible public listing.
 - Practically, that means an NSS packet should be treated as:
