@@ -10,12 +10,10 @@ import * as express from 'express';
 import helmet from 'helmet';
 import path from 'path';
 import { AppModule } from './app.module';
-import { auth } from './auth/auth.server';
-import { isTrustedOrigin } from './auth/auth.server';
+import { getAuth, isTrustedOrigin } from './auth/auth.server';
 import { adminAuthRateLimiter } from './auth/admin-rate-limit.middleware';
 import { originCheckMiddleware } from './auth/origin-check.middleware';
 import { mkdirSync, writeFileSync, existsSync } from 'fs';
-import { toNodeHandler } from 'better-auth/node';
 
 declare module 'express-serve-static-core' {
   interface Request {
@@ -39,6 +37,10 @@ async function bootstrap(): Promise<void> {
     bodyParser: false,
   });
 
+  const [{ toNodeHandler }, auth] = await Promise.all([
+    import('better-auth/node'),
+    getAuth(),
+  ]);
   const betterAuthHandler = toNodeHandler(auth);
 
   // Enable CORS with origin validation.

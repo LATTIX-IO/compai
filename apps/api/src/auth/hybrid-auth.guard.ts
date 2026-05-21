@@ -212,7 +212,9 @@ export class HybridAuthGuard implements CanActivate {
 
       // Set request context for session auth
       request.userId = user.id;
-      request.userEmail = user.email;
+      if (typeof user.email === 'string') {
+        request.userEmail = user.email;
+      }
       request.userRoles = userRoles;
       request.organizationId = organizationId || '';
       request.authType = 'session';
