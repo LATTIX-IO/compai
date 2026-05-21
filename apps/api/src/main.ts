@@ -1,5 +1,6 @@
-import './config/runtime-path-aliases';
 import './config/load-env';
+import './db-alias';
+import './config/runtime-path-aliases';
 import type { INestApplication } from '@nestjs/common';
 import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
