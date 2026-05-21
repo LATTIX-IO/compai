@@ -1,9 +1,8 @@
 'use client';
 
 import { authClient } from '@/app/lib/auth-client';
-import { Button } from '@trycompai/ui/button';
+import { Button } from '@trycompai/design-system';
 import { Icons } from '@trycompai/ui/icons';
-import { Spinner } from '@trycompai/design-system';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
@@ -85,20 +84,18 @@ export function MicrosoftSignIn({
   };
 
   return (
-    <Button
-      onClick={handleSignIn}
-      className="w-full h-11 font-medium"
-      variant="outline"
-      disabled={isLoading}
-    >
-      {isLoading ? (
-        <Spinner size="sm" />
-      ) : (
-        <>
-          <Icons.Microsoft className="h-4 w-4" />
-          Continue with Microsoft
-        </>
-      )}
-    </Button>
+    <div className="w-full [&>button]:h-11 [&>button]:w-full">
+      <Button
+        onClick={handleSignIn}
+        variant="outline"
+        loading={isLoading}
+        iconLeft={
+          isLoading ? undefined : <Icons.Microsoft className="h-4 w-4" />
+        }
+        disabled={isLoading}
+      >
+        Continue with Microsoft
+      </Button>
+    </div>
   );
 }

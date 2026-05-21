@@ -1,13 +1,10 @@
 'use client';
 
 import { authClient } from '@/app/lib/auth-client';
-import { Button } from '@trycompai/ui/button';
-import { cn } from '@trycompai/ui/cn';
-import { Form, FormControl, FormField, FormItem } from '@trycompai/ui/form';
-import { Input } from '@trycompai/ui/input';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { Spinner } from '@trycompai/design-system';
+import { Button, Input, cn } from '@trycompai/design-system';
 import { ArrowRight } from '@trycompai/design-system/icons';
+import { Form, FormControl, FormField, FormItem } from '@trycompai/ui/form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
@@ -35,7 +32,7 @@ export function OtpSignIn({ className, deviceAuthRedirect }: Props) {
     },
   });
 
-  async function onSubmit({ email }: z.infer<typeof formSchema>) {
+  async function handleSubmit({ email }: z.infer<typeof formSchema>) {
     setLoading(true);
     setEmail(email);
 
@@ -65,7 +62,7 @@ export function OtpSignIn({ className, deviceAuthRedirect }: Props) {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
+      <form onSubmit={form.handleSubmit(handleSubmit)}>
         <div className={cn('flex flex-col space-y-4', className)}>
           <FormField
             control={form.control}
@@ -77,7 +74,6 @@ export function OtpSignIn({ className, deviceAuthRedirect }: Props) {
                     placeholder="Your work email"
                     {...field}
                     autoFocus
-                    className="h-[40px]"
                     autoCapitalize="false"
                     autoCorrect="false"
                     spellCheck="false"
@@ -87,20 +83,16 @@ export function OtpSignIn({ className, deviceAuthRedirect }: Props) {
             )}
           />
 
-          <Button
-            type="submit"
-            className="flex h-[40px] w-full space-x-2 px-6 py-4 font-medium active:scale-[0.98]"
-            disabled={isLoading}
-          >
-            {isLoading ? (
-              <Spinner size="sm" />
-            ) : (
-              <>
-                <span>Continue</span>
-                <ArrowRight size={16} />
-              </>
-            )}
-          </Button>
+          <div className="w-full [&>button]:h-[40px] [&>button]:w-full">
+            <Button
+              type="submit"
+              loading={isLoading}
+              iconRight={isLoading ? undefined : <ArrowRight size={16} />}
+              disabled={isLoading}
+            >
+              Continue
+            </Button>
+          </div>
         </div>
       </form>
     </Form>

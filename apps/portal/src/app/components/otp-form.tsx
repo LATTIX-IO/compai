@@ -1,11 +1,9 @@
 'use client';
 
 import { authClient } from '@/app/lib/auth-client';
+import { Button, InputOTP, InputOTPGroup, InputOTPSlot } from '@trycompai/design-system';
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@trycompai/ui/form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Button } from '@trycompai/ui/button';
-import { InputOTP, InputOTPGroup, InputOTPSlot } from '@trycompai/ui/input-otp';
-import { Spinner } from '@trycompai/design-system';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -37,7 +35,7 @@ export function OtpForm({ email, deviceAuthRedirect }: OtpFormProps) {
     },
   });
 
-  const onSubmit = async (formData: OtpFormValues) => {
+  const handleSubmit = async (formData: OtpFormValues) => {
     try {
       setIsLoading(true);
 
@@ -72,7 +70,10 @@ export function OtpForm({ email, deviceAuthRedirect }: OtpFormProps) {
 
   return (
     <Form {...form}>
-      <form className="grid gap-4 place-items-center" onSubmit={form.handleSubmit(onSubmit)}>
+      <form
+        className="grid gap-4 place-items-center"
+        onSubmit={form.handleSubmit(handleSubmit)}
+      >
         <FormField
           control={form.control}
           name="otp"
@@ -91,12 +92,8 @@ export function OtpForm({ email, deviceAuthRedirect }: OtpFormProps) {
             </FormItem>
           )}
         />
-        <Button
-          type="submit"
-          disabled={isLoading}
-          className="flex h-[40px] w-fit space-x-2 px-6 py-4 font-medium active:scale-[0.98]"
-        >
-          {isLoading ? <Spinner size="sm" /> : <span>Continue</span>}
+        <Button type="submit" loading={isLoading} disabled={isLoading}>
+          Continue
         </Button>
       </form>
     </Form>

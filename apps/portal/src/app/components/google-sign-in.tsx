@@ -1,9 +1,8 @@
 'use client';
 
 import { authClient } from '@/app/lib/auth-client';
-import { Button } from '@trycompai/ui/button';
+import { Button } from '@trycompai/design-system';
 import { Icons } from '@trycompai/ui/icons';
-import { Spinner } from '@trycompai/design-system';
 import { useState } from 'react';
 
 export function GoogleSignIn({
@@ -42,20 +41,16 @@ export function GoogleSignIn({
   };
 
   return (
-    <Button
-      onClick={handleSignIn}
-      className="w-full h-11 font-medium"
-      variant="outline"
-      disabled={isLoading}
-    >
-      {isLoading ? (
-        <Spinner size="sm" />
-      ) : (
-        <>
-          <Icons.Google className="h-4 w-4" />
-          Continue with Google
-        </>
-      )}
-    </Button>
+    <div className="w-full [&>button]:h-11 [&>button]:w-full">
+      <Button
+        onClick={handleSignIn}
+        variant="outline"
+        loading={isLoading}
+        iconLeft={isLoading ? undefined : <Icons.Google className="h-4 w-4" />}
+        disabled={isLoading}
+      >
+        Continue with Google
+      </Button>
+    </div>
   );
 }
