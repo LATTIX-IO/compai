@@ -1,3 +1,4 @@
+import 'tsconfig-paths/register';
 import './config/load-env';
 import type { INestApplication } from '@nestjs/common';
 import { ValidationPipe, VersioningType } from '@nestjs/common';
