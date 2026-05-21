@@ -5,6 +5,7 @@ import {
   HttpStatus,
   Injectable,
   Logger,
+  ServiceUnavailableException,
 } from '@nestjs/common';
 import { db } from '@db';
 import type {
@@ -138,7 +139,7 @@ function loadMacedRuntime(): Promise<MacedRuntime> {
 @Injectable()
 export class SecurityPenetrationTestsService {
   private readonly logger = new Logger(SecurityPenetrationTestsService.name);
-  private readonly macedApiKey: string;
+  private readonly macedApiKey: string | null;
   private readonly macedBaseUrl: string | undefined;
   private macedClientPromise: Promise<MacedClient> | null = null;
 
@@ -146,16 +147,17 @@ export class SecurityPenetrationTestsService {
     private readonly credits: PentestCreditsService,
     private readonly billingEntitlements: BillingEntitlementsService,
   ) {
-    const apiKey = process.env.MACED_API_KEY;
-    if (!apiKey) {
-      // Throw at construction so the app fails loudly on boot, not on first request.
-      throw new Error('MACED_API_KEY is required to start the pentest module');
-    }
-    this.macedApiKey = apiKey;
+    this.macedApiKey = process.env.MACED_API_KEY?.trim() || null;
     this.macedBaseUrl = process.env.MACED_API_BASE_URL;
   }
 
   private async createMacedClient(): Promise<MacedClient> {
+    if (!this.macedApiKey) {
+      throw new ServiceUnavailableException(
+        'Penetration testing is not configured on this server',
+      );
+    }
+
     const { createMacedClient } = await loadMacedRuntime();
     return createMacedClient({
       apiKey: this.macedApiKey,

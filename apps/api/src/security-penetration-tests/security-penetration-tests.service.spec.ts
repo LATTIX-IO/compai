@@ -665,8 +665,18 @@ describe('SecurityPenetrationTestsService', () => {
   // TODO(phase-5): webhook tests removed — handleWebhook now verifies HMAC
   // via @maced/api-client verifyMacedWebhook. Rewrite: valid signature → ok,
   // invalid/missing signature → ForbiddenException, unknown run → warn+ok.
-  // Also rewrite the MACED_API_KEY missing test — new behavior throws at
-  // service construction, not on first request.
+
+  it('returns 503 when the pentest provider is not configured', async () => {
+    delete process.env.MACED_API_KEY;
+    service = new SecurityPenetrationTestsService(
+      mockPentestCreditsService as unknown as PentestCreditsService,
+      mockBillingEntitlementsService as unknown as BillingEntitlementsService,
+    );
+
+    await expect(service.listReports('org_123')).rejects.toMatchObject({
+      status: 503,
+    });
+  });
 
   it('fetches report output as binary payload', async () => {
     const fixtureContent = 'markdown report body';
