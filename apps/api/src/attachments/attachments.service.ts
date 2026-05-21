@@ -19,26 +19,34 @@ import { validateFileContent } from '../utils/file-type-validation';
 
 @Injectable()
 export class AttachmentsService {
-  private s3Client: S3Client;
-  private bucketName: string;
+  private readonly _s3Client: S3Client | null;
+  private readonly _bucketName: string | null;
   private readonly MAX_FILE_SIZE_BYTES = 100 * 1024 * 1024; // 100MB
   private readonly SIGNED_URL_EXPIRY = 900; // 15 minutes
 
   constructor() {
-    // AWS configuration is validated at startup via ConfigModule
-    // Safe to access environment variables directly since they're validated
-    this.bucketName = process.env.APP_AWS_BUCKET_NAME!;
+    this._bucketName = process.env.APP_AWS_BUCKET_NAME || null;
+    this._s3Client = s3Client;
+  }
 
-    if (!s3Client) {
-      console.error(
-        'S3 Client is not initialized. Check AWS S3 configuration.',
-      );
-      throw new Error(
-        'S3 Client is not initialized. Check AWS S3 configuration.',
+  private get s3Client(): S3Client {
+    if (!this._s3Client) {
+      throw new InternalServerErrorException(
+        'S3 file storage is not configured on this server',
       );
     }
 
-    this.s3Client = s3Client;
+    return this._s3Client;
+  }
+
+  private get bucketName(): string {
+    if (!this._bucketName) {
+      throw new InternalServerErrorException(
+        'S3 file storage bucket is not configured on this server',
+      );
+    }
+
+    return this._bucketName;
   }
 
   /**
