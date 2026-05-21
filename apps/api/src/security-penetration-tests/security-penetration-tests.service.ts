@@ -7,19 +7,16 @@ import {
   Logger,
 } from '@nestjs/common';
 import { db } from '@db';
-import {
-  createMacedClient,
-  MacedApiError,
+import type {
+  CreatePentestBody,
+  Issue,
   MacedClient,
-  MacedWebhookSignatureError,
-  type CreatePentestBody,
-  type Issue,
-  type MacedWebhookEvent,
-  type Pentest,
-  type PentestCreated,
-  type PentestEvent,
-  type PentestProgress as MacedPentestProgress,
-  type PentestWithProgress,
+  MacedWebhookEvent,
+  Pentest,
+  PentestCreated,
+  PentestEvent,
+  PentestProgress as MacedPentestProgress,
+  PentestWithProgress,
 } from '@maced/api-client';
 import { randomUUID } from 'crypto';
 
@@ -126,10 +123,24 @@ type CreatePentestBodyWithScanProfile = CreatePentestBody & {
   checks?: PentestCheck[];
 };
 
+type MacedRuntime = typeof import('@maced/api-client');
+
+let macedRuntimePromise: Promise<MacedRuntime> | null = null;
+
+function loadMacedRuntime(): Promise<MacedRuntime> {
+  macedRuntimePromise ??=
+    process.env.JEST_WORKER_ID || process.env.NODE_ENV === 'test'
+      ? Promise.resolve(require('@maced/api-client') as MacedRuntime)
+      : import('@maced/api-client');
+  return macedRuntimePromise;
+}
+
 @Injectable()
 export class SecurityPenetrationTestsService {
   private readonly logger = new Logger(SecurityPenetrationTestsService.name);
-  private readonly macedClient: MacedClient;
+  private readonly macedApiKey: string;
+  private readonly macedBaseUrl: string | undefined;
+  private macedClientPromise: Promise<MacedClient> | null = null;
 
   constructor(
     private readonly credits: PentestCreditsService,
@@ -140,9 +151,15 @@ export class SecurityPenetrationTestsService {
       // Throw at construction so the app fails loudly on boot, not on first request.
       throw new Error('MACED_API_KEY is required to start the pentest module');
     }
-    this.macedClient = createMacedClient({
-      apiKey,
-      baseUrl: process.env.MACED_API_BASE_URL,
+    this.macedApiKey = apiKey;
+    this.macedBaseUrl = process.env.MACED_API_BASE_URL;
+  }
+
+  private async createMacedClient(): Promise<MacedClient> {
+    const { createMacedClient } = await loadMacedRuntime();
+    return createMacedClient({
+      apiKey: this.macedApiKey,
+      baseUrl: this.macedBaseUrl,
       userAgent: 'comp-api',
       // Disable SDK-level retries. The 0.9.1 retry wrapper reuses the same
       // Request object across attempts, which throws "Cannot construct a
@@ -155,6 +172,11 @@ export class SecurityPenetrationTestsService {
     });
   }
 
+  private async getMacedClient(): Promise<MacedClient> {
+    this.macedClientPromise ??= this.createMacedClient();
+    return this.macedClientPromise;
+  }
+
   /**
    * Wraps a Maced SDK call so MacedApiError is translated into a NestJS
    * HttpException that preserves the upstream status code. Non-API errors
@@ -162,12 +184,14 @@ export class SecurityPenetrationTestsService {
    * much detail as we can so the frontend toast is actually useful.
    */
   private async callMaced<T>(
-    fn: () => Promise<T>,
+    fn: (macedClient: MacedClient) => Promise<T>,
     context: string,
   ): Promise<T> {
+    const macedClient = await this.getMacedClient();
     try {
-      return await fn();
+      return await fn(macedClient);
     } catch (error) {
+      const { MacedApiError } = await loadMacedRuntime();
       if (error instanceof MacedApiError) {
         const body =
           typeof error.body === 'object' && error.body !== null
@@ -229,7 +253,7 @@ export class SecurityPenetrationTestsService {
     }
 
     const reports = await this.callMaced(
-      () => this.macedClient.pentests.list(),
+      (macedClient) => macedClient.pentests.list(),
       'listing penetration tests',
     );
 
@@ -337,7 +361,7 @@ export class SecurityPenetrationTestsService {
     let createdReport: PentestCreated;
     try {
       createdReport = await this.callMaced(
-        () => this.macedClient.pentests.create(body),
+        (macedClient) => macedClient.pentests.create(body),
         'creating penetration test',
       );
     } catch (error) {
@@ -445,7 +469,7 @@ export class SecurityPenetrationTestsService {
   ): Promise<SecurityPenetrationTest> {
     await this.assertRunOwnership(organizationId, id);
     const report = await this.callMaced(
-      () => this.macedClient.pentests.get(id),
+      (macedClient) => macedClient.pentests.get(id),
       `fetching penetration test ${id}`,
     );
     return this.mapMacedRunToSecurityPenetrationTest(report);
@@ -457,7 +481,7 @@ export class SecurityPenetrationTestsService {
   ): Promise<PentestProgress> {
     await this.assertRunOwnership(organizationId, id);
     return this.callMaced(
-      () => this.macedClient.pentests.progress(id),
+      (macedClient) => macedClient.pentests.progress(id),
       `fetching penetration test progress ${id}`,
     );
   }
@@ -465,7 +489,7 @@ export class SecurityPenetrationTestsService {
   async getReportIssues(organizationId: string, id: string): Promise<Issue[]> {
     await this.assertRunOwnership(organizationId, id);
     return this.callMaced(
-      () => this.macedClient.pentests.issues(id),
+      (macedClient) => macedClient.pentests.issues(id),
       `fetching penetration test issues ${id}`,
     );
   }
@@ -476,7 +500,7 @@ export class SecurityPenetrationTestsService {
   ): Promise<PentestEvent[]> {
     await this.assertRunOwnership(organizationId, id);
     const events = await this.callMaced(
-      () => this.macedClient.pentests.events(id),
+      (macedClient) => macedClient.pentests.events(id),
       `fetching penetration test events ${id}`,
     );
     // Filter at the API layer (defense in depth) — a UI-only filter
@@ -495,7 +519,7 @@ export class SecurityPenetrationTestsService {
     await this.getReport(organizationId, id);
 
     const report = await this.callMaced(
-      () => this.macedClient.pentests.report(id),
+      (macedClient) => macedClient.pentests.report(id),
       `fetching penetration test report ${id}`,
     );
 
@@ -513,7 +537,7 @@ export class SecurityPenetrationTestsService {
     await this.getReport(organizationId, id);
 
     const blob = await this.callMaced(
-      () => this.macedClient.pentests.reportPdf(id),
+      (macedClient) => macedClient.pentests.reportPdf(id),
       `fetching penetration test PDF ${id}`,
     );
 
@@ -551,12 +575,14 @@ export class SecurityPenetrationTestsService {
 
     let event: MacedWebhookEvent;
     try {
-      event = await MacedClient.webhooks.constructEvent(
+      const { MacedClient: MacedClientRuntime } = await loadMacedRuntime();
+      event = await MacedClientRuntime.webhooks.constructEvent(
         params.rawBody,
         params.signatureHeader ?? null,
         secret,
       );
     } catch (error) {
+      const { MacedWebhookSignatureError } = await loadMacedRuntime();
       if (error instanceof MacedWebhookSignatureError) {
         this.logger.warn(
           `[Webhook] Signature verification failed: ${error.code}`,
