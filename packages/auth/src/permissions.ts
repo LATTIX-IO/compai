@@ -1,12 +1,10 @@
+import type { AccessControl } from 'better-auth/plugins/access';
 import {
-  createAccessControl,
-  type AccessControl,
-} from 'better-auth/plugins/access';
-import {
-  defaultStatements,
   adminAc,
+  createAccessControl,
+  defaultStatements,
   ownerAc,
-} from 'better-auth/plugins/organization/access';
+} from './access-control';
 
 /**
  * Permission statement extending better-auth's defaults with GRC resources.
@@ -14,7 +12,7 @@ import {
  * Default resources from better-auth:
  * - organization: ['update', 'delete']
  * - member: ['create', 'update', 'delete']
- * - invitation: ['create', 'delete']
+ * - invitation: ['create', 'cancel']
  * - team: ['create', 'update', 'delete']
  * - ac: ['create', 'read', 'update', 'delete'] (for role management)
  */

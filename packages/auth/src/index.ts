@@ -16,4 +16,4 @@ export {
   type RoleObligations,
 } from './permissions';
 
-export { createAuthServer, type CreateAuthServerOptions, type AuthServer } from './server';
+export type { CreateAuthServerOptions, AuthServer } from './server';
