@@ -15,7 +15,7 @@ export function getRuntimePathAliasConfig(
   return {
     baseUrl: runtimeBaseUrl,
     paths: {
-      '@db': ['prisma/index'],
+      '@db': ['src/db-alias', 'dist/apps/api/src/db-alias'],
       '@/*': ['src/*', 'dist/apps/api/src/*'],
     },
   };

@@ -13,7 +13,7 @@ describe('getRuntimePathAliasConfig', () => {
     expect(config).toEqual({
       baseUrl: path.join('d:', 'lattix', 'compai', 'apps', 'api'),
       paths: {
-        '@db': ['prisma/index'],
+        '@db': ['src/db-alias', 'dist/apps/api/src/db-alias'],
         '@/*': ['src/*', 'dist/apps/api/src/*'],
       },
     });
