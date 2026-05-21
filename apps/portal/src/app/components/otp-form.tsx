@@ -1,9 +1,9 @@
 'use client';
 
 import { authClient } from '@/app/lib/auth-client';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, InputOTP, InputOTPGroup, InputOTPSlot } from '@trycompai/design-system';
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@trycompai/ui/form';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -70,10 +70,7 @@ export function OtpForm({ email, deviceAuthRedirect }: OtpFormProps) {
 
   return (
     <Form {...form}>
-      <form
-        className="grid gap-4 place-items-center"
-        onSubmit={form.handleSubmit(handleSubmit)}
-      >
+      <form className="grid gap-4 place-items-center" onSubmit={form.handleSubmit(handleSubmit)}>
         <FormField
           control={form.control}
           name="otp"

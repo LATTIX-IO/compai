@@ -1,6 +1,5 @@
 import { LoginForm } from '@/app/components/login-form';
 import { OtpSignIn } from '@/app/components/otp';
-import { env } from '@/env.mjs';
 import {
   getBrandInitials,
   getPortalAuthDescription,
@@ -9,6 +8,7 @@ import {
   hasVisiblePortalAuthOptions,
   shouldShowDefaultBrandLogo,
 } from '@/app/lib/platform-deployment';
+import { env } from '@/env.mjs';
 import {
   Card,
   CardContent,

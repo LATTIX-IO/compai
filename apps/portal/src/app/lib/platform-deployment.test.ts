@@ -15,8 +15,7 @@ describe('portal platform deployment helpers', () => {
 
     expect(branding).toEqual({
       appName: 'Comp AI',
-      appDescription:
-        'Secure employee, contractor, and teammate access for your organization.',
+      appDescription: 'Secure employee, contractor, and teammate access for your organization.',
       termsUrl: undefined,
       privacyUrl: undefined,
     });
@@ -25,9 +24,9 @@ describe('portal platform deployment helpers', () => {
       showMicrosoft: false,
       allowOtp: true,
     });
-    expect(
-      getPortalAuthDescription({ appName: branding.appName, authOptions }),
-    ).toBe('Enter your email address to receive a one-time password.');
+    expect(getPortalAuthDescription({ appName: branding.appName, authOptions })).toBe(
+      'Enter your email address to receive a one-time password.',
+    );
     expect(shouldShowDefaultBrandLogo(branding.appName)).toBe(true);
   });
 
@@ -45,9 +44,7 @@ describe('portal platform deployment helpers', () => {
       showMicrosoft: true,
       allowOtp: false,
     });
-    expect(
-      getPortalAuthDescription({ appName: 'Lattix Platform', authOptions }),
-    ).toBe(
+    expect(getPortalAuthDescription({ appName: 'Lattix Platform', authOptions })).toBe(
       'Continue with your Microsoft work account to access Lattix Platform.',
     );
     expect(hasVisiblePortalAuthOptions(authOptions)).toBe(true);
@@ -76,9 +73,9 @@ describe('portal platform deployment helpers', () => {
       allowOtp: false,
     });
     expect(hasVisiblePortalAuthOptions(authOptions)).toBe(false);
-    expect(
-      getPortalAuthDescription({ appName: branding.appName, authOptions }),
-    ).toBe('No sign-in methods are currently configured for Lattix Platform.');
+    expect(getPortalAuthDescription({ appName: branding.appName, authOptions })).toBe(
+      'No sign-in methods are currently configured for Lattix Platform.',
+    );
     expect(getBrandInitials(branding.appName)).toBe('LP');
     expect(shouldShowDefaultBrandLogo(branding.appName)).toBe(false);
   });

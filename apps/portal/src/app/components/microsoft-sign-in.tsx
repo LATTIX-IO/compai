@@ -89,9 +89,7 @@ export function MicrosoftSignIn({
         onClick={handleSignIn}
         variant="outline"
         loading={isLoading}
-        iconLeft={
-          isLoading ? undefined : <Icons.Microsoft className="h-4 w-4" />
-        }
+        iconLeft={isLoading ? undefined : <Icons.Microsoft className="h-4 w-4" />}
         disabled={isLoading}
       >
         Continue with Microsoft

@@ -8,9 +8,7 @@ export const env = createEnv({
     RESEND_API_KEY: z.string(),
     UPSTASH_REDIS_REST_URL: z.string().optional(),
     UPSTASH_REDIS_REST_TOKEN: z.string().optional(),
-    AUTH_ENFORCED_PROVIDER: z
-      .enum(['google', 'github', 'microsoft'])
-      .optional(),
+    AUTH_ENFORCED_PROVIDER: z.enum(['google', 'github', 'microsoft']).optional(),
     AUTH_GOOGLE_ID: z.string().optional(),
     AUTH_GOOGLE_SECRET: z.string().optional(),
     AUTH_MICROSOFT_CLIENT_ID: z.string().optional(),
