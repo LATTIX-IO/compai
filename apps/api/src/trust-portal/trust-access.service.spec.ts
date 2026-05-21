@@ -172,3 +172,41 @@ describe('TrustAccessService favicon branding', () => {
     expect(result.portalUrl).toContain('/acme-security');
   });
 });
+
+describe('TrustAccessService URL configuration', () => {
+  const originalEnv = {
+    NODE_ENV: process.env.NODE_ENV,
+    TRUST_APP_URL: process.env.TRUST_APP_URL,
+    PORTAL_URL: process.env.PORTAL_URL,
+    NEXT_PUBLIC_PORTAL_URL: process.env.NEXT_PUBLIC_PORTAL_URL,
+    BASE_URL: process.env.BASE_URL,
+  };
+
+  afterEach(() => {
+    process.env.NODE_ENV = originalEnv.NODE_ENV;
+    process.env.TRUST_APP_URL = originalEnv.TRUST_APP_URL;
+    process.env.PORTAL_URL = originalEnv.PORTAL_URL;
+    process.env.NEXT_PUBLIC_PORTAL_URL = originalEnv.NEXT_PUBLIC_PORTAL_URL;
+    process.env.BASE_URL = originalEnv.BASE_URL;
+  });
+
+  it('does not throw in production when dedicated trust portal env vars are missing', () => {
+    process.env.NODE_ENV = 'production';
+    delete process.env.TRUST_APP_URL;
+    delete process.env.PORTAL_URL;
+    delete process.env.NEXT_PUBLIC_PORTAL_URL;
+    delete process.env.BASE_URL;
+
+    expect(
+      () =>
+        new TrustAccessService(
+          {
+            getSignedUrl: jest.fn(),
+          } as any,
+          {} as any,
+          {} as any,
+          {} as any,
+        ),
+    ).not.toThrow();
+  });
+});

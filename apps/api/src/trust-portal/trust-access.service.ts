@@ -79,6 +79,8 @@ export class TrustAccessService {
   private readonly TRUST_APP_URL =
     process.env.TRUST_APP_URL ||
     process.env.PORTAL_URL ||
+    process.env.NEXT_PUBLIC_PORTAL_URL ||
+    process.env.BASE_URL ||
     'http://localhost:3008';
 
   private generateToken(length: number): string {
@@ -234,15 +236,7 @@ export class TrustAccessService {
     private readonly emailService: TrustEmailService,
     private readonly attachmentsService: AttachmentsService,
     private readonly pdfRendererService: PolicyPdfRendererService,
-  ) {
-    if (
-      !process.env.TRUST_APP_URL &&
-      !process.env.PORTAL_URL &&
-      process.env.NODE_ENV === 'production'
-    ) {
-      throw new Error('TRUST_APP_URL or PORTAL_URL must be set in production');
-    }
-  }
+  ) {}
 
   async getMemberIdFromUserId(
     userId: string,
