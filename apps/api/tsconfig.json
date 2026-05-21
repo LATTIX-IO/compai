@@ -23,11 +23,11 @@
     "noFallthroughCasesInSwitch": false,
     "paths": {
       "@/*": ["./src/*"],
-      "@db": ["./prisma/index"],
+      "@db": ["./src/db-alias"],
       "@trycompai/auth": ["../../packages/auth/src/index.ts"],
       "@trycompai/billing": ["../../packages/billing/src/index.ts"],
       "@trycompai/company": ["../../packages/company/src/index.ts"],
-      "@trycompai/db": ["./prisma/index"],
+      "@trycompai/db": ["./src/db-alias"],
       "@trycompai/email": ["../../packages/email/index.ts"],
       "@trycompai/integration-platform": [
         "../../packages/integration-platform/src/index.ts"
