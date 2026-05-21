@@ -11,7 +11,7 @@ import {
   S3Client,
 } from '@aws-sdk/client-s3';
 import { db } from '@db';
-import { s3Client, BUCKET_NAME, getSignedUrl } from '@/app/s3';
+import { s3Client, BUCKET_NAME, getSignedUrl } from '../app/s3';
 import type { UpsertOrgChartDto } from './dto/upsert-org-chart.dto';
 import type { UploadOrgChartDto } from './dto/upload-org-chart.dto';
 

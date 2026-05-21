@@ -1,10 +1,10 @@
-import type { AuthContext } from '@/auth/types';
+import type { AuthContext } from '../auth/types';
 import { EvidenceFormsService } from './evidence-forms.service';
-import type { AttachmentsService } from '@/attachments/attachments.service';
+import type { AttachmentsService } from '../attachments/attachments.service';
 import { db } from '@db';
 
 jest.mock(
-  '@/attachments/attachments.service',
+  '../attachments/attachments.service',
   () => ({
     AttachmentsService: class AttachmentsService {},
   }),

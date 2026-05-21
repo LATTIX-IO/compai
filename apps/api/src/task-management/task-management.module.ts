@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TaskManagementController } from './task-management.controller';
 import { TaskManagementService } from './task-management.service';
-import { AuthModule } from '@/auth/auth.module';
+import { AuthModule } from '../auth/auth.module';
 import { TaskItemAssignmentNotifierService } from './task-item-assignment-notifier.service';
 import { TaskItemMentionNotifierService } from './task-item-mention-notifier.service';
 import { TaskItemAuditService } from './task-item-audit.service';

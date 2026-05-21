@@ -22,14 +22,14 @@ jest.mock('@db', () => ({
   },
 }));
 
-jest.mock('@/app/s3', () => ({
+jest.mock('../app/s3', () => ({
   getSignedUrl: jest.fn().mockResolvedValue('https://s3.example.com/signed'),
   s3Client: { send: jest.fn() },
   BUCKET_NAME: 'test-bucket',
 }));
 
 import { db, TaskFrequency } from '@db';
-import { getSignedUrl } from '@/app/s3';
+import { getSignedUrl } from '../app/s3';
 
 describe('BrowserbaseService.getScreenshotRedirectUrl', () => {
   let service: BrowserbaseService;

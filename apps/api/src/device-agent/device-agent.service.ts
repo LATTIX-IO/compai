@@ -9,7 +9,7 @@ import {
   GetObjectCommand,
   HeadObjectCommand,
 } from '@aws-sdk/client-s3';
-import { getSignedUrl } from '@/app/s3';
+import { getSignedUrl } from '../app/s3';
 import { Readable } from 'stream';
 
 const S3_ENV = process.env.DEVICE_AGENT_S3_ENV || 'production';

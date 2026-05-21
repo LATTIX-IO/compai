@@ -10,7 +10,7 @@ import {
   PutObjectCommand,
   S3Client,
 } from '@aws-sdk/client-s3';
-import { BUCKET_NAME, getSignedUrl, s3Client } from '@/app/s3';
+import { BUCKET_NAME, getSignedUrl, s3Client } from '../app/s3';
 import { renderOverlay } from './screenshot-overlay';
 import { isNoPageError, toRunErrorMessage } from './run-error-formatter';
 

@@ -8,7 +8,7 @@ import {
   s3Client,
   APP_AWS_KNOWLEDGE_BASE_BUCKET,
   getSignedUrl,
-} from '@/app/s3';
+} from '../../app/s3';
 import {
   MAX_FILE_SIZE_BYTES,
   SIGNED_URL_EXPIRATION_SECONDS,

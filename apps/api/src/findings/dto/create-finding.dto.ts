@@ -11,7 +11,7 @@ import { FindingArea, FindingSeverity, FindingType } from '@db';
 import {
   evidenceFormTypeSchema,
   type EvidenceFormType,
-} from '@/evidence-forms/evidence-forms.definitions';
+} from '../../evidence-forms/evidence-forms.definitions';
 
 export class CreateFindingDto {
   @ApiProperty({ description: 'Task ID', required: false })

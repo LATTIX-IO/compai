@@ -1,9 +1,9 @@
-import { AuthContext, OrganizationId } from '@/auth/auth-context.decorator';
-import { HybridAuthGuard } from '@/auth/hybrid-auth.guard';
-import { PermissionGuard } from '@/auth/permission.guard';
-import { RequirePermission } from '@/auth/require-permission.decorator';
-import type { AuthContext as AuthContextType } from '@/auth/types';
-import { AuditRead } from '@/audit/skip-audit-log.decorator';
+import { AuthContext, OrganizationId } from '../auth/auth-context.decorator';
+import { HybridAuthGuard } from '../auth/hybrid-auth.guard';
+import { PermissionGuard } from '../auth/permission.guard';
+import { RequirePermission } from '../auth/require-permission.decorator';
+import type { AuthContext as AuthContextType } from '../auth/types';
+import { AuditRead } from '../audit/skip-audit-log.decorator';
 import {
   Body,
   Controller,

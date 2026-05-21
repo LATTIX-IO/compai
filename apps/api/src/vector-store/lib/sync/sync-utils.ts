@@ -1,5 +1,5 @@
 import { GetObjectCommand, S3Client } from '@aws-sdk/client-s3';
-import { extractContentFromFile } from '@/trigger/vector-store/helpers/extract-content-from-file';
+import { extractContentFromFile } from '../../../trigger/vector-store/helpers/extract-content-from-file';
 import { vectorIndex } from '../core/client';
 import { batchUpsertEmbeddings } from '../core/upsert-embedding';
 import { chunkText } from '../utils/chunk-text';

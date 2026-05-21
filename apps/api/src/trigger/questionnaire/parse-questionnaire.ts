@@ -1,4 +1,4 @@
-import { extractS3KeyFromUrl } from '@/app/s3';
+import { extractS3KeyFromUrl } from '../../app/s3';
 import { GetObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import { db } from '@db';
 import { logger, tags, task } from '@trigger.dev/sdk';
@@ -7,11 +7,11 @@ import { logger, tags, task } from '@trigger.dev/sdk';
 import {
   extractContentFromFile,
   type ContentExtractionLogger,
-} from '@/questionnaire/utils/content-extractor';
+} from '../../questionnaire/utils/content-extractor';
 import {
   parseQuestionsAndAnswers,
   type QuestionAnswer,
-} from '@/questionnaire/utils/question-parser';
+} from '../../questionnaire/utils/question-parser';
 
 // Adapter to convert Trigger.dev logger to ContentExtractionLogger interface
 const triggerLogger: ContentExtractionLogger = {

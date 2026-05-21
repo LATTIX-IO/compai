@@ -23,16 +23,16 @@ jest.mock('@db', () => ({
   },
 }));
 
-jest.mock('@/vector-store/lib', () => ({
+jest.mock('../vector-store/lib', () => ({
   syncManualAnswerToVector: jest.fn(),
   syncOrganizationEmbeddings: jest.fn(),
 }));
 
-jest.mock('@/trigger/questionnaire/answer-question', () => ({
+jest.mock('../trigger/questionnaire/answer-question', () => ({
   answerQuestion: jest.fn(),
 }));
 
-jest.mock('@/trigger/questionnaire/answer-question-helpers', () => ({
+jest.mock('../trigger/questionnaire/answer-question-helpers', () => ({
   generateAnswerWithRAGBatch: jest.fn(),
 }));
 
@@ -57,8 +57,8 @@ jest.mock('./utils/questionnaire-storage', () => ({
 }));
 
 import { db } from '@db';
-import { syncManualAnswerToVector } from '@/vector-store/lib';
-import { answerQuestion } from '@/trigger/questionnaire/answer-question';
+import { syncManualAnswerToVector } from '../vector-store/lib';
+import { answerQuestion } from '../trigger/questionnaire/answer-question';
 import {
   updateAnsweredCount,
   persistQuestionnaireResult,

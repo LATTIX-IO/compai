@@ -1,4 +1,4 @@
-import { syncOrganizationEmbeddings } from '@/vector-store/lib';
+import { syncOrganizationEmbeddings } from '../../vector-store/lib';
 import { logger, metadata, tags, task } from '@trigger.dev/sdk';
 import { generateAnswerWithRAG } from './answer-question-helpers';
 

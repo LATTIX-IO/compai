@@ -1,4 +1,4 @@
-import { logger } from '@/vector-store/logger';
+import { logger } from '../../../vector-store/logger';
 import { anthropic } from '@ai-sdk/anthropic';
 import { openai } from '@ai-sdk/openai';
 import { generateText } from 'ai';

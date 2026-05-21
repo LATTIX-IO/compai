@@ -12,12 +12,12 @@ jest.mock('@trycompai/auth', () => ({
   BUILT_IN_ROLE_PERMISSIONS: {},
 }));
 
-jest.mock('@/vector-store/lib', () => ({
+jest.mock('../vector-store/lib', () => ({
   syncOrganizationEmbeddings: jest.fn(),
   findSimilarContentBatch: jest.fn(),
 }));
 
-jest.mock('@/trigger/questionnaire/answer-question-helpers', () => ({
+jest.mock('../trigger/questionnaire/answer-question-helpers', () => ({
   generateAnswerFromContent: jest.fn(),
 }));
 

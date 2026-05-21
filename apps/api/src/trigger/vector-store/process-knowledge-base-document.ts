@@ -1,10 +1,10 @@
 import { logger, tags, task } from '@trigger.dev/sdk';
 import { GetObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import { db } from '@db';
-import { batchUpsertEmbeddings } from '@/vector-store/lib/core/upsert-embedding';
-import { chunkText } from '@/vector-store/lib/utils/chunk-text';
-import { findEmbeddingsForSource } from '@/vector-store/lib/core/find-existing-embeddings';
-import { vectorIndex } from '@/vector-store/lib/core/client';
+import { batchUpsertEmbeddings } from '../../vector-store/lib/core/upsert-embedding';
+import { chunkText } from '../../vector-store/lib/utils/chunk-text';
+import { findEmbeddingsForSource } from '../../vector-store/lib/core/find-existing-embeddings';
+import { vectorIndex } from '../../vector-store/lib/core/client';
 import { extractContentFromFile } from './helpers/extract-content-from-file';
 
 /**

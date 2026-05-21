@@ -1,4 +1,4 @@
-import { MemberResponseDto } from '@/devices/dto/member-responses.dto';
+import { MemberResponseDto } from '../../devices/dto/member-responses.dto';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class AttachmentResponseDto {

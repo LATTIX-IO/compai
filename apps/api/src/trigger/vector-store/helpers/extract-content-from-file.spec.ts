@@ -3,7 +3,7 @@ import ExcelJS from 'exceljs';
 import { generateText } from 'ai';
 
 // Mock external dependencies
-jest.mock('@/vector-store/logger', () => ({
+jest.mock('../../../vector-store/logger', () => ({
   logger: {
     info: jest.fn(),
     warn: jest.fn(),

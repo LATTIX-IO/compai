@@ -1,9 +1,9 @@
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
-import type { AnswerQuestionResult } from '@/trigger/questionnaire/answer-question';
-import { answerQuestion } from '@/trigger/questionnaire/answer-question';
-import { generateAnswerWithRAGBatch } from '@/trigger/questionnaire/answer-question-helpers';
+import type { AnswerQuestionResult } from '../trigger/questionnaire/answer-question';
+import { answerQuestion } from '../trigger/questionnaire/answer-question';
+import { generateAnswerWithRAGBatch } from '../trigger/questionnaire/answer-question-helpers';
 import { tasks } from '@trigger.dev/sdk';
-import type { parseQuestionnaireTask } from '@/trigger/questionnaire/parse-questionnaire';
+import type { parseQuestionnaireTask } from '../trigger/questionnaire/parse-questionnaire';
 import { ParseQuestionnaireDto } from './dto/parse-questionnaire.dto';
 import {
   ExportQuestionnaireDto,
@@ -18,7 +18,7 @@ import { db, Prisma } from '@db';
 import {
   syncManualAnswerToVector,
   syncOrganizationEmbeddings,
-} from '@/vector-store/lib';
+} from '../vector-store/lib';
 import AdmZip from 'adm-zip';
 
 // Import shared utilities

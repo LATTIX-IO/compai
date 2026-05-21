@@ -24,7 +24,7 @@ jest.mock('@trigger.dev/sdk', () => ({
   auth: { createPublicToken: jest.fn() },
 }));
 
-jest.mock('@/vector-store/lib', () => ({
+jest.mock('../vector-store/lib', () => ({
   syncManualAnswerToVector: jest.fn(),
 }));
 
@@ -39,21 +39,21 @@ jest.mock('./utils/constants', () => ({
   isViewableInBrowser: jest.fn(),
 }));
 
-jest.mock('@/trigger/vector-store/process-knowledge-base-document', () => ({}));
+jest.mock('../trigger/vector-store/process-knowledge-base-document', () => ({}));
 jest.mock(
-  '@/trigger/vector-store/process-knowledge-base-documents-orchestrator',
+  '../trigger/vector-store/process-knowledge-base-documents-orchestrator',
   () => ({}),
 );
-jest.mock('@/trigger/vector-store/delete-knowledge-base-document', () => ({}));
-jest.mock('@/trigger/vector-store/delete-manual-answer', () => ({}));
+jest.mock('../trigger/vector-store/delete-knowledge-base-document', () => ({}));
+jest.mock('../trigger/vector-store/delete-manual-answer', () => ({}));
 jest.mock(
-  '@/trigger/vector-store/delete-all-manual-answers-orchestrator',
+  '../trigger/vector-store/delete-all-manual-answers-orchestrator',
   () => ({}),
 );
 
 import { db } from '@db';
 import { tasks, auth } from '@trigger.dev/sdk';
-import { syncManualAnswerToVector } from '@/vector-store/lib';
+import { syncManualAnswerToVector } from '../vector-store/lib';
 import {
   uploadToS3,
   generateDownloadUrl,

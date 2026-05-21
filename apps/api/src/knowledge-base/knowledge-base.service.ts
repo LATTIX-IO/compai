@@ -1,18 +1,18 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { db } from '@db';
 import { tasks, auth } from '@trigger.dev/sdk';
-import { syncManualAnswerToVector } from '@/vector-store/lib';
+import { syncManualAnswerToVector } from '../vector-store/lib';
 import { UploadDocumentDto } from './dto/upload-document.dto';
 import { DeleteDocumentDto } from './dto/delete-document.dto';
 import { GetDocumentUrlDto } from './dto/get-document-url.dto';
 import { ProcessDocumentsDto } from './dto/process-documents.dto';
 import { DeleteManualAnswerDto } from './dto/delete-manual-answer.dto';
 import { DeleteAllManualAnswersDto } from './dto/delete-all-manual-answers.dto';
-import { processKnowledgeBaseDocumentTask } from '@/trigger/vector-store/process-knowledge-base-document';
-import { processKnowledgeBaseDocumentsOrchestratorTask } from '@/trigger/vector-store/process-knowledge-base-documents-orchestrator';
-import { deleteKnowledgeBaseDocumentTask } from '@/trigger/vector-store/delete-knowledge-base-document';
-import { deleteManualAnswerTask } from '@/trigger/vector-store/delete-manual-answer';
-import { deleteAllManualAnswersOrchestratorTask } from '@/trigger/vector-store/delete-all-manual-answers-orchestrator';
+import { processKnowledgeBaseDocumentTask } from '../trigger/vector-store/process-knowledge-base-document';
+import { processKnowledgeBaseDocumentsOrchestratorTask } from '../trigger/vector-store/process-knowledge-base-documents-orchestrator';
+import { deleteKnowledgeBaseDocumentTask } from '../trigger/vector-store/delete-knowledge-base-document';
+import { deleteManualAnswerTask } from '../trigger/vector-store/delete-manual-answer';
+import { deleteAllManualAnswersOrchestratorTask } from '../trigger/vector-store/delete-all-manual-answers-orchestrator';
 import { isViewableInBrowser } from './utils/constants';
 import {
   uploadToS3,

@@ -25,7 +25,7 @@ jest.mock('@trycompai/auth', () => ({
   BUILT_IN_ROLE_PERMISSIONS: {},
 }));
 
-jest.mock('@/vector-store/lib', () => ({
+jest.mock('../vector-store/lib', () => ({
   syncOrganizationEmbeddings: jest.fn(),
 }));
 

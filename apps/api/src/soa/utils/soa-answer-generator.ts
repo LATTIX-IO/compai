@@ -1,14 +1,14 @@
 import {
   findSimilarContent,
   findSimilarContentBatch,
-} from '@/vector-store/lib';
-import type { SimilarContentResult } from '@/vector-store/lib';
+} from '../../vector-store/lib';
+import type { SimilarContentResult } from '../../vector-store/lib';
 import { openai } from '@ai-sdk/openai';
 import { generateText } from 'ai';
 import {
   deduplicateSources,
   type Source,
-} from '@/questionnaire/utils/deduplicate-sources';
+} from '../../questionnaire/utils/deduplicate-sources';
 import {
   SOA_RAG_MODEL,
   SOA_BATCH_MODEL,

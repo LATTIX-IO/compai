@@ -1,5 +1,5 @@
 import { logger, tags, task } from '@trigger.dev/sdk';
-import { deleteManualAnswerFromVector } from '@/vector-store/lib/sync/sync-manual-answer';
+import { deleteManualAnswerFromVector } from '../../vector-store/lib/sync/sync-manual-answer';
 
 /**
  * Task to delete a single manual answer from vector database

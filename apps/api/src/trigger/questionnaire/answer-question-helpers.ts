@@ -1,19 +1,19 @@
 import {
   findSimilarContent,
   findSimilarContentBatch,
-} from '@/vector-store/lib';
-import type { SimilarContentResult } from '@/vector-store/lib';
+} from '../../vector-store/lib';
+import type { SimilarContentResult } from '../../vector-store/lib';
 import { openai } from '@ai-sdk/openai';
 import { logger } from '@trigger.dev/sdk';
 import { generateText } from 'ai';
 import {
   deduplicateSources,
   type Source,
-} from '@/questionnaire/utils/deduplicate-sources';
+} from '../../questionnaire/utils/deduplicate-sources';
 import {
   ANSWER_MODEL,
   ANSWER_SYSTEM_PROMPT,
-} from '@/questionnaire/utils/constants';
+} from '../../questionnaire/utils/constants';
 
 export interface AnswerWithSources {
   answer: string | null;

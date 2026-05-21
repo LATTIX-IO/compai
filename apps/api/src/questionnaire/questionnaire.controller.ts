@@ -48,8 +48,8 @@ import {
 import {
   syncOrganizationEmbeddings,
   findSimilarContentBatch,
-} from '@/vector-store/lib';
-import { generateAnswerFromContent } from '@/trigger/questionnaire/answer-question-helpers';
+} from '../vector-store/lib';
+import { generateAnswerFromContent } from '../trigger/questionnaire/answer-question-helpers';
 import { TrustAccessService } from '../trust-portal/trust-access.service';
 import {
   createSafeSSESender,

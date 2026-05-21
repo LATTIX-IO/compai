@@ -14,7 +14,7 @@ import { ApproveSOADocumentDto } from './dto/approve-soa-document.dto';
 import { DeclineSOADocumentDto } from './dto/decline-soa-document.dto';
 import { SubmitSOAForApprovalDto } from './dto/submit-soa-for-approval.dto';
 import { ExportSOADocumentDto } from './dto/export-soa-document.dto';
-import type { SimilarContentResult } from '@/vector-store/lib';
+import type { SimilarContentResult } from '../vector-store/lib';
 import { loadISOConfig } from './utils/transform-iso-config';
 import { ISO27001_FRAMEWORK_NAMES } from './utils/constants';
 import {
