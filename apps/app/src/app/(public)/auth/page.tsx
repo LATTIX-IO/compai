@@ -1,5 +1,11 @@
 import { LoginForm } from '@/components/login-form';
 import { env } from '@/env.mjs';
+import {
+  getAppBranding,
+  getBrandInitials,
+  getVisibleAuthOptions,
+  shouldShowDefaultBrandLogo,
+} from '@/lib/platform-deployment';
 import { auth } from '@/utils/auth';
 import { getSafeRedirectPath } from '@/utils/auth-callback';
 import {
@@ -16,8 +22,10 @@ import { headers } from 'next/headers';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 
+const branding = getAppBranding(env);
+
 export const metadata: Metadata = {
-  title: 'Login | Comp AI',
+  title: `Sign in | ${branding.appName}`,
 };
 
 export default async function Page({
@@ -41,21 +49,28 @@ export default async function Page({
     redirect('/');
   }
 
-  const showGoogle = !!(env.AUTH_GOOGLE_ID && env.AUTH_GOOGLE_SECRET);
-  const showGithub = !!(env.AUTH_GITHUB_ID && env.AUTH_GITHUB_SECRET);
-  const showMicrosoft = !!(env.AUTH_MICROSOFT_CLIENT_ID && env.AUTH_MICROSOFT_CLIENT_SECRET);
+  const { showGoogle, showGithub, showMicrosoft, allowMagicLink } =
+    getVisibleAuthOptions(env);
+  const showBrandLogo = shouldShowDefaultBrandLogo(branding.appName);
+  const hasLegalLinks = Boolean(branding.termsUrl || branding.privacyUrl);
 
   return (
     <div className="flex min-h-dvh flex-col text-foreground">
       <main className="flex flex-1 items-center justify-center p-6">
         <Card className="w-full max-w-lg">
           <CardHeader className="text-center space-y-3 pt-10">
-            <Icons.Logo className="h-10 w-10 mx-auto" />
+            {showBrandLogo ? (
+              <Icons.Logo className="h-10 w-10 mx-auto" />
+            ) : (
+              <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-full border border-border bg-muted text-sm font-semibold text-foreground">
+                {getBrandInitials(branding.appName)}
+              </div>
+            )}
             <CardTitle className="text-2xl tracking-tight text-card-foreground">
-              Get Started with Comp AI
+              {`Sign in to ${branding.appName}`}
             </CardTitle>
             <CardDescription className="text-base text-muted-foreground px-4">
-              {`Automate SOC 2, ISO 27001 and GDPR compliance with AI.`}
+              {branding.appDescription}
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6 pb-6 px-8">
@@ -65,27 +80,28 @@ export default async function Page({
               showGoogle={showGoogle}
               showGithub={showGithub}
               showMicrosoft={showMicrosoft}
+              allowMagicLink={allowMagicLink}
             />
           </CardContent>
-          <CardFooter className="pb-10">
-            <p className="w-full px-6 text-center text-xs text-muted-foreground">
-              By clicking continue, you acknowledge that you have read and agree to the{' '}
-              <Link
-                href="https://trycomp.ai/terms-and-conditions"
-                className="underline hover:text-primary"
-              >
-                Terms and Conditions
-              </Link>{' '}
-              and{' '}
-              <Link
-                href="https://trycomp.ai/privacy-policy"
-                className="underline hover:text-primary"
-              >
-                Privacy Policy
-              </Link>
-              .
-            </p>
-          </CardFooter>
+          {hasLegalLinks && (
+            <CardFooter className="pb-10">
+              <p className="w-full px-6 text-center text-xs text-muted-foreground">
+                By clicking continue, you acknowledge the{' '}
+                {branding.termsUrl && (
+                  <Link href={branding.termsUrl} className="underline hover:text-primary">
+                    Terms and Conditions
+                  </Link>
+                )}
+                {branding.termsUrl && branding.privacyUrl ? ' and ' : ''}
+                {branding.privacyUrl && (
+                  <Link href={branding.privacyUrl} className="underline hover:text-primary">
+                    Privacy Policy
+                  </Link>
+                )}
+                .
+              </p>
+            </CardFooter>
+          )}
         </Card>
       </main>
     </div>

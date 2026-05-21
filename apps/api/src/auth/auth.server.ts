@@ -17,72 +17,22 @@ import { ac, allRoles } from '@trycompai/auth';
 import { createAuthMiddleware } from 'better-auth/api';
 import { Redis } from '@upstash/redis';
 import type { AccessControl } from 'better-auth/plugins/access';
+import {
+  buildSocialProviders,
+  getAuthDisplayName,
+  getCookieDomain,
+  getTrustedOrigins,
+  getTrustedProviderNames,
+  isStaticTrustedOrigin,
+  shouldEnableEmailAndPassword,
+  shouldEnableEmailOtp,
+  shouldEnableMagicLink,
+  validateAuthRuntimeConfig,
+} from './auth-deployment.config';
 
 const MAGIC_LINK_EXPIRES_IN_SECONDS = 60 * 60; // 1 hour
 
-/**
- * Determine the cookie domain based on environment.
- */
-function getCookieDomain(): string | undefined {
-  const baseUrl = process.env.BASE_URL || '';
-
-  if (baseUrl.includes('staging.trycomp.ai')) {
-    return '.staging.trycomp.ai';
-  }
-  if (baseUrl.includes('trycomp.ai')) {
-    return '.trycomp.ai';
-  }
-  return undefined;
-}
-
-/**
- * Get trusted origins for CORS/auth
- */
-export function getTrustedOrigins(): string[] {
-  const origins = process.env.AUTH_TRUSTED_ORIGINS;
-  if (origins) {
-    return origins.split(',').map((o) => o.trim());
-  }
-
-  return [
-    'http://localhost:3000',
-    'http://localhost:3002',
-    'http://localhost:3333',
-    'http://localhost:3004',
-    'http://localhost:3008',
-    'https://app.trycomp.ai',
-    'https://portal.trycomp.ai',
-    'https://api.trycomp.ai',
-    'https://app.staging.trycomp.ai',
-    'https://portal.staging.trycomp.ai',
-    'https://api.staging.trycomp.ai',
-    'https://dev.trycomp.ai',
-    'https://framework-editor.trycomp.ai',
-  ];
-}
-
-/**
- * Check if an origin matches a known trusted pattern (static list + subdomains).
- * This is a fast synchronous check that doesn't hit the DB.
- */
-export function isStaticTrustedOrigin(origin: string): boolean {
-  const trustedOrigins = getTrustedOrigins();
-  if (trustedOrigins.includes(origin)) {
-    return true;
-  }
-
-  try {
-    const url = new URL(origin);
-    return (
-      url.hostname.endsWith('.trycomp.ai') ||
-      url.hostname.endsWith('.staging.trycomp.ai') ||
-      url.hostname.endsWith('.trust.inc') ||
-      url.hostname === 'trust.inc'
-    );
-  } catch {
-    return false;
-  }
-}
+export { getTrustedOrigins, isStaticTrustedOrigin } from './auth-deployment.config';
 
 // ── Custom domain lookup via Redis cache ─────────────────────────────────────
 
@@ -164,36 +114,9 @@ export async function isTrustedOrigin(origin: string): Promise<boolean> {
   }
 }
 
-// Build social providers config
-const socialProviders: Record<string, unknown> = {};
-
-if (process.env.AUTH_GOOGLE_ID && process.env.AUTH_GOOGLE_SECRET) {
-  socialProviders.google = {
-    clientId: process.env.AUTH_GOOGLE_ID,
-    clientSecret: process.env.AUTH_GOOGLE_SECRET,
-  };
-}
-
-if (process.env.AUTH_GITHUB_ID && process.env.AUTH_GITHUB_SECRET) {
-  socialProviders.github = {
-    clientId: process.env.AUTH_GITHUB_ID,
-    clientSecret: process.env.AUTH_GITHUB_SECRET,
-  };
-}
-
-if (
-  process.env.AUTH_MICROSOFT_CLIENT_ID &&
-  process.env.AUTH_MICROSOFT_CLIENT_SECRET
-) {
-  socialProviders.microsoft = {
-    clientId: process.env.AUTH_MICROSOFT_CLIENT_ID,
-    clientSecret: process.env.AUTH_MICROSOFT_CLIENT_SECRET,
-    tenantId: process.env.AUTH_MICROSOFT_TENANT_ID || 'common',
-    prompt: 'select_account',
-  };
-}
-
-const cookieDomain = getCookieDomain();
+const cookieDomain = getCookieDomain(process.env);
+const socialProviders = buildSocialProviders(process.env);
+const authDisplayName = getAuthDisplayName(process.env);
 
 // =============================================================================
 // Security Validation
@@ -227,6 +150,8 @@ function validateSecurityConfig(): void {
       );
     }
   }
+
+  validateAuthRuntimeConfig(process.env);
 }
 
 // Run validation at module load time
@@ -238,7 +163,7 @@ validateSecurityConfig();
  * BASE_URL must point to the API (e.g., https://api.trycomp.ai).
  * OAuth callbacks go directly to the API. Clients send absolute callbackURLs
  * so better-auth redirects to the correct app after processing.
- * Cross-subdomain cookies (.trycomp.ai) ensure the session works on all apps.
+ * AUTH_COOKIE_DOMAIN can enable cross-subdomain cookies for custom domains.
  */
 export const auth = betterAuth({
   database: prismaAdapter(db, {
@@ -248,11 +173,11 @@ export const auth = betterAuth({
   // OAuth callbacks go directly to the API regardless of which frontend
   // initiated the flow. Clients must send absolute callbackURLs so that
   // after OAuth processing, better-auth redirects to the correct app.
-  // Cross-subdomain cookies (.trycomp.ai) ensure the session works everywhere.
+  // AUTH_COOKIE_DOMAIN can enable cross-subdomain cookies where needed.
   baseURL: process.env.BASE_URL || 'http://localhost:3333',
-  trustedOrigins: getTrustedOrigins(),
+  trustedOrigins: getTrustedOrigins(process.env),
   emailAndPassword: {
-    enabled: true,
+    enabled: shouldEnableEmailAndPassword(process.env),
   },
   advanced: {
     database: {
@@ -422,15 +347,16 @@ export const auth = betterAuth({
         const appUrl =
           process.env.NEXT_PUBLIC_APP_URL ??
           process.env.BETTER_AUTH_URL ??
-          'https://app.trycomp.ai';
+          'http://localhost:3000';
         const inviteLink = `${appUrl}/invite/${data.invitation.id}`;
         await triggerEmail({
           to: data.email,
-          subject: `You've been invited to join ${data.organization.name} on Comp AI`,
+          subject: `You've been invited to join ${data.organization.name} on ${authDisplayName}`,
           react: InviteEmail({
             organizationName: data.organization.name,
             inviteLink,
             email: data.email,
+            appName: authDisplayName,
           }),
         });
       },
@@ -458,38 +384,46 @@ export const auth = betterAuth({
         },
       },
     }),
-    magicLink({
-      expiresIn: MAGIC_LINK_EXPIRES_IN_SECONDS,
-      sendMagicLink: async ({ email, url }) => {
-        // The `url` from better-auth points to the API's verify endpoint
-        // and includes the callbackURL from the client's sign-in request.
-        // Flow: user clicks link → API verifies token & sets session cookie
-        // → API redirects (302) to callbackURL (the app).
-        if (process.env.NODE_ENV === 'development') {
-          console.log('[Auth] Sending magic link to:', email);
-          console.log('[Auth] Magic link URL:', url);
-        }
-        await triggerEmail({
-          to: email,
-          subject: 'Login to Comp AI',
-          react: MagicLinkEmail({ email, url }),
-        });
-      },
-    }),
-    emailOTP({
-      otpLength: 6,
-      expiresIn: 10 * 60,
-      async sendVerificationOTP({ email, otp }) {
-        if (process.env.NODE_ENV === 'development') {
-          console.log('[Auth] Sending OTP to:', email);
-        }
-        await triggerEmail({
-          to: email,
-          subject: 'One-Time Password for Comp AI',
-          react: OTPVerificationEmail({ email, otp }),
-        });
-      },
-    }),
+    ...(shouldEnableMagicLink(process.env)
+      ? [
+          magicLink({
+            expiresIn: MAGIC_LINK_EXPIRES_IN_SECONDS,
+            sendMagicLink: async ({ email, url }) => {
+              // The `url` from better-auth points to the API's verify endpoint
+              // and includes the callbackURL from the client's sign-in request.
+              // Flow: user clicks link → API verifies token & sets session cookie
+              // → API redirects (302) to callbackURL (the app).
+              if (process.env.NODE_ENV === 'development') {
+                console.log('[Auth] Sending magic link to:', email);
+                console.log('[Auth] Magic link URL:', url);
+              }
+              await triggerEmail({
+                to: email,
+                subject: `Sign in to ${authDisplayName}`,
+                react: MagicLinkEmail({ email, url }),
+              });
+            },
+          }),
+        ]
+      : []),
+    ...(shouldEnableEmailOtp(process.env)
+      ? [
+          emailOTP({
+            otpLength: 6,
+            expiresIn: 10 * 60,
+            async sendVerificationOTP({ email, otp }) {
+              if (process.env.NODE_ENV === 'development') {
+                console.log('[Auth] Sending OTP to:', email);
+              }
+              await triggerEmail({
+                to: email,
+                subject: `One-time password for ${authDisplayName}`,
+                react: OTPVerificationEmail({ email, otp }),
+              });
+            },
+          }),
+        ]
+      : []),
     multiSession(),
     bearer(),
     admin({
@@ -516,7 +450,7 @@ export const auth = betterAuth({
     modelName: 'Account',
     accountLinking: {
       enabled: true,
-      trustedProviders: ['google', 'github', 'microsoft'],
+      trustedProviders: getTrustedProviderNames(process.env),
     },
     // Skip the state cookie CSRF check for OAuth flows.
     // In our cross-origin setup (app/portal → API), the state cookie may not

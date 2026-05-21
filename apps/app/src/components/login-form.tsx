@@ -7,7 +7,8 @@ import { MicrosoftSignIn } from '@/components/microsoft-sign-in';
 import { Button } from '@trycompai/ui/button';
 import { Card, CardContent, CardDescription, CardTitle } from '@trycompai/ui/card';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@trycompai/ui/collapsible';
-import { CheckCircle2, ChevronDown, ChevronUp } from 'lucide-react';
+import { CheckmarkFilled, ChevronDown, ChevronUp } from '@trycompai/design-system/icons';
+import type { ReactNode } from 'react';
 import { useState } from 'react';
 
 interface LoginFormProps {
@@ -16,6 +17,7 @@ interface LoginFormProps {
   showGoogle: boolean;
   showGithub: boolean;
   showMicrosoft: boolean;
+  allowMagicLink: boolean;
 }
 
 export function LoginForm({
@@ -24,6 +26,7 @@ export function LoginForm({
   showGoogle,
   showGithub,
   showMicrosoft,
+  allowMagicLink,
 }: LoginFormProps) {
   const [isOptionsOpen, setIsOptionsOpen] = useState(false);
   const [magicLinkState, setMagicLinkState] = useState({ sent: false, email: '' });
@@ -36,7 +39,7 @@ export function LoginForm({
     return (
       <Card className="w-full max-w-md">
         <CardContent className="flex flex-col items-center justify-center text-center space-y-6 py-16 px-6">
-          <CheckCircle2 className="h-16 w-16 text-primary" />
+          <CheckmarkFilled size={64} className="text-primary" />
           <div className="space-y-2">
             <CardTitle className="text-2xl font-semibold text-card-foreground">
               Magic link sent
@@ -55,36 +58,51 @@ export function LoginForm({
     );
   }
 
-  const preferredSignInOption = showGoogle ? (
-    <GoogleSignIn inviteCode={inviteCode} redirectTo={redirectTo} />
-  ) : (
-    <MagicLinkSignIn
-      key="preferred-magic"
-      inviteCode={inviteCode}
-      redirectTo={redirectTo}
-      onMagicLinkSubmit={handleMagicLinkSent}
-    />
-  );
+  const signInOptions: ReactNode[] = [];
 
-  const moreOptionsList = [];
   if (showGoogle) {
-    moreOptionsList.push(
+    signInOptions.push(
+      <GoogleSignIn key="google" inviteCode={inviteCode} redirectTo={redirectTo} />,
+    );
+  }
+
+  if (showMicrosoft) {
+    signInOptions.push(
+      <MicrosoftSignIn key="microsoft" inviteCode={inviteCode} redirectTo={redirectTo} />,
+    );
+  }
+
+  if (showGithub) {
+    signInOptions.push(
+      <GithubSignIn key="github" inviteCode={inviteCode} redirectTo={redirectTo} />,
+    );
+  }
+
+  if (allowMagicLink) {
+    signInOptions.push(
       <MagicLinkSignIn
-        key="secondary-magic"
+        key="magic-link"
         inviteCode={inviteCode}
         redirectTo={redirectTo}
         onMagicLinkSubmit={handleMagicLinkSent}
       />,
     );
   }
-  if (showMicrosoft) {
-    moreOptionsList.push(
-      <MicrosoftSignIn key="microsoft" inviteCode={inviteCode} redirectTo={redirectTo} />,
-    );
-  }
-  if (showGithub) {
-    moreOptionsList.push(
-      <GithubSignIn key="github" inviteCode={inviteCode} redirectTo={redirectTo} />,
+
+  const [preferredSignInOption, ...moreOptionsList] = signInOptions;
+
+  if (!preferredSignInOption) {
+    return (
+      <Card className="w-full max-w-md">
+        <CardContent className="flex flex-col items-center justify-center text-center space-y-3 py-10 px-6">
+          <CardTitle className="text-xl font-semibold text-card-foreground">
+            Sign-in is not configured
+          </CardTitle>
+          <CardDescription className="text-sm text-muted-foreground">
+            Ask an administrator to configure at least one sign-in method for this deployment.
+          </CardDescription>
+        </CardContent>
+      </Card>
     );
   }
 
@@ -106,9 +124,9 @@ export function LoginForm({
               >
                 More options
                 {isOptionsOpen ? (
-                  <ChevronUp className="ml-1 h-4 w-4 transition-transform duration-200" />
+                  <ChevronUp size={16} className="ml-1 transition-transform duration-200" />
                 ) : (
-                  <ChevronDown className="ml-1 h-4 w-4 transition-transform duration-200" />
+                  <ChevronDown size={16} className="ml-1 transition-transform duration-200" />
                 )}
               </Button>
             </CollapsibleTrigger>

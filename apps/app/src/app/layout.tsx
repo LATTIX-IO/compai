@@ -1,9 +1,10 @@
 import '@trycompai/design-system/globals.css';
 
 import { env } from '@/env.mjs';
+import { getAppBranding } from '@/lib/platform-deployment';
 import { auth } from '@/utils/auth';
 import { Analytics as DubAnalytics } from '@dub/analytics/react';
-import { cn } from '@trycompai/ui/cn';
+import { cn } from '@trycompai/design-system';
 import { Analytics as VercelAnalytics } from '@vercel/analytics/next';
 import { GeistMono } from 'geist/font/mono';
 import type { Metadata } from 'next';
@@ -16,39 +17,42 @@ import { Providers } from './providers';
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
+const branding = getAppBranding(env);
+const metadataTitle = `${branding.appName} | ${branding.appDescription}`;
+
 export const metadata: Metadata = {
-  metadataBase: new URL('https://app.trycomp.ai'),
-  title: 'Comp AI | Automate SOC 2, ISO 27001 and GDPR compliance with AI.',
-  description: 'Automate SOC 2, ISO 27001 and GDPR compliance with AI.',
+  metadataBase: new URL(branding.appUrl),
+  title: metadataTitle,
+  description: branding.appDescription,
   twitter: {
-    title: 'Comp AI | Automate SOC 2, ISO 27001 and GDPR compliance with AI.',
-    description: 'Automate SOC 2, ISO 27001 and GDPR compliance with AI.',
+    title: metadataTitle,
+    description: branding.appDescription,
     images: [
       {
-        url: 'https://cdn.trycomp.ai/opengraph-image.jpg',
+        url: branding.ogImageUrl,
         width: 800,
         height: 600,
       },
       {
-        url: 'https://cdn.trycomp.ai/opengraph-image.jpg',
+        url: branding.ogImageUrl,
         width: 1800,
         height: 1600,
       },
     ],
   },
   openGraph: {
-    title: 'Comp AI | Automate SOC 2, ISO 27001 and GDPR compliance with AI.',
-    description: 'Automate SOC 2, ISO 27001 and GDPR compliance with AI.',
-    url: 'https://app.trycomp.ai',
-    siteName: 'Comp AI',
+    title: metadataTitle,
+    description: branding.appDescription,
+    url: branding.appUrl,
+    siteName: branding.appName,
     images: [
       {
-        url: 'https://cdn.trycomp.ai/opengraph-image.jpg',
+        url: branding.ogImageUrl,
         width: 800,
         height: 600,
       },
       {
-        url: 'https://cdn.trycomp.ai/opengraph-image.jpg',
+        url: branding.ogImageUrl,
         width: 1800,
         height: 1600,
       },

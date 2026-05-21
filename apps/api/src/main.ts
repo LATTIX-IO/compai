@@ -8,10 +8,12 @@ import * as express from 'express';
 import helmet from 'helmet';
 import path from 'path';
 import { AppModule } from './app.module';
+import { auth } from './auth/auth.server';
 import { isTrustedOrigin } from './auth/auth.server';
 import { adminAuthRateLimiter } from './auth/admin-rate-limit.middleware';
 import { originCheckMiddleware } from './auth/origin-check.middleware';
 import { mkdirSync, writeFileSync, existsSync } from 'fs';
+import { toNodeHandler } from 'better-auth/node';
 
 declare module 'express-serve-static-core' {
   interface Request {
@@ -29,11 +31,13 @@ function describeServer(baseUrl: string): string {
 }
 
 async function bootstrap(): Promise<void> {
-  // Disable body parser - required for better-auth NestJS integration
-  // The library will re-add body parsers after handling auth routes
+  // Disable body parser globally so Better Auth can read the raw request
+  // stream for /api/auth routes before Nest/Express JSON middleware runs.
   app = await NestFactory.create(AppModule, {
     bodyParser: false,
   });
+
+  const betterAuthHandler = toNodeHandler(auth);
 
   // Enable CORS with origin validation.
   // Uses a callback to support dynamic trust portal subdomains
@@ -76,6 +80,23 @@ async function bootstrap(): Promise<void> {
   // STEP 3b: Rate-limit better-auth admin routes (impersonation, ban, set-role, etc.)
   // These bypass NestJS controllers so the global ThrottlerGuard doesn't apply.
   app.use(adminAuthRateLimiter);
+
+  // STEP 3c: Handle Better Auth routes directly.
+  // We mount the node handler before body parsing so callback bodies and
+  // form posts reach Better Auth untouched.
+  app.use(
+    (
+      req: express.Request,
+      res: express.Response,
+      next: express.NextFunction,
+    ) => {
+      if (!req.path.startsWith('/api/auth')) {
+        return next();
+      }
+
+      Promise.resolve(betterAuthHandler(req, res)).catch(next);
+    },
+  );
 
   // STEP 4a: Configure body parser
   // NOTE: Attachment uploads are sent as base64 in JSON, so request payloads are

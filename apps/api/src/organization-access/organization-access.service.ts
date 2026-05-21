@@ -2,11 +2,12 @@ import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { db } from '@db';
 import { extractDomain, isPublicEmailDomain } from '../stripe/domain.utils';
 import { StripeService } from '../stripe/stripe.service';
+import { isInternalTeamEmailDomain } from './internal-team-domains';
 
 export type AutoApproveReason =
   | 'already-has-access'
   | 'self-hosted'
-  | 'trycomp-email'
+  | 'internal-email-domain'
   | 'stripe-customer'
   | 'not-eligible';
 
@@ -36,7 +37,7 @@ export class OrganizationAccessService {
    * Decision rules (in order):
    *   1. Org already has access → no-op.
    *   2. Self-hosted instance → grant.
-   *   3. User email at @trycomp.ai → grant (internal team).
+  *   3. User email matches INTERNAL_TEAM_EMAIL_DOMAINS → grant.
    *   4. User email domain matches the org website domain AND that domain has
    *      an active Stripe customer → grant. Public mailbox domains are
    *      excluded.
@@ -80,10 +81,10 @@ export class OrganizationAccessService {
       return { hasAccess: false, autoApproved: false, reason: 'not-eligible' };
     }
 
-    const isTrycompEmail = userEmailDomain === 'trycomp.ai';
+    const isInternalEmailDomain = isInternalTeamEmailDomain(userEmailDomain);
 
     const canAutoApproveViaDomain =
-      !isTrycompEmail &&
+      !isInternalEmailDomain &&
       Boolean(orgWebsiteDomain) &&
       userEmailDomain === orgWebsiteDomain &&
       !isPublicEmailDomain(userEmailDomain);
@@ -92,10 +93,10 @@ export class OrganizationAccessService {
       ? await this.stripeService.isDomainActiveCustomer(userEmailDomain)
       : false;
 
-    if (isTrycompEmail || isStripeCustomer) {
+    if (isInternalEmailDomain || isStripeCustomer) {
       await this.grantAccess(organizationId);
-      const reason: AutoApproveReason = isTrycompEmail
-        ? 'trycomp-email'
+      const reason: AutoApproveReason = isInternalEmailDomain
+        ? 'internal-email-domain'
         : 'stripe-customer';
       this.logger.log(
         `Auto-approved org ${organizationId} (reason: ${reason}, domain: ${userEmailDomain})`,

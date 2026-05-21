@@ -32,6 +32,14 @@ For a functional deployment:
 - When enabled, organizations are automatically approved and bypass the payment/booking flow
 - `STRIPE_SECRET_KEY` is not required for self-hosted instances
 
+**Microsoft Entra-only sign-in (optional):**
+- Set `AUTH_ENFORCED_PROVIDER=microsoft` in both `apps/app/.env` and `apps/api/.env`
+- Set `AUTH_MICROSOFT_CLIENT_ID`, `AUTH_MICROSOFT_CLIENT_SECRET`, and `AUTH_MICROSOFT_TENANT_ID`
+- Use a tenant-specific `AUTH_MICROSOFT_TENANT_ID` (not `common` or `organizations`) so access stays locked to your Entra tenant
+- Set `AUTH_COOKIE_DOMAIN` and `AUTH_TRUSTED_ORIGINS` in `apps/api/.env` if your app, portal, and API run on your own subdomains
+- Optionally set `INTERNAL_TEAM_EMAIL_DOMAINS` to auto-approve your internal team domains without Stripe checks
+- Optionally set `NEXT_PUBLIC_APP_NAME`, `NEXT_PUBLIC_APP_DESCRIPTION`, `NEXT_PUBLIC_TERMS_URL`, and `NEXT_PUBLIC_PRIVACY_URL` to replace Comp AI branding on the sign-in entrypoint
+
 ### Prerequisites
 
 - Docker Desktop or Docker Engine

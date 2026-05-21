@@ -33,11 +33,14 @@ const buildService = (
 describe('OrganizationAccessService', () => {
   const ORIGINAL_SELF_HOSTED = process.env.SELF_HOSTED;
   const ORIGINAL_NEXT_SELF_HOSTED = process.env.NEXT_PUBLIC_SELF_HOSTED;
+  const ORIGINAL_INTERNAL_TEAM_EMAIL_DOMAINS =
+    process.env.INTERNAL_TEAM_EMAIL_DOMAINS;
 
   beforeEach(() => {
     jest.clearAllMocks();
     delete process.env.SELF_HOSTED;
     delete process.env.NEXT_PUBLIC_SELF_HOSTED;
+    delete process.env.INTERNAL_TEAM_EMAIL_DOMAINS;
     mockedDb.organization.update.mockResolvedValue({});
   });
 
@@ -51,6 +54,11 @@ describe('OrganizationAccessService', () => {
       delete process.env.NEXT_PUBLIC_SELF_HOSTED;
     } else {
       process.env.NEXT_PUBLIC_SELF_HOSTED = ORIGINAL_NEXT_SELF_HOSTED;
+    }
+    if (ORIGINAL_INTERNAL_TEAM_EMAIL_DOMAINS === undefined) {
+      delete process.env.INTERNAL_TEAM_EMAIL_DOMAINS;
+    } else {
+      process.env.INTERNAL_TEAM_EMAIL_DOMAINS = ORIGINAL_INTERNAL_TEAM_EMAIL_DOMAINS;
     }
   });
 
@@ -113,7 +121,8 @@ describe('OrganizationAccessService', () => {
     expect(isDomainActiveCustomer).not.toHaveBeenCalled();
   });
 
-  it('grants on @trycomp.ai email without consulting Stripe', async () => {
+  it('grants on configured internal team email domains without consulting Stripe', async () => {
+    process.env.INTERNAL_TEAM_EMAIL_DOMAINS = 'trycomp.ai,lattix.io';
     mockedDb.organization.findUnique.mockResolvedValue({
       id: 'org_1',
       hasAccess: false,
@@ -123,13 +132,13 @@ describe('OrganizationAccessService', () => {
 
     const result = await service.autoApproveAccess({
       organizationId: 'org_1',
-      userEmail: 'tofik@trycomp.ai',
+      userEmail: 'james@lattix.io',
     });
 
     expect(result).toEqual({
       hasAccess: true,
       autoApproved: true,
-      reason: 'trycomp-email',
+      reason: 'internal-email-domain',
     });
     expect(isDomainActiveCustomer).not.toHaveBeenCalled();
     expect(mockedDb.organization.update).toHaveBeenCalled();

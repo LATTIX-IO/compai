@@ -18,9 +18,15 @@ interface Props {
   organizationName: string;
   inviteLink: string;
   email?: string;
+  appName?: string;
 }
 
-export const InviteEmail = ({ organizationName, inviteLink, email }: Props) => {
+export const InviteEmail = ({
+  organizationName,
+  inviteLink,
+  email,
+  appName = 'Comp AI',
+}: Props) => {
   return (
     <Html>
       <Tailwind>
@@ -38,7 +44,7 @@ export const InviteEmail = ({ organizationName, inviteLink, email }: Props) => {
             fontStyle="normal"
           />
         </head>
-        <Preview>You've been invited to join Comp AI</Preview>
+        <Preview>{`You've been invited to join ${appName}`}</Preview>
 
         <Body className="mx-auto my-auto bg-[#fff] font-sans">
           <Container
@@ -47,11 +53,11 @@ export const InviteEmail = ({ organizationName, inviteLink, email }: Props) => {
           >
             <Logo />
             <Heading className="mx-0 my-[30px] p-0 text-center text-[24px] font-normal text-[#121212]">
-              Join <strong>{organizationName}</strong> on <strong>Comp AI</strong>
+              Join <strong>{organizationName}</strong> on <strong>{appName}</strong>
             </Heading>
 
             <Text className="text-[14px] leading-[24px] text-[#121212]">
-              You've been invited to join your team on <strong>Comp AI</strong>.
+              You've been invited to join your team on <strong>{appName}</strong>.
             </Text>
             <Section className="mt-[32px] mb-[42px] text-center">
               <Button
