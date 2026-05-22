@@ -116,7 +116,7 @@ export function buildBridgedAuthCallbackUrl(options: {
 }): string {
   const nextPath = options.inviteCode
     ? `/invite/${options.inviteCode}`
-    : normalizeAppRedirectPath(options.redirectTo) ?? '/';
+    : (normalizeAppRedirectPath(options.redirectTo) ?? '/');
 
   const callbackUrl = new URL('/v1/auth/portal-bridge', options.apiBaseUrl);
   callbackUrl.searchParams.set('portal_origin', options.appOrigin);

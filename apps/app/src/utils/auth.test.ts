@@ -33,9 +33,7 @@ describe('buildAppAuthHeaders', () => {
       cookie: `${APP_SESSION_COOKIE_NAME}=ses_123`,
     });
 
-    expect(buildAppAuthHeaders({ headers, apiUrl: API_URL }).authorization).toBe(
-      'Bearer explicit',
-    );
+    expect(buildAppAuthHeaders({ headers, apiUrl: API_URL }).authorization).toBe('Bearer explicit');
   });
 
   it('preserves an explicit origin header', () => {

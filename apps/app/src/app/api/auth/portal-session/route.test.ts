@@ -1,7 +1,7 @@
 import { APP_SESSION_COOKIE_NAME } from '@/lib/app-session';
-import { POST } from './route';
-import { describe, expect, it } from 'vitest';
 import { NextRequest } from 'next/server';
+import { describe, expect, it } from 'vitest';
+import { POST } from './route';
 
 function createJsonRequest(body: unknown): NextRequest {
   return new NextRequest('http://localhost:3000/api/auth/portal-session', {
