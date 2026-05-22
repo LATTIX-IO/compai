@@ -560,6 +560,8 @@ interface AuthSessionFacade {
   };
   session: {
     id: string;
+    token?: string;
+    expiresAt?: Date;
     activeOrganizationId?: string | null;
     deviceAgent?: boolean;
     impersonatedBy?: string | null;

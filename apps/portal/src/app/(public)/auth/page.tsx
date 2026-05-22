@@ -6,8 +6,11 @@ import {
   hasVisiblePortalAuthOptions,
   shouldShowDefaultBrandLogo,
 } from '@/app/lib/platform-deployment';
+import { auth } from '@/app/lib/auth';
 import { env } from '@/env.mjs';
 import type { Metadata } from 'next';
+import { headers } from 'next/headers';
+import { redirect } from 'next/navigation';
 import { AuthPageClient } from './auth-page-client';
 
 const branding = getPortalBranding(env);
@@ -30,6 +33,11 @@ export default async function Page({
     isDeviceAuth && callbackPort && state
       ? `/auth/device-callback?callback_port=${encodeURIComponent(callbackPort)}&state=${encodeURIComponent(state)}`
       : undefined;
+
+  const session = await auth.api.getSession({ headers: await headers() });
+  if (session?.user) {
+    redirect(deviceAuthRedirect ?? '/');
+  }
 
   const authOptions = getVisiblePortalAuthOptions(env);
   const portalDescription = getPortalAuthDescription({

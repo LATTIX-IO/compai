@@ -9,6 +9,7 @@
  */
 
 import type { ReadonlyHeaders } from 'next/dist/server/web/spec-extension/adapters/headers';
+import { buildPortalAuthHeaders } from './portal-session';
 
 const API_URL =
   process.env.BACKEND_API_URL || process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3333';
@@ -81,13 +82,10 @@ export interface Invitation {
  * Convert Headers to a plain object for fetch
  */
 function headersToObject(headers: ReadonlyHeaders | Headers): Record<string, string> {
-  const obj: Record<string, string> = {};
-  headers.forEach((value, key) => {
-    if (key.toLowerCase() === 'cookie' || key.toLowerCase().startsWith('x-')) {
-      obj[key] = value;
-    }
+  return buildPortalAuthHeaders({
+    headers,
+    apiUrl: API_URL,
   });
-  return obj;
 }
 
 /**
