@@ -80,6 +80,11 @@ const handleDownload = async (req: NextRequest, isHead: boolean) => {
     return new NextResponse('Server configuration error', { status: 500 });
   }
 
+  if (!s3Client) {
+    logger('Device agent download misconfigured: missing S3 client configuration');
+    return new NextResponse('Server configuration error', { status: 500 });
+  }
+
   const target = getDownloadTarget(downloadInfo.os);
 
   try {

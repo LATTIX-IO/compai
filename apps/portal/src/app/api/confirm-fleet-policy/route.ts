@@ -51,13 +51,16 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'File upload service is not available' }, { status: 500 });
   }
 
+  const client = s3Client;
+  const orgAssetsBucket = APP_AWS_ORG_ASSETS_BUCKET;
+
   const uploads: Array<{ fileName: string; key: string }> = [];
   const cleanupPartialUploads = async () => {
     if (uploads.length === 0) return;
     try {
-      await s3Client.send(
+      await client.send(
         new DeleteObjectsCommand({
-          Bucket: APP_AWS_ORG_ASSETS_BUCKET,
+          Bucket: orgAssetsBucket,
           Delete: {
             Objects: uploads.map((upload) => ({ Key: upload.key })),
           },
@@ -89,14 +92,14 @@ export async function POST(req: NextRequest) {
     const key = `${organizationId}/fleet-policies/${policyId}/${timestamp}-${sanitized}`;
 
     const putCommand = new PutObjectCommand({
-      Bucket: APP_AWS_ORG_ASSETS_BUCKET,
+      Bucket: orgAssetsBucket,
       Key: key,
       Body: buffer,
       ContentType: fileEntry.type,
     });
 
     try {
-      await s3Client.send(putCommand);
+      await client.send(putCommand);
     } catch (error) {
       await cleanupPartialUploads();
       console.error('Failed to upload policy evidence to S3', { error, policyId, fileName: fileEntry.name });
@@ -128,9 +131,9 @@ export async function POST(req: NextRequest) {
 
       if (previousKeys.length > 0) {
         try {
-          await s3Client.send(
+          await client.send(
             new DeleteObjectsCommand({
-              Bucket: APP_AWS_ORG_ASSETS_BUCKET,
+              Bucket: orgAssetsBucket,
               Delete: {
                 Objects: previousKeys.map((key) => ({ Key: key })),
               },

@@ -35,16 +35,19 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ success: true, data: results });
   }
 
+  const client = s3Client;
+  const orgAssetsBucket = APP_AWS_ORG_ASSETS_BUCKET;
+
   const withSignedUrls = await Promise.all(
     results.map(async (result) => {
       const signedAttachments = await Promise.all(
         result.attachments.map(async (key) => {
           try {
             const command = new GetObjectCommand({
-              Bucket: APP_AWS_ORG_ASSETS_BUCKET,
+              Bucket: orgAssetsBucket,
               Key: key,
             });
-            return await getSignedUrl(s3Client, command, { expiresIn: 3600 });
+            return await getSignedUrl(client, command, { expiresIn: 3600 });
           } catch {
             return key;
           }
@@ -104,12 +107,15 @@ export async function DELETE(req: NextRequest) {
 
   const S3_DELETE_MAX_KEYS = 1000;
   if (s3Client && APP_AWS_ORG_ASSETS_BUCKET && allKeys.length > 0) {
+    const client = s3Client;
+    const orgAssetsBucket = APP_AWS_ORG_ASSETS_BUCKET;
+
     try {
       for (let i = 0; i < allKeys.length; i += S3_DELETE_MAX_KEYS) {
         const batch = allKeys.slice(i, i + S3_DELETE_MAX_KEYS);
-        await s3Client.send(
+        await client.send(
           new DeleteObjectsCommand({
-            Bucket: APP_AWS_ORG_ASSETS_BUCKET,
+            Bucket: orgAssetsBucket,
             Delete: {
               Objects: batch.map((key) => ({ Key: key })),
             },

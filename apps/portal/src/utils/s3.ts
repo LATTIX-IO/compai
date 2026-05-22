@@ -1,5 +1,5 @@
 import { SupportedOS } from '@/app/api/download-agent/types';
-import { GetObjectCommand, PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
+import { GetObjectCommand, PutObjectCommand, S3Client, type S3ClientConfig } from '@aws-sdk/client-s3';
 import { getSignedUrl as _getSignedUrl } from '@aws-sdk/s3-request-presigner';
 
 /**
@@ -22,27 +22,48 @@ const APP_AWS_ENDPOINT = process.env.APP_AWS_ENDPOINT;
 export const BUCKET_NAME = process.env.APP_AWS_BUCKET_NAME;
 export const APP_AWS_ORG_ASSETS_BUCKET = process.env.APP_AWS_ORG_ASSETS_BUCKET;
 
-if (!APP_AWS_ACCESS_KEY_ID || !APP_AWS_SECRET_ACCESS_KEY || !BUCKET_NAME || !APP_AWS_REGION) {
+export function buildS3ClientConfig(env: Readonly<Record<string, string | undefined>>): S3ClientConfig | null {
+  const region = env.APP_AWS_REGION;
+  const accessKeyId = env.APP_AWS_ACCESS_KEY_ID;
+  const secretAccessKey = env.APP_AWS_SECRET_ACCESS_KEY;
+  const endpoint = env.APP_AWS_ENDPOINT;
+
+  if (!region || !accessKeyId || !secretAccessKey) {
+    return null;
+  }
+
+  return {
+    endpoint: endpoint || undefined,
+    region,
+    credentials: {
+      accessKeyId,
+      secretAccessKey,
+    },
+    forcePathStyle: !!endpoint,
+  };
+}
+
+const s3ClientConfig = buildS3ClientConfig(process.env);
+
+if (!s3ClientConfig || !BUCKET_NAME) {
   console.warn(
     'AWS S3 credentials or configuration missing in environment variables. File upload features will be unavailable.',
   );
 }
 
-// Create a single S3 client instance
-// Add null checks or assertions if the checks above don't guarantee non-null values
-export const s3Client = new S3Client({
-  endpoint: APP_AWS_ENDPOINT || undefined,
-  region: APP_AWS_REGION!,
-  credentials: {
-    accessKeyId: APP_AWS_ACCESS_KEY_ID!,
-    secretAccessKey: APP_AWS_SECRET_ACCESS_KEY!,
-  },
-  forcePathStyle: !!APP_AWS_ENDPOINT,
-});
+export const s3Client = s3ClientConfig ? new S3Client(s3ClientConfig) : null;
 
 // Ensure BUCKET_NAME is exported and non-null checked if needed elsewhere explicitly
 if (!BUCKET_NAME && process.env.NODE_ENV === 'production') {
   console.error('AWS_BUCKET_NAME is not defined.');
+}
+
+function requireS3Client(): S3Client {
+  if (!s3Client) {
+    throw new Error('S3 client is not configured.');
+  }
+
+  return s3Client;
 }
 
 /**
@@ -125,6 +146,7 @@ export function extractS3KeyFromUrl(url: string): string {
 }
 
 export async function getFleetAgent({ os }: { os: SupportedOS }) {
+  const client = requireS3Client();
   const fleetBucketName = process.env.FLEET_AGENT_BUCKET_NAME;
 
   if (!fleetBucketName) {
@@ -151,7 +173,7 @@ export async function getFleetAgent({ os }: { os: SupportedOS }) {
     Key: `${os}/${os === 'macos' ? macosPackageFilename : windowsPackageFilename}`,
   });
 
-  const response = await s3Client.send(getFleetAgentCommand);
+  const response = await client.send(getFleetAgentCommand);
   return response.Body;
 }
 
@@ -167,12 +189,13 @@ export async function getPresignedDownloadUrl({
   key: string;
   expiresIn?: number;
 }): Promise<string> {
+  const client = requireS3Client();
   const command = new GetObjectCommand({
     Bucket: bucketName,
     Key: key,
   });
 
-  return await getSignedUrl(s3Client, command, { expiresIn });
+  return await getSignedUrl(client, command, { expiresIn });
 }
 
 /**
@@ -189,11 +212,12 @@ export async function getPresignedUploadUrl({
   contentType?: string;
   expiresIn?: number;
 }): Promise<string> {
+  const client = requireS3Client();
   const command = new PutObjectCommand({
     Bucket: bucketName,
     Key: key,
     ContentType: contentType,
   });
 
-  return await getSignedUrl(s3Client, command, { expiresIn });
+  return await getSignedUrl(client, command, { expiresIn });
 }
