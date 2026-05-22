@@ -11,7 +11,13 @@ import {
   Res,
   UseGuards,
 } from '@nestjs/common';
-import { ApiExcludeController, ApiOperation, ApiParam, ApiSecurity, ApiTags } from '@nestjs/swagger';
+import {
+  ApiExcludeController,
+  ApiOperation,
+  ApiParam,
+  ApiSecurity,
+  ApiTags,
+} from '@nestjs/swagger';
 import { db } from '@db';
 import type { Request, Response } from 'express';
 import { auth, isTrustedOrigin } from './auth.server';
@@ -37,7 +43,9 @@ import {
 export class AuthController {
   @Get('portal-bridge')
   @SkipOrgCheck()
-  @ApiOperation({ summary: 'Bridge an authenticated API session into a trusted portal origin' })
+  @ApiOperation({
+    summary: 'Bridge an authenticated API session into a trusted portal origin',
+  })
   async bridgePortalSession(
     @Query('portal_origin') portalOrigin: string | undefined,
     @Query('next') nextPath: string | undefined,
@@ -53,7 +61,9 @@ export class AuthController {
     try {
       normalizedPortalOrigin = normalizePortalBridgeOrigin(portalOrigin);
     } catch {
-      throw new BadRequestException('portal_origin must be a valid absolute URL.');
+      throw new BadRequestException(
+        'portal_origin must be a valid absolute URL.',
+      );
     }
 
     const trustedPortalOrigin = await isTrustedOrigin(normalizedPortalOrigin);
@@ -71,7 +81,9 @@ export class AuthController {
     if (authorizationHeader) {
       headers.set(
         'authorization',
-        Array.isArray(authorizationHeader) ? authorizationHeader[0] : authorizationHeader,
+        Array.isArray(authorizationHeader)
+          ? authorizationHeader[0]
+          : authorizationHeader,
       );
     }
 
@@ -81,7 +93,10 @@ export class AuthController {
       throw new ForbiddenException('No active session available to bridge.');
     }
 
-    const portalSessionUrl = new URL('/api/auth/portal-session', normalizedPortalOrigin).toString();
+    const portalSessionUrl = new URL(
+      '/api/auth/portal-session',
+      normalizedPortalOrigin,
+    ).toString();
     const responseHtml = buildPortalBridgeHtml({
       portalSessionUrl,
       sessionToken,

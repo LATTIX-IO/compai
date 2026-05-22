@@ -14,9 +14,9 @@ describe('portal bridge helpers', () => {
   });
 
   it('normalizes the portal origin and rejects unsupported schemes', () => {
-    expect(normalizePortalBridgeOrigin('https://compai-lattix.vercel.app/auth')).toBe(
-      'https://compai-lattix.vercel.app',
-    );
+    expect(
+      normalizePortalBridgeOrigin('https://compai-lattix.vercel.app/auth'),
+    ).toBe('https://compai-lattix.vercel.app');
 
     expect(() => normalizePortalBridgeOrigin('javascript:alert(1)')).toThrow(
       'Portal origin must use http or https.',
@@ -25,7 +25,8 @@ describe('portal bridge helpers', () => {
 
   it('builds an auto-submitting bridge document with escaped values', () => {
     const html = buildPortalBridgeHtml({
-      portalSessionUrl: 'https://compai-lattix.vercel.app/api/auth/portal-session',
+      portalSessionUrl:
+        'https://compai-lattix.vercel.app/api/auth/portal-session',
       sessionToken: 'ses_<unsafe>',
       expiresAt: '2026-05-22T00:00:00.000Z',
       nextPath: '/org_123?from=portal',
@@ -37,7 +38,9 @@ describe('portal bridge helpers', () => {
     );
     expect(html).toContain('name="sessionToken" value="ses_&lt;unsafe&gt;"');
     expect(html).toContain('name="next" value="/org_123?from=portal"');
-    expect(html).toContain('document.getElementById(\'portal-bridge-form\')?.submit();');
+    expect(html).toContain(
+      "document.getElementById('portal-bridge-form')?.submit();",
+    );
   });
 
   it('builds a csp that allows the trusted portal handoff form post', () => {

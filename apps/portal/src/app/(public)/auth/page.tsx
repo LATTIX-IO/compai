@@ -1,3 +1,4 @@
+import { auth } from '@/app/lib/auth';
 import {
   getBrandInitials,
   getPortalAuthDescription,
@@ -6,7 +7,6 @@ import {
   hasVisiblePortalAuthOptions,
   shouldShowDefaultBrandLogo,
 } from '@/app/lib/platform-deployment';
-import { auth } from '@/app/lib/auth';
 import { env } from '@/env.mjs';
 import type { Metadata } from 'next';
 import { headers } from 'next/headers';

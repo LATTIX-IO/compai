@@ -1,8 +1,7 @@
 import type { DotenvConfigOptions, DotenvConfigOutput } from 'dotenv';
 
-const mockConfig = jest.fn<
-  (options?: DotenvConfigOptions) => DotenvConfigOutput
->();
+const mockConfig =
+  jest.fn<(options?: DotenvConfigOptions) => DotenvConfigOutput>();
 const mockExistsSync = jest.fn<(path: string) => boolean>();
 
 jest.mock('dotenv', () => ({

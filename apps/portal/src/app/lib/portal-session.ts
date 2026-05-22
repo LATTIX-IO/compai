@@ -101,9 +101,7 @@ export function buildPortalAuthHeaders(options: {
   return obj;
 }
 
-export function normalizePortalRedirectPath(
-  value: string | null | undefined,
-): string | undefined {
+export function normalizePortalRedirectPath(value: string | null | undefined): string | undefined {
   if (!value || !value.startsWith('/') || value.startsWith('//')) {
     return undefined;
   }
@@ -111,10 +109,7 @@ export function normalizePortalRedirectPath(
   return value;
 }
 
-export function appendSearchParamsToPath(
-  path: string,
-  searchParams?: URLSearchParams,
-): string {
+export function appendSearchParamsToPath(path: string, searchParams?: URLSearchParams): string {
   const url = new URL(path, DEV_PORTAL_BASE_URL);
 
   searchParams?.forEach((value, key) => {

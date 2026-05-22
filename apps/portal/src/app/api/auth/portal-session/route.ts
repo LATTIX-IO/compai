@@ -85,9 +85,7 @@ function buildPortalSessionErrorResponse(options: {
   status: number;
 }): NextResponse {
   if (options.mode === 'redirect') {
-    return withCookieDefaults(
-      NextResponse.redirect(new URL('/auth', options.request.url), 303),
-    );
+    return withCookieDefaults(NextResponse.redirect(new URL('/auth', options.request.url), 303));
   }
 
   return withCookieDefaults(
@@ -124,9 +122,7 @@ export async function POST(request: NextRequest): Promise<Response> {
     });
   }
 
-  const expiresAt = parsePortalSessionExpiry(
-    getRequestBodyValue(parsedRequest.body, 'expiresAt'),
-  );
+  const expiresAt = parsePortalSessionExpiry(getRequestBodyValue(parsedRequest.body, 'expiresAt'));
   const nextValue = getRequestBodyValue(parsedRequest.body, 'next');
   const nextPath =
     normalizePortalRedirectPath(typeof nextValue === 'string' ? nextValue : undefined) ?? '/';

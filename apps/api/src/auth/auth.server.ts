@@ -20,7 +20,10 @@ import {
 
 const MAGIC_LINK_EXPIRES_IN_SECONDS = 60 * 60; // 1 hour
 
-export { getTrustedOrigins, isStaticTrustedOrigin } from './auth-deployment.config';
+export {
+  getTrustedOrigins,
+  isStaticTrustedOrigin,
+} from './auth-deployment.config';
 
 // ── Custom domain lookup via Redis cache ─────────────────────────────────────
 
@@ -39,12 +42,17 @@ async function getCustomDomains(): Promise<Set<string>> {
   // Try Redis cache first (non-fatal if Redis is unavailable)
   if (corsRedisClient) {
     try {
-      const cached = await corsRedisClient.get<string[]>(CORS_DOMAINS_CACHE_KEY);
+      const cached = await corsRedisClient.get<string[]>(
+        CORS_DOMAINS_CACHE_KEY,
+      );
       if (cached) {
         return new Set(cached);
       }
     } catch (error) {
-      console.error('[CORS] Redis cache read failed, falling back to DB:', error);
+      console.error(
+        '[CORS] Redis cache read failed, falling back to DB:',
+        error,
+      );
     }
   }
 
@@ -106,21 +114,20 @@ const cookieDomain = getCookieDomain(process.env);
 const socialProviders = buildSocialProviders(process.env);
 const authDisplayName = getAuthDisplayName(process.env);
 
-type BetterAuthFactory = typeof import('better-auth')['betterAuth'];
+type BetterAuthFactory = (typeof import('better-auth'))['betterAuth'];
 type PrismaAdapterFactory =
-  typeof import('better-auth/adapters/prisma')['prismaAdapter'];
+  (typeof import('better-auth/adapters/prisma'))['prismaAdapter'];
 type CreateAuthMiddlewareFactory =
-  typeof import('better-auth/api')['createAuthMiddleware'];
-type AdminPluginFactory = typeof import('better-auth/plugins')['admin'];
-type BearerPluginFactory = typeof import('better-auth/plugins')['bearer'];
-type EmailOtpPluginFactory =
-  typeof import('better-auth/plugins')['emailOTP'];
+  (typeof import('better-auth/api'))['createAuthMiddleware'];
+type AdminPluginFactory = (typeof import('better-auth/plugins'))['admin'];
+type BearerPluginFactory = (typeof import('better-auth/plugins'))['bearer'];
+type EmailOtpPluginFactory = (typeof import('better-auth/plugins'))['emailOTP'];
 type MagicLinkPluginFactory =
-  typeof import('better-auth/plugins')['magicLink'];
+  (typeof import('better-auth/plugins'))['magicLink'];
 type MultiSessionPluginFactory =
-  typeof import('better-auth/plugins')['multiSession'];
+  (typeof import('better-auth/plugins'))['multiSession'];
 type OrganizationPluginFactory =
-  typeof import('better-auth/plugins')['organization'];
+  (typeof import('better-auth/plugins'))['organization'];
 
 type BetterAuthRuntime = {
   betterAuth: BetterAuthFactory;
@@ -214,9 +221,7 @@ validateSecurityConfig();
  * Better Auth is ESM-only, so we build this config lazily and load the runtime
  * with dynamic imports when the auth server is actually needed.
  */
-function buildAuthOptions(
-  runtime: BetterAuthRuntime,
-) {
+function buildAuthOptions(runtime: BetterAuthRuntime) {
   const {
     prismaAdapter,
     admin,
@@ -318,7 +323,10 @@ function buildAuthOptions(
               };
             } catch (error) {
               // Always log errors, even in production
-              console.error('[Better Auth] Session creation hook error:', error);
+              console.error(
+                '[Better Auth] Session creation hook error:',
+                error,
+              );
               return {
                 data: session,
               };
@@ -576,9 +584,7 @@ interface HasPermissionRequest {
   };
 }
 
-function isPermissionResult(
-  value: unknown,
-): value is {
+function isPermissionResult(value: unknown): value is {
   success: boolean;
 } {
   return (
@@ -612,7 +618,9 @@ export const auth = {
       const result = await hasPermission.call(authInstance.api, input);
 
       if (!isPermissionResult(result)) {
-        throw new Error('Better Auth permission API returned an invalid result');
+        throw new Error(
+          'Better Auth permission API returned an invalid result',
+        );
       }
 
       return result;

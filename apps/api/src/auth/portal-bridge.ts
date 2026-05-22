@@ -7,7 +7,10 @@ const HTML_ESCAPE_LOOKUP: Record<string, string> = {
 };
 
 function escapeHtml(value: string): string {
-  return value.replace(/[&<>"']/g, (character) => HTML_ESCAPE_LOOKUP[character]);
+  return value.replace(
+    /[&<>"']/g,
+    (character) => HTML_ESCAPE_LOOKUP[character],
+  );
 }
 
 export function normalizePortalBridgePath(value?: string): string {
