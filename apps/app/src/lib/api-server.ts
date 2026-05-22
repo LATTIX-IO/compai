@@ -1,4 +1,5 @@
 import { env } from '@/env.mjs';
+import { buildAppAuthHeaders } from '@/lib/app-session';
 import { headers } from 'next/headers';
 
 export interface ApiResponse<T = unknown> {
@@ -24,16 +25,14 @@ async function call<T = unknown>(
   const { method = 'GET', body } = options;
   const baseUrl = env.NEXT_PUBLIC_API_URL || 'http://localhost:3333';
 
+  const headerStore = await headers();
   const requestHeaders: Record<string, string> = {
     'Content-Type': 'application/json',
+    ...buildAppAuthHeaders({
+      headers: headerStore,
+      apiUrl: baseUrl,
+    }),
   };
-
-  // Forward cookies for auth - better-auth handles session validation
-  const headerStore = await headers();
-  const cookieHeader = headerStore.get('cookie');
-  if (cookieHeader) {
-    requestHeaders['Cookie'] = cookieHeader;
-  }
 
   try {
     const response = await fetch(`${baseUrl}${endpoint}`, {

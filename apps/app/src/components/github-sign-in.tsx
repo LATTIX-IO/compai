@@ -1,7 +1,7 @@
 'use client';
 
+import { buildBridgedAuthCallbackUrl } from '@/lib/app-session';
 import { authClient } from '@/utils/auth-client';
-import { buildAuthCallbackUrl } from '@/utils/auth-callback';
 import { Button } from '@trycompai/ui/button';
 import { Icons } from '@trycompai/ui/icons';
 import { Loader2 } from 'lucide-react';
@@ -18,7 +18,12 @@ export function GithubSignIn({ inviteCode, redirectTo }: GithubSignInProps) {
   const handleSignIn = async () => {
     setLoading(true);
 
-    const callbackURL = buildAuthCallbackUrl({ inviteCode, redirectTo });
+    const callbackURL = buildBridgedAuthCallbackUrl({
+      apiBaseUrl: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3333',
+      appOrigin: window.location.origin,
+      inviteCode,
+      redirectTo,
+    });
 
     await authClient.signIn.social({
       provider: 'github',

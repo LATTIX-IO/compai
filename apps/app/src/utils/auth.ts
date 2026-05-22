@@ -9,6 +9,7 @@
  */
 
 import type { ReadonlyHeaders } from 'next/dist/server/web/spec-extension/adapters/headers';
+import { buildAppAuthHeaders } from '@/lib/app-session';
 import { ac, allRoles } from './permissions';
 
 // Re-export permissions for convenience
@@ -112,20 +113,10 @@ export interface FullSession extends Session {
  * Convert Headers to a plain object for fetch
  */
 function headersToObject(headers: ReadonlyHeaders | Headers): Record<string, string> {
-  const obj: Record<string, string> = {};
-  headers.forEach((value, key) => {
-    const k = key.toLowerCase();
-    // Forward cookies, origin (required by better-auth CSRF), and custom headers
-    if (k === 'cookie' || k === 'origin' || k.startsWith('x-')) {
-      obj[key] = value;
-    }
+  return buildAppAuthHeaders({
+    headers,
+    apiUrl: API_URL,
   });
-  // Ensure Origin is always present — server actions may not have one.
-  // better-auth requires it for CSRF protection on POST requests.
-  if (!obj.origin && !obj.Origin) {
-    obj.origin = API_URL;
-  }
-  return obj;
 }
 
 /**

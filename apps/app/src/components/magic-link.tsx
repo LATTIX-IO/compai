@@ -1,7 +1,7 @@
 'use client';
 
+import { buildBridgedAuthCallbackUrl } from '@/lib/app-session';
 import { authClient } from '@/utils/auth-client';
-import { buildAuthCallbackUrl } from '@/utils/auth-callback';
 import { Button } from '@trycompai/ui/button';
 import { cn } from '@trycompai/ui/cn';
 import { Form, FormControl, FormField, FormItem } from '@trycompai/ui/form';
@@ -42,7 +42,12 @@ export function MagicLinkSignIn({
   async function onSubmit({ email }: z.infer<typeof formSchema>) {
     setLoading(true);
 
-    const callbackURL = buildAuthCallbackUrl({ inviteCode, redirectTo });
+    const callbackURL = buildBridgedAuthCallbackUrl({
+      apiBaseUrl: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3333',
+      appOrigin: window.location.origin,
+      inviteCode,
+      redirectTo,
+    });
 
     const { error } = await authClient.signIn.magicLink({
       email,

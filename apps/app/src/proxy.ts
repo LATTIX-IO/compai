@@ -29,6 +29,7 @@ export async function proxy(request: NextRequest) {
 
     // Check for session cookies across all environment prefixes
     const sessionToken =
+      request.cookies.get('app_session_token')?.value ||
       request.cookies.get('__Secure-better-auth.session_token')?.value ||
       request.cookies.get('better-auth.session_token')?.value ||
       request.cookies.get('__Secure-staging.session_token')?.value ||

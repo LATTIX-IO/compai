@@ -1,75 +1,48 @@
+import { APP_SESSION_COOKIE_NAME, buildAppAuthHeaders } from '@/lib/app-session';
 import { describe, expect, it } from 'vitest';
 
-/**
- * headersToObject is not exported from auth.ts, so we replicate the logic here
- * to ensure correct behavior. If the implementation changes, these tests catch regressions.
- */
+const API_URL = 'https://compai-api.vercel.app';
 
-const API_URL = 'http://localhost:3333';
-
-function headersToObject(headers: Headers): Record<string, string> {
-  const obj: Record<string, string> = {};
-  headers.forEach((value, key) => {
-    const k = key.toLowerCase();
-    if (k === 'cookie' || k === 'origin' || k.startsWith('x-')) {
-      obj[key] = value;
-    }
-  });
-  if (!obj.origin && !obj.Origin) {
-    obj.origin = API_URL;
-  }
-  return obj;
-}
-
-describe('headersToObject', () => {
-  it('forwards cookie header', () => {
+describe('buildAppAuthHeaders', () => {
+  it('forwards a normal cookie header unchanged when no app session cookie exists', () => {
     const headers = new Headers({ cookie: 'session=abc123' });
-    const result = headersToObject(headers);
-    expect(result.cookie).toBe('session=abc123');
-  });
 
-  it('forwards origin header when present', () => {
-    const headers = new Headers({
-      cookie: 'session=abc',
-      origin: 'https://app.example.com',
+    expect(buildAppAuthHeaders({ headers, apiUrl: API_URL })).toEqual({
+      cookie: 'session=abc123',
+      origin: API_URL,
     });
-    const result = headersToObject(headers);
-    expect(result.origin).toBe('https://app.example.com');
   });
 
-  it('sets origin to API_URL when origin header is missing', () => {
-    const headers = new Headers({ cookie: 'session=abc' });
-    const result = headersToObject(headers);
-    expect(result.origin).toBe(API_URL);
-  });
-
-  it('forwards x-prefixed headers', () => {
+  it('converts the app session cookie into bearer auth and strips it from forwarded cookies', () => {
     const headers = new Headers({
-      'x-request-id': '12345',
-      'x-forwarded-for': '127.0.0.1',
+      cookie: `theme=dark; ${APP_SESSION_COOKIE_NAME}=ses_123; locale=en`,
+      'x-request-id': 'req_123',
     });
-    const result = headersToObject(headers);
-    expect(result['x-request-id']).toBe('12345');
-    expect(result['x-forwarded-for']).toBe('127.0.0.1');
+
+    expect(buildAppAuthHeaders({ headers, apiUrl: API_URL })).toEqual({
+      Authorization: 'Bearer ses_123',
+      cookie: 'theme=dark; locale=en',
+      origin: API_URL,
+      'x-request-id': 'req_123',
+    });
   });
 
-  it('excludes non-allowlisted headers', () => {
+  it('preserves explicit authorization headers', () => {
     const headers = new Headers({
-      'content-type': 'application/json',
-      authorization: 'Bearer token',
-      accept: 'text/html',
+      authorization: 'Bearer explicit',
+      cookie: `${APP_SESSION_COOKIE_NAME}=ses_123`,
     });
-    const result = headersToObject(headers);
-    expect(result['content-type']).toBeUndefined();
-    expect(result.authorization).toBeUndefined();
-    expect(result.accept).toBeUndefined();
-    // Should still add origin fallback
-    expect(result.origin).toBe(API_URL);
+
+    expect(buildAppAuthHeaders({ headers, apiUrl: API_URL }).authorization).toBe(
+      'Bearer explicit',
+    );
   });
 
-  it('does not override existing origin with fallback', () => {
-    const headers = new Headers({ origin: 'https://custom.example.com' });
-    const result = headersToObject(headers);
-    expect(result.origin).toBe('https://custom.example.com');
+  it('preserves an explicit origin header', () => {
+    const headers = new Headers({ origin: 'https://compai-lattix.vercel.app' });
+
+    expect(buildAppAuthHeaders({ headers, apiUrl: API_URL }).origin).toBe(
+      'https://compai-lattix.vercel.app',
+    );
   });
 });

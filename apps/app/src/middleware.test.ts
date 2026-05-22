@@ -54,6 +54,22 @@ describe('Middleware', () => {
       expect(response.headers.get('x-pathname')).toBe('/org_123/dashboard');
     });
 
+    it('should allow bridged app session tokens to access protected routes', async () => {
+      // Arrange
+      const request = await createMockRequest('/org_123/dashboard', {
+        headers: {
+          cookie: 'app_session_token=mock_session_token',
+        },
+      });
+
+      // Act
+      const response = await proxy(request);
+
+      // Assert
+      expect(response.status).toBe(200);
+      expect(response.headers.get('x-pathname')).toBe('/org_123/dashboard');
+    });
+
     it('should allow org routes to continue to the layout for access checks', async () => {
       // Arrange
       setupAuthMocks();
