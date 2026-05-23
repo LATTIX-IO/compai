@@ -200,7 +200,7 @@
         "dev": "bunx concurrently --kill-others --names \"next,trigger\" --prefix-colors \"yellow,blue\" \"NODE_OPTIONS='--no-deprecation' next dev --turbo -p 3000\" \"NODE_OPTIONS='--no-deprecation' trigger dev\"",
         "dev:no-trigger": "NODE_OPTIONS='--no-deprecation' next dev --turbo -p 3000",
         "lint": "eslint . && prettier --check .",
-        "prebuild": "bun run db:generate",
+        "prebuild": "bun run db:generate && bun run --filter @trycompai/auth build",
         "postinstall": "prisma generate --schema=./prisma/schema || exit 0",
         "start": "next start",
         "test": "vitest",
