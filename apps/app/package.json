@@ -192,6 +192,7 @@
     "scripts": {
         "analyze-locale-usage": "bunx tsx src/locales/analyze-locale-usage.ts",
         "build": "next build",
+        "build:workspace-deps": "bun run --filter @trycompai/utils build && bun run --filter @trycompai/analytics build && bun run --filter @trycompai/kv build && bun run --filter @trycompai/billing build && bun run --filter @trycompai/company build && bun run --filter @trycompai/integration-platform build && bun run --filter @trycompai/auth build && bun run --filter @trycompai/email build",
         "build:docker": "prisma generate --schema=prisma/schema && node ../../packages/db/scripts/fix-generated-extensions.js src/generated/prisma && next build",
         "db:generate": "bun run db:getschema && prisma generate --schema=prisma/schema && node ../../packages/db/scripts/fix-generated-extensions.js src/generated/prisma",
         "db:getschema": "find prisma/schema -name '*.prisma' ! -name 'schema.prisma' -delete && find ../../packages/db/prisma/schema -name '*.prisma' ! -name 'schema.prisma' -exec cp {} prisma/schema/ \\;",
@@ -200,7 +201,7 @@
         "dev": "bunx concurrently --kill-others --names \"next,trigger\" --prefix-colors \"yellow,blue\" \"NODE_OPTIONS='--no-deprecation' next dev --turbo -p 3000\" \"NODE_OPTIONS='--no-deprecation' trigger dev\"",
         "dev:no-trigger": "NODE_OPTIONS='--no-deprecation' next dev --turbo -p 3000",
         "lint": "eslint . && prettier --check .",
-        "prebuild": "bun run db:generate && bun run --filter @trycompai/auth build",
+        "prebuild": "bun run db:generate && bun run build:workspace-deps",
         "postinstall": "prisma generate --schema=./prisma/schema || exit 0",
         "start": "next start",
         "test": "vitest",
