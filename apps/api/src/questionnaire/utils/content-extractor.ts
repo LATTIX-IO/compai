@@ -3,8 +3,8 @@ import { anthropic } from '@ai-sdk/anthropic';
 import { generateText } from 'ai';
 import ExcelJS from 'exceljs';
 import AdmZip from 'adm-zip';
-import mammoth from 'mammoth';
 import { PDFDocument } from 'pdf-lib';
+import { getMammoth } from '../../lib/mammoth-loader';
 import { PARSING_MODEL, VISION_EXTRACTION_PROMPT } from './constants';
 import { parseQuestionsAndAnswers } from './question-parser';
 
@@ -327,6 +327,7 @@ export async function extractContentFromFile(
 
   // Handle Word documents (.docx) — extract text with mammoth
   if (isDocxFile(fileType)) {
+    const mammoth = getMammoth();
     const result = await mammoth.extractRawText({ buffer: fileBuffer });
     return result.value;
   }

@@ -3,7 +3,7 @@ import { anthropic } from '@ai-sdk/anthropic';
 import { openai } from '@ai-sdk/openai';
 import { generateText } from 'ai';
 import ExcelJS from 'exceljs';
-import mammoth from 'mammoth';
+import { getMammoth } from '../../../lib/mammoth-loader';
 
 /**
  * Loads an Excel workbook from a Uint8Array/Buffer.
@@ -143,6 +143,7 @@ export async function extractContentFromFile(
     'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
   ) {
     try {
+      const mammoth = getMammoth();
       const docxStartTime = Date.now();
       const fileSizeMB = (fileBuffer.length / (1024 * 1024)).toFixed(2);
 

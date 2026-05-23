@@ -12,6 +12,16 @@ jest.mock('ai', () => ({
   generateObject: jest.fn(),
   jsonSchema: jest.fn((s) => s),
 }));
+jest.mock('mammoth', () => ({
+  __esModule: true,
+  default: {
+    extractRawText: jest.fn(),
+  },
+}));
+
+const mockMammoth = jest.requireMock('mammoth').default as {
+  extractRawText: jest.Mock;
+};
 
 async function createTestExcelBuffer(
   sheets: { name: string; rows: (string | number)[][] }[],
@@ -30,6 +40,10 @@ async function createTestExcelBuffer(
 describe('content-extractor: extractContentFromFile', () => {
   const XLSX_MIME =
     'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
 
   it('should extract content from an Excel file with headers', async () => {
     const buffer = await createTestExcelBuffer([
@@ -145,6 +159,23 @@ describe('content-extractor: extractContentFromFile', () => {
     const result = await extractContentFromFile(base64, 'text/plain');
 
     expect(result).toBe(text);
+  });
+
+  it('should extract content from DOCX files using mammoth lazily', async () => {
+    mockMammoth.extractRawText.mockResolvedValue({
+      value: 'Extracted DOCX questionnaire content',
+    });
+
+    const base64 = Buffer.from('fake-docx-data').toString('base64');
+    const result = await extractContentFromFile(
+      base64,
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    );
+
+    expect(result).toBe('Extracted DOCX questionnaire content');
+    expect(mockMammoth.extractRawText).toHaveBeenCalledWith({
+      buffer: expect.any(Buffer),
+    });
   });
 
   it('should throw for Word documents', async () => {

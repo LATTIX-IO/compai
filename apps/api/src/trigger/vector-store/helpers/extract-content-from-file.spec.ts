@@ -24,11 +24,17 @@ jest.mock('ai', () => ({
 }));
 
 jest.mock('mammoth', () => ({
+  __esModule: true,
   default: {
     extractRawText: jest.fn(),
     convertToHtml: jest.fn(),
   },
 }));
+
+const mockMammoth = jest.requireMock('mammoth').default as {
+  extractRawText: jest.Mock;
+  convertToHtml: jest.Mock;
+};
 
 const mockGenerateText = generateText as jest.MockedFunction<
   typeof generateText
@@ -134,6 +140,10 @@ describe('extractContentFromFile - Excel handling', () => {
 });
 
 describe('extractContentFromFile - non-Excel types', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('should handle CSV files', async () => {
     const csv = 'col1,col2\nval1,val2\n';
     const base64 = Buffer.from(csv).toString('base64');
@@ -151,6 +161,27 @@ describe('extractContentFromFile - non-Excel types', () => {
     const result = await extractContentFromFile(base64, 'text/plain');
 
     expect(result).toBe(text);
+  });
+
+  it('should extract content from DOCX files using the lazy mammoth loader', async () => {
+    mockMammoth.extractRawText.mockResolvedValue({ value: 'Fallback DOCX text' });
+    mockMammoth.convertToHtml.mockResolvedValue({
+      value: '<p>Formatted &amp; extracted DOCX text</p>',
+    });
+
+    const base64 = Buffer.from('fake-docx-data').toString('base64');
+    const result = await extractContentFromFile(
+      base64,
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    );
+
+    expect(result).toBe('Formatted & extracted DOCX text');
+    expect(mockMammoth.extractRawText).toHaveBeenCalledWith({
+      buffer: expect.any(Buffer),
+    });
+    expect(mockMammoth.convertToHtml).toHaveBeenCalledWith({
+      buffer: expect.any(Buffer),
+    });
   });
 
   it('should throw for unsupported file types', async () => {
