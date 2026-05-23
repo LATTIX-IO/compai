@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { jsPDF } from 'jspdf';
+import { getJsPDF } from '../pdf/jspdf-loader';
+import type { JsPDFDocument } from '../pdf/jspdf-loader';
 
 interface JSONContent {
   type: string;
@@ -10,7 +11,7 @@ interface JSONContent {
 }
 
 interface PDFConfig {
-  doc: jsPDF;
+  doc: JsPDFDocument;
   pageWidth: number;
   pageHeight: number;
   margin: number;
@@ -575,7 +576,8 @@ export class PolicyPdfRendererService {
     primaryColor?: string | null,
     totalPoliciesCount?: number,
   ): Buffer {
-    const doc = new jsPDF();
+    const JsPDF = getJsPDF();
+    const doc = new JsPDF();
     const config: PDFConfig = {
       doc,
       pageWidth: doc.internal.pageSize.getWidth(),

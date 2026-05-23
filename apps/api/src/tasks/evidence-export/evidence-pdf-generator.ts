@@ -3,10 +3,11 @@
  * Generates PDF documents for automation evidence export
  */
 
-import { jsPDF } from 'jspdf';
 import { format } from 'date-fns';
 import { inspect } from 'node:util';
 import stringify from 'safe-stable-stringify';
+import { getJsPDF } from '../../pdf/jspdf-loader';
+import type { JsPDFDocument } from '../../pdf/jspdf-loader';
 import { redactSensitiveData } from './evidence-redaction';
 import type {
   NormalizedAutomation,
@@ -14,7 +15,7 @@ import type {
 } from './evidence-export.types';
 
 interface PDFConfig {
-  doc: jsPDF;
+  doc: JsPDFDocument;
   pageWidth: number;
   pageHeight: number;
   margin: number;
@@ -243,7 +244,8 @@ export function generateAutomationPDF(
     taskTitle: string;
   },
 ): Buffer {
-  const doc = new jsPDF();
+  const JsPDF = getJsPDF();
+  const doc = new JsPDF();
   const config: PDFConfig = {
     doc,
     pageWidth: doc.internal.pageSize.getWidth(),
@@ -516,7 +518,8 @@ export function generateTaskSummaryPDF(
   summary: TaskEvidenceSummary,
   options?: { attachmentsCount?: number },
 ): Buffer {
-  const doc = new jsPDF();
+  const JsPDF = getJsPDF();
+  const doc = new JsPDF();
   const config: PDFConfig = {
     doc,
     pageWidth: doc.internal.pageSize.getWidth(),

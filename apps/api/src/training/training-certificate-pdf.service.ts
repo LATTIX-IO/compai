@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { jsPDF } from 'jspdf';
+import { getJsPDF } from '../pdf/jspdf-loader';
 
 // Primary brand color (teal/green) - hsl(165, 100%, 15%)
 const PRIMARY_COLOR = { r: 0, g: 77, b: 61 };
@@ -86,7 +86,8 @@ export class TrainingCertificatePdfService {
   }): Promise<Buffer> {
     const { userName, organizationName, completedAt, title, subtitle } = params;
 
-    const doc = new jsPDF({
+    const JsPDF = getJsPDF();
+    const doc = new JsPDF({
       orientation: 'landscape',
       unit: 'mm',
       format: 'a4',

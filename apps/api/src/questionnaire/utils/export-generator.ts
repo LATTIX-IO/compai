@@ -1,5 +1,5 @@
 import ExcelJS from 'exceljs';
-import { jsPDF } from 'jspdf';
+import { getJsPDF } from '../../pdf/jspdf-loader';
 import type { QuestionAnswer } from './question-parser';
 
 export type ExportFormat = 'pdf' | 'csv' | 'xlsx';
@@ -101,7 +101,8 @@ export function generatePDF(
   questionsAndAnswers: QuestionAnswer[],
   vendorName?: string,
 ): Buffer {
-  const doc = new jsPDF();
+  const JsPDF = getJsPDF();
+  const doc = new JsPDF();
   const pageWidth = doc.internal.pageSize.getWidth();
   const pageHeight = doc.internal.pageSize.getHeight();
   const margin = 20;

@@ -1,4 +1,4 @@
-import { jsPDF } from 'jspdf';
+import { getJsPDF } from '../../pdf/jspdf-loader';
 
 export type SOAExportFormat = 'pdf';
 
@@ -55,7 +55,8 @@ function generateSOAPDF(
   version: number,
   metadata: SOAExportMetadata,
 ): Buffer {
-  const pdf = new jsPDF();
+  const JsPDF = getJsPDF();
+  const pdf = new JsPDF();
   const pageWidth = pdf.internal.pageSize.getWidth();
   const pageHeight = pdf.internal.pageSize.getHeight();
   const margin = 20;

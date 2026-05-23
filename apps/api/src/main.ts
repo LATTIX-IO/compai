@@ -1,10 +1,6 @@
 import './config/load-env';
 import './db-alias';
 import './config/runtime-path-aliases';
-// Keep jsPDF's optional compression dependency in the serverless bundle.
-// Without a direct import, Vercel can omit `fflate` during file tracing and
-// crash the API at startup before health/auth routes are available.
-import 'fflate';
 import type { INestApplication } from '@nestjs/common';
 import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';

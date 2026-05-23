@@ -38,7 +38,7 @@ describe('better auth middleware wiring (structural)', () => {
     expect(mainTs).toContain('void betterAuthMiddleware(req, res, next)');
   });
 
-  it('main.ts should import fflate so jsPDF works in the serverless bundle', () => {
+  it('main.ts should not eagerly import fflate during api startup', () => {
     const fs = require('fs');
     const path = require('path');
     const mainTs = fs.readFileSync(
@@ -46,6 +46,7 @@ describe('better auth middleware wiring (structural)', () => {
       'utf-8',
     ) as string;
 
-    expect(mainTs).toContain("import 'fflate';");
+    expect(mainTs).not.toContain("import 'fflate';");
   });
+
 });
