@@ -37,4 +37,15 @@ describe('better auth middleware wiring (structural)', () => {
     );
     expect(mainTs).toContain('void betterAuthMiddleware(req, res, next)');
   });
+
+  it('main.ts should import fflate so jsPDF works in the serverless bundle', () => {
+    const fs = require('fs');
+    const path = require('path');
+    const mainTs = fs.readFileSync(
+      path.join(__dirname, '..', 'main.ts'),
+      'utf-8',
+    ) as string;
+
+    expect(mainTs).toContain("import 'fflate';");
+  });
 });
