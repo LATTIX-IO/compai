@@ -1,4 +1,5 @@
 import { env } from '@/env.mjs';
+import { findActiveMemberOrganizationAccess } from '@/lib/db/member-access';
 import { serverApi } from '@/lib/api-server';
 import { auth } from '@/utils/auth';
 import { db } from '@db/server';
@@ -35,15 +36,9 @@ export default async function UpgradePage({ params }: PageProps) {
   }
 
   // Verify user has access to this org BEFORE syncing activeOrganizationId
-  const member = await db.member.findFirst({
-    where: {
-      organizationId: orgId,
-      userId: authSession.user.id,
-      deactivated: false,
-    },
-    include: {
-      organization: true,
-    },
+  const member = await findActiveMemberOrganizationAccess({
+    organizationId: orgId,
+    userId: authSession.user.id,
   });
 
   if (!member) {

@@ -1,11 +1,12 @@
 import { getFeatureFlags } from '@/app/posthog';
 import { APP_AWS_ORG_ASSETS_BUCKET, s3Client } from '@/app/s3';
+import { findActiveMemberRole } from '@/lib/db/member-access';
 import { serverApi } from '@/lib/api-server';
 import { getSignedUrl } from '@/lib/s3-presigner';
 import type { OrganizationFromMe } from '@/types';
 import { auth } from '@/utils/auth';
 import { GetObjectCommand } from '@aws-sdk/client-s3';
-import { db, type Organization, Role } from '@db/server';
+import { type Organization, Role } from '@db/server';
 import { cn } from '@trycompai/ui/cn';
 import { cookies, headers } from 'next/headers';
 import { MainMenu } from './main-menu';
@@ -68,12 +69,9 @@ export async function Sidebar({
   let hasAuditorRole = false;
   let isOnlyAuditor = false;
   if (session?.user?.id && organization?.id) {
-    const member = await db.member.findFirst({
-      where: {
-        userId: session.user.id,
-        organizationId: organization.id,
-        deactivated: false,
-      },
+    const member = await findActiveMemberRole({
+      organizationId: organization.id,
+      userId: session.user.id,
     });
     if (member?.role) {
       const roles = parseRolesString(member.role);

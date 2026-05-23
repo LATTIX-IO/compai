@@ -1,6 +1,7 @@
 import { getFeatureFlags } from '@/app/posthog';
 import { APP_AWS_ORG_ASSETS_BUCKET, s3Client } from '@/app/s3';
 import { TriggerTokenProvider } from '@/components/trigger-token-provider';
+import { findActiveMemberRole } from '@/lib/db/member-access';
 import { serverApi } from '@/lib/api-server';
 import { canAccessApp, canAccessAuditorView, parseRolesString } from '@/lib/permissions';
 import { resolveCustomRolePermissions, resolveUserPermissions } from '@/lib/permissions.server';
@@ -55,12 +56,9 @@ export default async function Layout({
     return redirect('/auth/not-found');
   }
 
-  const member = await db.member.findFirst({
-    where: {
-      userId: session.user.id,
-      organizationId: requestedOrgId,
-      deactivated: false,
-    },
+  const member = await findActiveMemberRole({
+    organizationId: requestedOrgId,
+    userId: session.user.id,
   });
 
   if (!member) {
