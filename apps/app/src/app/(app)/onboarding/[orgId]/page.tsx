@@ -1,5 +1,5 @@
-import { auth } from '@/utils/auth';
 import { resolveFrameworkIds } from '@/actions/organization/lib/resolve-framework-ids';
+import { auth } from '@/utils/auth';
 import { db } from '@db/server';
 import { headers } from 'next/headers';
 import { notFound, redirect } from 'next/navigation';
@@ -67,8 +67,7 @@ export default async function OnboardingPage({ params }: OnboardingPageProps) {
 
   const frameworkIds = await resolveFrameworkIds(orgId);
 
-  const initialData: Record<string, any> =
-    frameworkIds.length > 0 ? { frameworkIds } : {};
+  const initialData: Record<string, any> = frameworkIds.length > 0 ? { frameworkIds } : {};
 
   // Local-only: prefill onboarding fields to speed up development
   const host = requestHeaders.get('host') || '';
