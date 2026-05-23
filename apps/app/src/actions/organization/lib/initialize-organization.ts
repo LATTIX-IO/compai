@@ -1,4 +1,4 @@
-import { db, Prisma } from '@db/server';
+import { db, Prisma, type EvidenceFormType } from '@db/server';
 import { loadFrameworkSources } from './load-framework-sources';
 
 /**
@@ -27,6 +27,37 @@ function extractTipTapContentArray(content: unknown): Prisma.InputJsonValue[] {
 type FrameworkEditorFrameworkWithRequirements = Prisma.FrameworkEditorFrameworkGetPayload<{
   include: { requirements: true };
 }>;
+
+// Keep these payloads structural: clean Prisma client generations can omit
+// some generated *CreateManyInput aliases even though createMany accepts them.
+type RequirementMapCreateManyData = {
+  controlId: string;
+  frameworkInstanceId: string;
+  requirementId: string;
+};
+
+type ControlDocumentTypeCreateManyData = {
+  controlId: string;
+  formType: EvidenceFormType;
+};
+
+type FrameworkControlPolicyLinkCreateManyData = {
+  frameworkInstanceId: string;
+  controlId: string;
+  policyId: string;
+};
+
+type FrameworkControlTaskLinkCreateManyData = {
+  frameworkInstanceId: string;
+  controlId: string;
+  taskId: string;
+};
+
+type FrameworkControlDocumentTypeLinkCreateManyData = {
+  frameworkInstanceId: string;
+  controlId: string;
+  formType: EvidenceFormType;
+};
 
 export type InitializeOrganizationInput = {
   frameworkIds: string[];
@@ -308,13 +339,13 @@ export const _upsertOrgFrameworkStructureCore = async ({
     allRelevantTasks.filter((t) => t.taskTemplateId != null).map((t) => [t.taskTemplateId!, t.id]),
   );
 
-  const requirementMapEntriesToCreate: Prisma.RequirementMapCreateManyInput[] = [];
+  const requirementMapEntriesToCreate: RequirementMapCreateManyData[] = [];
   const controlToPolicyPairs: Array<{ controlId: string; policyId: string }> = [];
   const controlToTaskPairs: Array<{ controlId: string; taskId: string }> = [];
-  const controlDocumentTypeEntries: Prisma.ControlDocumentTypeCreateManyInput[] = [];
-  const frameworkControlPolicyEntries: Prisma.FrameworkControlPolicyLinkCreateManyInput[] = [];
-  const frameworkControlTaskEntries: Prisma.FrameworkControlTaskLinkCreateManyInput[] = [];
-  const frameworkControlDocumentTypeEntries: Prisma.FrameworkControlDocumentTypeLinkCreateManyInput[] = [];
+  const controlDocumentTypeEntries: ControlDocumentTypeCreateManyData[] = [];
+  const frameworkControlPolicyEntries: FrameworkControlPolicyLinkCreateManyData[] = [];
+  const frameworkControlTaskEntries: FrameworkControlTaskLinkCreateManyData[] = [];
+  const frameworkControlDocumentTypeEntries: FrameworkControlDocumentTypeLinkCreateManyData[] = [];
   const controlTemplateById = new Map(controlTemplates.map((c) => [c.id, c]));
 
   for (const controlTemplateRelation of groupedControlTemplateRelations) {
