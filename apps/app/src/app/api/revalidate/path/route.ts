@@ -6,11 +6,18 @@ export async function POST(request: NextRequest) {
   try {
     const { path, type, secret } = await request.json();
 
-    if (secret !== env.REVALIDATION_SECRET) {
+    if (!env.REVALIDATION_SECRET) {
+      return NextResponse.json(
+        { message: 'Revalidation is not configured' },
+        { status: 503 },
+      );
+    }
+
+    if (typeof secret !== 'string' || secret !== env.REVALIDATION_SECRET) {
       return NextResponse.json({ message: 'Invalid secret' }, { status: 401 });
     }
 
-    if (!path) {
+    if (typeof path !== 'string' || path.length === 0) {
       return NextResponse.json({ message: 'Path is required' }, { status: 400 });
     }
 

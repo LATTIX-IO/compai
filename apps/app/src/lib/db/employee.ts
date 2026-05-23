@@ -1,11 +1,6 @@
-import { env } from '@/env.mjs';
 import { trainingVideos } from '@/lib/data/training-videos';
 import { db, type Departments, type Member, type Role } from '@db/server';
 import { revalidatePath } from 'next/cache';
-
-if (!env.NEXT_PUBLIC_PORTAL_URL) {
-  throw new Error('NEXT_PUBLIC_PORTAL_URL is not set');
-}
 
 /**
  * Complete employee creation by handling all steps:
