@@ -5,6 +5,7 @@ import type { OrganizationFromMe } from '@/types';
 import { auth } from '@/utils/auth';
 import { headers } from 'next/headers';
 import { notFound } from 'next/navigation';
+import { Suspense } from 'react';
 import { OnboardingSidebar } from '../../setup/components/OnboardingSidebar';
 
 interface AuthMeResponse {
@@ -56,7 +57,9 @@ export default async function OnboardingRouteLayout({
           <OnboardingSidebar className="w-full max-w-xl mx-auto h-1/2 mt-auto" />
         </div>
       </div>
-      <CheckoutCompleteDialog orgId={organization.id} />
+      <Suspense fallback={null}>
+        <CheckoutCompleteDialog orgId={organization.id} />
+      </Suspense>
     </main>
   );
 }

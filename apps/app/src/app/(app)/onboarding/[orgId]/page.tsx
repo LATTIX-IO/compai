@@ -1,4 +1,5 @@
 import { auth } from '@/utils/auth';
+import { resolveFrameworkIds } from '@/actions/organization/lib/resolve-framework-ids';
 import { db } from '@db/server';
 import { headers } from 'next/headers';
 import { notFound, redirect } from 'next/navigation';
@@ -33,15 +34,6 @@ export default async function OnboardingPage({ params }: OnboardingPageProps) {
         },
       },
     },
-    include: {
-      context: {
-        where: {
-          tags: {
-            has: 'onboarding',
-          },
-        },
-      },
-    },
   });
 
   if (!organization) {
@@ -73,18 +65,13 @@ export default async function OnboardingPage({ params }: OnboardingPageProps) {
     redirect(`/upgrade/${orgId}`);
   }
 
-  // Convert context to initial data format
-  const initialData: Record<string, any> = {};
-  organization.context.forEach((ctx) => {
-    // Map questions back to field keys (this is a bit hacky but works)
-    if (ctx.question.includes('framework')) {
-      initialData.frameworkIds = ctx.answer.split(', ');
-    }
-  });
+  const frameworkIds = await resolveFrameworkIds(orgId);
+
+  const initialData: Record<string, any> =
+    frameworkIds.length > 0 ? { frameworkIds } : {};
 
   // Local-only: prefill onboarding fields to speed up development
-  const hdrs = await headers();
-  const host = hdrs.get('host') || '';
+  const host = requestHeaders.get('host') || '';
   const isLocal =
     process.env.NODE_ENV !== 'production' ||
     host.includes('localhost') ||
