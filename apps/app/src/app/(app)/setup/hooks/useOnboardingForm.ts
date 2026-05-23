@@ -122,7 +122,7 @@ export function useOnboardingForm({
 
         // Hard navigate to ensure updated auth cookies (active org) are applied immediately.
         // This prevents flakiness where the app still uses the previous activeOrganizationId.
-        window.location.assign(buildUrlWithParams(`/upgrade/${data.organizationId}`));
+        window.location.assign(buildUrlWithParams(`/onboarding/${data.organizationId}`));
 
         // Clear answers after successful creation
         setSavedAnswers({});

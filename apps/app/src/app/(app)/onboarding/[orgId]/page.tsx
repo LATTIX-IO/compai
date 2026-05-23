@@ -1,4 +1,5 @@
 import { resolveFrameworkIds } from '@/actions/organization/lib/resolve-framework-ids';
+import { ensureOrganizationAccess } from '@/lib/organization-access';
 import { auth } from '@/utils/auth';
 import { db } from '@db/server';
 import { headers } from 'next/headers';
@@ -60,8 +61,16 @@ export default async function OnboardingPage({ params }: OnboardingPageProps) {
     redirect(`/${orgId}/`);
   }
 
-  // Check if they have a subscription
-  if (!organization.hasAccess) {
+  const hasAccess = await ensureOrganizationAccess({
+    currentActiveOrgId: currentActiveOrgId,
+    hasAccess: organization.hasAccess,
+    logPrefix: 'OnboardingPage',
+    organizationId: orgId,
+    requestHeaders,
+    userEmail: session.user.email,
+  });
+
+  if (!hasAccess) {
     redirect(`/upgrade/${orgId}`);
   }
 

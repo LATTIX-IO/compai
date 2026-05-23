@@ -1,8 +1,8 @@
 'use client';
 
 import { AiWorkPreviewAuthentic } from '@/components/ai-work-preview-authentic';
-import { Button } from '@trycompai/ui/button';
-import { ArrowRight } from 'lucide-react';
+import { Button } from '@trycompai/design-system';
+import { ArrowRight } from '@trycompai/design-system/icons';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
@@ -32,7 +32,7 @@ export function SetupLoadingStep({ organizationId }: SetupLoadingStepProps) {
   }, []);
 
   const handleContinue = () => {
-    router.push(`/upgrade/${organizationId}`);
+    router.push(`/onboarding/${organizationId}`);
   };
 
   return (
@@ -68,20 +68,16 @@ export function SetupLoadingStep({ organizationId }: SetupLoadingStepProps) {
                   : 'Analyzing your infrastructure and compliance requirements'}
               </p>
             </div>
-            <Button
-              onClick={handleContinue}
-              disabled={false}
-              size="default"
-              variant={'default'}
-              className={
-                'min-w-[160px] shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 transition-all'
-              }
-            >
-              <>
-                Continue to Plans
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </>
-            </Button>
+            <div className="min-w-[160px] shadow-lg shadow-primary/20 transition-all hover:shadow-xl hover:shadow-primary/30">
+              <Button
+                onClick={handleContinue}
+                size="default"
+                variant="default"
+                iconRight={<ArrowRight size={16} />}
+              >
+                Continue setup
+              </Button>
+            </div>
           </div>
         </div>
       </div>

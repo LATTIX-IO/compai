@@ -4,6 +4,7 @@ import { initializeOrganization } from '@/actions/organization/lib/initialize-or
 import { authActionClientWithoutOrg } from '@/actions/safe-action';
 import { env } from '@/env.mjs';
 import { createTrainingVideoEntries } from '@/lib/db/employee';
+import { shouldAutoGrantOrgAccessOnCreate } from '@/lib/organization-access';
 import { auth } from '@/utils/auth';
 import { db } from '@db/server';
 import { revalidatePath } from 'next/cache';
@@ -41,12 +42,10 @@ export const createOrganizationMinimal = authActionClientWithoutOrg
         };
       }
 
-      // Check if user email domain is trycomp.ai
-      const userEmail = session.user.email;
-      const isTryCompEmail = userEmail?.endsWith('@trycomp.ai') ?? false;
-
-      // Check if self-hosted
-      const isSelfHosted = env.NEXT_PUBLIC_SELF_HOSTED === 'true';
+      const shouldAutoGrantAccess = shouldAutoGrantOrgAccessOnCreate({
+        userEmail: session.user.email,
+        selfHosted: env.NEXT_PUBLIC_SELF_HOSTED,
+      });
 
       // Idempotency: if the user already has a recently created org with the
       // same name that hasn't completed onboarding, reuse it instead of
@@ -122,10 +121,7 @@ export const createOrganizationMinimal = authActionClientWithoutOrg
           name: parsedInput.organizationName,
           website: parsedInput.website,
           onboardingCompleted: false, // Explicitly set to false
-          // Auto-enable for trycomp.ai emails, local development, or self-hosted instances
-          ...((process.env.NEXT_PUBLIC_APP_ENV !== 'production' ||
-            isTryCompEmail ||
-            isSelfHosted) && {
+          ...((shouldAutoGrantAccess) && {
             hasAccess: true,
           }),
           members: {

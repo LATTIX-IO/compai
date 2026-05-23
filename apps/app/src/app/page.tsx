@@ -1,4 +1,5 @@
 import { serverApi } from '@/lib/api-server';
+import { ensureOrganizationAccess } from '@/lib/organization-access';
 import { getDefaultRoute, mergePermissions, resolveBuiltInPermissions } from '@/lib/permissions';
 import { auth } from '@/utils/auth';
 import { db } from '@db/server';
@@ -22,8 +23,10 @@ export default async function RootPage({
 }: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
+  const requestHeaders = await headers();
+
   const session = await auth.api.getSession({
-    headers: await headers(),
+    headers: requestHeaders,
   });
 
   const buildUrlWithParams = async (path: string): Promise<string> => {
@@ -71,12 +74,24 @@ export default async function RootPage({
     (m) => m.onboardingCompleted && m.hasAccess,
   );
   const targetOrg = activeOrg || readyOrg || memberships[0];
+  let hasAccess = targetOrg.hasAccess;
+
+  if (!hasAccess) {
+    hasAccess = await ensureOrganizationAccess({
+      currentActiveOrgId: session.session.activeOrganizationId,
+      hasAccess,
+      logPrefix: 'RootPage',
+      organizationId: targetOrg.id,
+      requestHeaders,
+      userEmail: session.user.email,
+    });
+  }
 
   if (!targetOrg.onboardingCompleted) {
     return redirect(await buildUrlWithParams(`/onboarding/${targetOrg.id}`));
   }
 
-  if (!targetOrg.hasAccess) {
+  if (!hasAccess) {
     return redirect(await buildUrlWithParams(`/upgrade/${targetOrg.id}`));
   }
 

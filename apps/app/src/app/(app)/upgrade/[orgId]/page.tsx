@@ -1,6 +1,5 @@
-import { env } from '@/env.mjs';
 import { findActiveMemberOrganizationAccess } from '@/lib/db/member-access';
-import { serverApi } from '@/lib/api-server';
+import { ensureOrganizationAccess } from '@/lib/organization-access';
 import { auth } from '@/utils/auth';
 import { db } from '@db/server';
 import { headers } from 'next/headers';
@@ -12,12 +11,6 @@ interface PageProps {
   params: Promise<{
     orgId: string;
   }>;
-}
-
-interface AutoApproveResponse {
-  hasAccess: boolean;
-  autoApproved: boolean;
-  reason: string;
 }
 
 export default async function UpgradePage({ params }: PageProps) {
@@ -45,54 +38,14 @@ export default async function UpgradePage({ params }: PageProps) {
     redirect('/');
   }
 
-  // Sync activeOrganizationId only after membership is verified.
-  // Required so the API's HybridAuthGuard resolves the right org from session
-  // when we call /v1/organization-access/auto-approve below.
-  const currentActiveOrgId = authSession.session.activeOrganizationId;
-  if (!currentActiveOrgId || currentActiveOrgId !== orgId) {
-    try {
-      await auth.api.setActiveOrganization({
-        headers: requestHeaders,
-        body: {
-          organizationId: orgId,
-        },
-      });
-    } catch (error) {
-      console.error('[UpgradePage] Failed to sync activeOrganizationId:', error);
-    }
-  }
-
-  let hasAccess = member.organization.hasAccess;
-
-  if (!hasAccess) {
-    // Self-hosted instances auto-approve every org. The flag is a Next.js
-    // build-time env var (NEXT_PUBLIC_SELF_HOSTED) that the OSS Docker
-    // deployment sets on the app container only — the API container does NOT
-    // have this env, so the check stays on the page. The DB write here is the
-    // single exception to "all mutations through the API" — it's gated on a
-    // build-time deploy flag, not user input.
-    if (env.NEXT_PUBLIC_SELF_HOSTED === 'true') {
-      await db.organization.update({
-        where: { id: orgId },
-        data: { hasAccess: true },
-      });
-      hasAccess = true;
-    } else {
-      // Stripe-domain auto-approval (and the @trycomp.ai shortcut) live in the
-      // API so STRIPE_SECRET_KEY only has to exist on the API and the
-      // hasAccess flip is RBAC-checked + audit-logged. Soft-fail so a transient
-      // API error never blocks the booking step from rendering.
-      const response = await serverApi.post<AutoApproveResponse>(
-        '/v1/organization-access/auto-approve',
-      );
-
-      if (response.data?.hasAccess) {
-        hasAccess = true;
-      } else if (response.error) {
-        console.error('[UpgradePage] auto-approve API error:', response.error);
-      }
-    }
-  }
+  const hasAccess = await ensureOrganizationAccess({
+    currentActiveOrgId: authSession.session.activeOrganizationId,
+    hasAccess: member.organization.hasAccess,
+    logPrefix: 'UpgradePage',
+    organizationId: orgId,
+    requestHeaders,
+    userEmail: authSession.user.email,
+  });
 
   // If user has access to org but hasn't completed onboarding, redirect to onboarding
   if (hasAccess && !member.organization.onboardingCompleted) {

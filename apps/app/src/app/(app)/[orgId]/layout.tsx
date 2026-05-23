@@ -3,6 +3,7 @@ import { APP_AWS_ORG_ASSETS_BUCKET, s3Client } from '@/app/s3';
 import { TriggerTokenProvider } from '@/components/trigger-token-provider';
 import { findActiveMemberRole } from '@/lib/db/member-access';
 import { serverApi } from '@/lib/api-server';
+import { ensureOrganizationAccess } from '@/lib/organization-access';
 import { canAccessApp, canAccessAuditorView, parseRolesString } from '@/lib/permissions';
 import { resolveCustomRolePermissions, resolveUserPermissions } from '@/lib/permissions.server';
 import { getSignedUrl } from '@/lib/s3-presigner';
@@ -93,9 +94,21 @@ export default async function Layout({
   const roles = parseRolesString(member.role);
 
   const isUserAdmin = session.user.role === 'admin';
+  let hasAccess = organization.hasAccess;
 
   if (!isUserAdmin) {
-    if (!organization.hasAccess) {
+    if (!hasAccess) {
+      hasAccess = await ensureOrganizationAccess({
+        currentActiveOrgId,
+        hasAccess,
+        logPrefix: 'Layout',
+        organizationId: organization.id,
+        requestHeaders,
+        userEmail: session.user.email,
+      });
+    }
+
+    if (!hasAccess) {
       return redirect(`/upgrade/${organization.id}`);
     }
 

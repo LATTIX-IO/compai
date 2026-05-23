@@ -4,6 +4,7 @@ import { initializeOrganization } from '@/actions/organization/lib/initialize-or
 import { authActionClientWithoutOrg } from '@/actions/safe-action';
 import { shouldSkipAsyncOnboardingJobs } from '@/app/(app)/onboarding/lib/async-onboarding';
 import { createTrainingVideoEntries } from '@/lib/db/employee';
+import { shouldAutoGrantOrgAccessOnCreate } from '@/lib/organization-access';
 import { createFleetLabelForOrg } from '@/trigger/tasks/device/create-fleet-label-for-org';
 import { onboardOrganization as onboardOrganizationTask } from '@/trigger/tasks/onboarding/onboard-organization';
 import { auth } from '@/utils/auth';
@@ -35,9 +36,9 @@ export const createOrganization = authActionClientWithoutOrg
         };
       }
 
-      // Check if user email domain is trycomp.ai
-      const userEmail = session.user.email;
-      const isTryCompEmail = userEmail?.endsWith('@trycomp.ai') ?? false;
+      const shouldAutoGrantAccess = shouldAutoGrantOrgAccessOnCreate({
+        userEmail: session.user.email,
+      });
 
       // Create a new organization directly in the database
       const randomSuffix = Math.floor(100000 + Math.random() * 900000).toString();
@@ -53,8 +54,7 @@ export const createOrganization = authActionClientWithoutOrg
         data: {
           name: parsedInput.organizationName,
           website: parsedInput.website,
-          // Auto-enable for trycomp.ai emails or local development
-          ...((process.env.NEXT_PUBLIC_APP_ENV !== 'production' || isTryCompEmail) && {
+          ...((shouldAutoGrantAccess) && {
             hasAccess: true,
           }),
           members: {
