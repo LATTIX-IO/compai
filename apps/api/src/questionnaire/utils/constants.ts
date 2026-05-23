@@ -2,10 +2,11 @@
  * Shared constants for questionnaire module
  */
 
-// Chunk sizes for question-aware parsing
-export const MAX_CHUNK_SIZE_CHARS = 80_000;
+// Chunk sizes for questionnaire item classification
+export const MAX_CHUNK_SIZE_CHARS = 25_000;
 export const MIN_CHUNK_SIZE_CHARS = 5_000;
 export const MAX_QUESTIONS_PER_CHUNK = 1;
+export const MAX_CLASSIFICATION_CONCURRENCY = 4;
 
 // File size limits
 export const MAX_FILE_SIZE_BYTES = 100 * 1024 * 1024; // 100MB
@@ -30,37 +31,46 @@ CRITICAL RULES:
 8. Always write in first person plural (we, our, us) as if speaking on behalf of the organization.
 9. Keep answers to 1-3 sentences maximum unless the question explicitly requires more detail.`;
 
-export const QUESTION_PARSING_SYSTEM_PROMPT = `You parse vendor questionnaires from Excel spreadsheets. Extract all question-answer pairs.
+export const QUESTION_PARSING_SYSTEM_PROMPT = `You parse vendor questionnaires from Excel, PDF, images, CSV, or document text. Your job is to classify content and return only answerable questionnaire items.
 
-Input format:
-- Each row has columns like: [Question] ID | [Question Text] actual question | [Response] answer | [Comment] notes
-- Or: [Question] actual question text | [Response] answer
-- Lines starting with [COLUMNS:] show the column headers - use these to understand the structure
-- The actual question TEXT is usually the longest cell, contains "?" or starts with What/How/Do/Is/Are/etc.
+What counts as an item to extract:
+1. Interrogative questions in any language. A question mark is helpful but not required.
+2. Form fields like "1.1 Vendor Name", "Contact Email", "Company Address" (numbered or labeled fields requesting information).
+3. Compliance/requirement statements that the respondent must confirm or describe their compliance with — vendor questionnaires often consist entirely of these. Examples:
+   - "The organization must X"
+   - "The organization has X"
+   - "The organization ensures Y"
+   - "The organization implements Z"
+   - "We have a documented procedure for X"
+   Each such statement is one item, even with no question mark.
+4. Items marked with "*", "(required)", "(Single selection allowed)", "(Multiple selections allowed)".
 
-CRITICAL: The "Question" column might contain just an ID (like "SQ14.3") - look for the column with the ACTUAL question text!
+Input format hints:
+- Tables have rows like: [Question] ID | [Question Text] actual text | [Response] answer | [Comment] notes
+- Or simpler: [Question] text | [Response] answer
+- Lines starting with [COLUMNS:] show column headers — use them to find the right column.
+- Single-column checklists: each row IS the item. The answer column may be empty (set answer = null).
 
 Rules:
-1. Find the column containing actual question sentences (not just IDs/numbers)
-2. The question text is usually a full sentence ending with "?" or starting with interrogative words
-3. Extract the FULL question text, not the question ID
-4. Match each question to its Response/Answer from the same row
-5. If Response is empty, set answer to null
-6. Skip section headers (e.g., "Information Security Program", "General Information")
-7. Skip metadata rows (Company Name, Date, etc.)`;
+1. Find the column containing the actual item text, not just IDs/numbers (e.g., skip "SQ14.3", keep the full sentence).
+2. Extract the FULL text of each item.
+3. For upload-to-autofill parsing, always set saved answers to null. The user expects us to generate answers later.
+4. Never use scoring/options values as answers, e.g. "(Oui : 0, Non : 3)" or "(Yes : 0, No : 1)".
+5. Never use placeholders as answers, e.g. "A remplir", "A compléter", "To be completed".
+6. Do not treat guidance, instructions, examples, mode opératoire, remediation plans, or calculated score/formula cells as answerable items.
+7. Skip pure section headers ("Information Security Program", "General Information") UNLESS the text itself asks the respondent to provide information.
+8. Skip metadata rows (Company Name, Date, file headers) unless the field is clearly part of the vendor questionnaire response surface.
+9. Be high recall for answerable items, but do not include instructions, examples, scoring, or metadata just to avoid returning zero items.`;
 
 // Vision extraction prompt for PDFs and images
-export const VISION_EXTRACTION_PROMPT = `Extract all text and identify question-answer pairs from this document.
+export const VISION_EXTRACTION_PROMPT = `Transcribe this document into plain text. Output ONLY the document's text content — no summaries, no analysis, no commentary about what the document is or whether it contains questions.
 
-Look for:
-- Tables with columns labeled "Question", "Q", "Response", "Answer", "A", "Comment"
-- Questions ending with "?" or starting with What/How/Why/When/Where/Is/Are/Do/Does/Can/Will/Should
-- Numbered questions like "06. Do you have...", "1) What is...", "Q1: How do..."
-- Section headers (e.g., "Information Security Program", "General Information") that group questions
+Rules:
+- Output every visible row, cell, paragraph, list item, and heading. Do not skip rows that "look like statements" — vendor questionnaires often consist entirely of compliance/requirement statements ("The organization must X", "The organization has X") that the respondent fills in, with no question marks or interrogatives.
+- For tables: preserve row order and use " | " to separate cells in the same row. If columns have headers (e.g., Question, Response, Answer, Comment), keep them and prefix each cell with [Header].
+- For single-column checklists (one statement per row): output one statement per line, in document order.
+- For each row, include any answer/response/comment text from adjacent columns or rows, even if the answer cell is blank.
+- Do NOT add bullet points, numbering, or formatting that wasn't in the source.
+- Do NOT write things like "no questions found", "this is a compliance document", or any meta-analysis. Just transcribe the content.
 
-For each question found:
-- Extract the full question text (may omit number prefix)
-- Match it to any nearby response/answer in the same row or adjacent cell
-- If no answer is provided, note it as empty
-
-Preserve the order of questions as they appear. Return Question → Answer pairs in a structured format.`;
+The downstream parser will identify which rows are questions/items and which are answers — your only job is to faithfully extract the text.`;

@@ -13,6 +13,8 @@ export interface PeopleResponseDto {
   isActive: boolean;
   deactivated: boolean;
   fleetDmLabelId: number | null;
+  onboardDate: string | null;
+  offboardDate: string | null;
   user: {
     id: string;
     name: string;
@@ -71,6 +73,19 @@ export function usePeopleActions() {
     [api],
   );
 
+  const removeDeviceAgent = useCallback(
+    async (deviceId: string) => {
+      const response = await api.delete<{
+        success?: boolean;
+      }>(`/v1/devices/${deviceId}`);
+      if (response.error) {
+        throw new Error(response.error);
+      }
+      return response.data;
+    },
+    [api],
+  );
+
   const reactivateMember = useCallback(
     async (memberId: string) => {
       const response = await api.patch<PeopleResponseDto>(
@@ -84,10 +99,25 @@ export function usePeopleActions() {
     [api],
   );
 
+  const resendPortalInvite = useCallback(
+    async (memberId: string) => {
+      const response = await api.post<{ success: boolean }>(
+        `/v1/people/${memberId}/resend-portal-invite`,
+      );
+      if (response.error) {
+        throw new Error(response.error);
+      }
+      return response.data!;
+    },
+    [api],
+  );
+
   return {
     unlinkDevice,
     removeMember,
     removeHostFromFleet,
+    removeDeviceAgent,
     reactivateMember,
+    resendPortalInvite,
   };
 }

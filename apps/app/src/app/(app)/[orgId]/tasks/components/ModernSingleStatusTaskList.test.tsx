@@ -142,6 +142,8 @@ const mockTasks = [
     approvedAt: null,
     approvalComment: null,
     organizationId: 'org_1',
+    embeddingHash: null,
+    notRelevantJustification: null,
     controls: [],
   },
   {
@@ -168,6 +170,8 @@ const mockTasks = [
     approvedAt: null,
     approvalComment: null,
     organizationId: 'org_1',
+    embeddingHash: null,
+    notRelevantJustification: null,
     controls: [],
   },
 ];

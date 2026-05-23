@@ -31,6 +31,7 @@ import {
 import {
   Breadcrumb,
   HStack,
+  Label,
   PageLayout,
   Stack,
   Tabs,
@@ -39,6 +40,7 @@ import {
   TabsTrigger,
   Text,
 } from '@trycompai/design-system';
+import { SubtractAlt } from '@trycompai/design-system/icons';
 import { CheckCircle2, Clock, Download, RefreshCw, SendHorizontal, Trash2, XCircle } from 'lucide-react';
 import Link from 'next/link';
 import { useParams, useSearchParams } from 'next/navigation';
@@ -177,7 +179,9 @@ export function SingleTask({
   };
 
   const handleUpdateTask = async (
-    updates: Partial<Pick<Task, 'status' | 'assigneeId' | 'approverId' | 'frequency' | 'department' | 'reviewDate'>>,
+    updates: Partial<Pick<Task, 'status' | 'assigneeId' | 'approverId' | 'frequency' | 'department' | 'reviewDate'>> & {
+      notRelevantJustification?: string;
+    },
   ) => {
     try {
       await updateTask({
@@ -187,6 +191,7 @@ export function SingleTask({
         frequency: updates.frequency,
         department: updates.department,
         reviewDate: updates.reviewDate ? String(updates.reviewDate) : undefined,
+        notRelevantJustification: updates.notRelevantJustification,
       });
       toast.success('Task updated');
       mutateActivity();
@@ -318,6 +323,11 @@ export function SingleTask({
         )}
       </Stack>
 
+      {/* Not Relevant Banner */}
+      {task.status === 'not_relevant' && task.notRelevantJustification && (
+        <NotRelevantBanner justification={task.notRelevantJustification} />
+      )}
+
       {/* Approval Banner */}
       {evidenceApprovalEnabled && isInReview && (
         <ApprovalBanner
@@ -348,6 +358,15 @@ export function SingleTask({
                 evidenceApprovalEnabled={evidenceApprovalEnabled}
                 onRequestApproval={handleRequestApproval}
               />
+              <Stack gap="sm">
+                <Label>Comments</Label>
+                <Comments
+                  entityId={task.id}
+                  entityType={CommentEntityType.task}
+                  mentionResource="evidence"
+                  organizationId={orgId}
+                />
+              </Stack>
               <TaskMainContent task={task} showComments={false} />
             </Stack>
           </TabsContent>
@@ -537,6 +556,20 @@ export function SingleTask({
 function TaskActivitySection({ taskId }: { taskId: string }) {
   const { logs } = useAuditLogs({ entityType: 'task', entityId: taskId });
   return <RecentAuditLogs logs={logs} />;
+}
+
+function NotRelevantBanner({ justification }: { justification: string }) {
+  return (
+    <div className="rounded-lg border border-l-4 border-border border-l-muted-foreground/50 bg-muted/30 p-4">
+      <HStack gap="sm" align="start">
+        <SubtractAlt size={20} className="text-muted-foreground mt-0.5 shrink-0" />
+        <Stack gap="xs">
+          <Text size="sm" weight="medium">Marked as Not Relevant</Text>
+          <Text size="sm" variant="muted">{justification}</Text>
+        </Stack>
+      </HStack>
+    </div>
+  );
 }
 
 function ApprovalBanner({

@@ -24,14 +24,15 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@trycompai/design-system';
+import { CertificateCheck, Download, Upload, View } from '@trycompai/design-system/icons';
 import { Form } from '@trycompai/ui/form';
-import { Download, Eye, FileCheck2, Upload } from 'lucide-react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
-import { BrandSettings } from './BrandSettings';
 import {
+  CCPA,
+  CCPAInProgress,
   GDPR,
   GDPRInProgress,
   HIPAA,
@@ -46,6 +47,8 @@ import {
   NEN7510InProgress,
   PCIDSS,
   PCIDSSInProgress,
+  PIPEDA,
+  PIPEDAInProgress,
   SOC2Type1,
   SOC2Type1InProgress,
   SOC2Type2,
@@ -57,11 +60,11 @@ import {
   TrustPortalAdditionalDocumentsSection,
   type TrustPortalDocument,
 } from './TrustPortalAdditionalDocumentsSection';
+import { TrustPortalBrandingSettings } from './TrustPortalBrandingSettings';
 import { TrustPortalCustomLinks } from './TrustPortalCustomLinks';
 import { TrustPortalFaqBuilder } from './TrustPortalFaqBuilder';
 import { TrustPortalOverview } from './TrustPortalOverview';
 import { TrustPortalVendors } from './TrustPortalVendors';
-import { UpdateTrustFavicon } from './UpdateTrustFavicon';
 
 // Client-side form schema (includes all fields for form state)
 const trustPortalSwitchSchema = z.object({
@@ -78,6 +81,8 @@ const trustPortalSwitchSchema = z.object({
   pcidss: z.boolean(),
   nen7510: z.boolean(),
   iso9001: z.boolean(),
+  pipeda: z.boolean(),
+  ccpa: z.boolean(),
   soc2type1Status: z.enum(['started', 'in_progress', 'compliant']),
   soc2type2Status: z.enum(['started', 'in_progress', 'compliant']),
   soc3Status: z.enum(['started', 'in_progress', 'compliant']),
@@ -88,6 +93,8 @@ const trustPortalSwitchSchema = z.object({
   pcidssStatus: z.enum(['started', 'in_progress', 'compliant']),
   nen7510Status: z.enum(['started', 'in_progress', 'compliant']),
   iso9001Status: z.enum(['started', 'in_progress', 'compliant']),
+  pipedaStatus: z.enum(['started', 'in_progress', 'compliant']),
+  ccpaStatus: z.enum(['started', 'in_progress', 'compliant']),
 });
 
 // Server action input schema (only fields that the server accepts)
@@ -108,6 +115,8 @@ const FRAMEWORK_KEY_TO_API_SLUG: Record<string, string> = {
   pcidss: 'pci_dss',
   nen7510: 'nen_7510',
   iso9001: 'iso_9001',
+  pipeda: 'pipeda',
+  ccpa: 'ccpa',
 };
 
 interface ComplianceResourceResponse {
@@ -181,6 +190,10 @@ export function TrustPortalSwitch({
   nen7510Status,
   iso9001,
   iso9001Status,
+  pipeda,
+  pipedaStatus,
+  ccpa,
+  ccpaStatus,
   faqs,
   iso27001FileName,
   iso42001FileName,
@@ -192,6 +205,8 @@ export function TrustPortalSwitch({
   pcidssFileName,
   nen7510FileName,
   iso9001FileName,
+  pipedaFileName,
+  ccpaFileName,
   additionalDocuments,
   overview,
   customLinks,
@@ -214,6 +229,8 @@ export function TrustPortalSwitch({
   hipaa: boolean;
   pcidss: boolean;
   nen7510: boolean;
+  pipeda: boolean;
+  ccpa: boolean;
   soc2type1Status: 'started' | 'in_progress' | 'compliant';
   soc2type2Status: 'started' | 'in_progress' | 'compliant';
   soc3Status: 'started' | 'in_progress' | 'compliant';
@@ -225,6 +242,8 @@ export function TrustPortalSwitch({
   nen7510Status: 'started' | 'in_progress' | 'compliant';
   iso9001: boolean;
   iso9001Status: 'started' | 'in_progress' | 'compliant';
+  pipedaStatus: 'started' | 'in_progress' | 'compliant';
+  ccpaStatus: 'started' | 'in_progress' | 'compliant';
   faqs: any[] | null;
   iso27001FileName?: string | null;
   iso42001FileName?: string | null;
@@ -236,6 +255,8 @@ export function TrustPortalSwitch({
   pcidssFileName?: string | null;
   nen7510FileName?: string | null;
   iso9001FileName?: string | null;
+  pipedaFileName?: string | null;
+  ccpaFileName?: string | null;
   additionalDocuments: TrustPortalDocument[];
   overview: TrustOverviewData;
   customLinks: TrustCustomLink[];
@@ -262,6 +283,8 @@ export function TrustPortalSwitch({
     pcidss: pcidssFileName ?? null,
     nen7510: nen7510FileName ?? null,
     iso9001: iso9001FileName ?? null,
+    pipeda: pipedaFileName ?? null,
+    ccpa: ccpaFileName ?? null,
   });
 
   useEffect(() => {
@@ -276,6 +299,8 @@ export function TrustPortalSwitch({
       pcidss: pcidssFileName ?? null,
       nen7510: nen7510FileName ?? null,
       iso9001: iso9001FileName ?? null,
+      pipeda: pipedaFileName ?? null,
+      ccpa: ccpaFileName ?? null,
     });
   }, [
     iso27001FileName,
@@ -288,6 +313,8 @@ export function TrustPortalSwitch({
     pcidssFileName,
     nen7510FileName,
     iso9001FileName,
+    pipedaFileName,
+    ccpaFileName,
   ]);
 
   const convertFileToBase64 = async (file: File): Promise<string> => {
@@ -352,6 +379,8 @@ export function TrustPortalSwitch({
       pcidss: pcidss ?? false,
       nen7510: nen7510 ?? false,
       iso9001: iso9001 ?? false,
+      pipeda: pipeda ?? false,
+      ccpa: ccpa ?? false,
       soc2type1Status: soc2type1Status ?? 'started',
       soc2type2Status: soc2type2Status ?? 'started',
       soc3Status: soc3Status ?? 'started',
@@ -362,6 +391,8 @@ export function TrustPortalSwitch({
       pcidssStatus: pcidssStatus ?? 'started',
       nen7510Status: nen7510Status ?? 'started',
       iso9001Status: iso9001Status ?? 'started',
+      pipedaStatus: pipedaStatus ?? 'started',
+      ccpaStatus: ccpaStatus ?? 'started',
     },
   });
 
@@ -898,15 +929,96 @@ export function TrustPortalSwitch({
                   orgId={orgId}
                   disabled={!canUpdate}
                 />
+                {/* PIPEDA */}
+                <ComplianceFramework
+                  title="PIPEDA"
+                  description="Personal Information Protection and Electronic Documents Act"
+                  isEnabled={pipeda}
+                  status={pipedaStatus}
+                  onStatusChange={async (value) => {
+                    try {
+                      await updateFrameworkSettings({
+                        pipedaStatus: value as 'started' | 'in_progress' | 'compliant',
+                      });
+                      toast.success('PIPEDA status updated');
+                    } catch (error) {
+                      console.error('[trust framework update] failed', error);
+                      toast.error('Failed to update PIPEDA status', {
+                        description: error instanceof Error ? error.message : undefined,
+                      });
+                    }
+                  }}
+                  onToggle={async (checked) => {
+                    try {
+                      await updateFrameworkSettings({
+                        pipeda: checked,
+                      });
+                      toast.success('PIPEDA status updated');
+                    } catch (error) {
+                      console.error('[trust framework update] failed', error);
+                      toast.error('Failed to update PIPEDA status', {
+                        description: error instanceof Error ? error.message : undefined,
+                      });
+                    }
+                  }}
+                  fileName={certificateFiles.pipeda}
+                  onFileUpload={handleFileUpload}
+                  onFilePreview={handleFilePreview}
+                  frameworkKey="pipeda"
+                  orgId={orgId}
+                  disabled={!canUpdate}
+                />
+                {/* CCPA */}
+                <ComplianceFramework
+                  title="CCPA"
+                  description="California Consumer Privacy Act"
+                  isEnabled={ccpa}
+                  status={ccpaStatus}
+                  onStatusChange={async (value) => {
+                    try {
+                      await updateFrameworkSettings({
+                        ccpaStatus: value as 'started' | 'in_progress' | 'compliant',
+                      });
+                      toast.success('CCPA status updated');
+                    } catch (error) {
+                      console.error('[trust framework update] failed', error);
+                      toast.error('Failed to update CCPA status', {
+                        description: error instanceof Error ? error.message : undefined,
+                      });
+                    }
+                  }}
+                  onToggle={async (checked) => {
+                    try {
+                      await updateFrameworkSettings({
+                        ccpa: checked,
+                      });
+                      toast.success('CCPA status updated');
+                    } catch (error) {
+                      console.error('[trust framework update] failed', error);
+                      toast.error('Failed to update CCPA status', {
+                        description: error instanceof Error ? error.message : undefined,
+                      });
+                    }
+                  }}
+                  fileName={certificateFiles.ccpa}
+                  onFileUpload={handleFileUpload}
+                  onFilePreview={handleFilePreview}
+                  frameworkKey="ccpa"
+                  orgId={orgId}
+                  disabled={!canUpdate}
+                />
               </div>
             </div>
           </TabsContent>
 
           {/* Branding Tab */}
           <TabsContent value="branding">
-            <div className="pt-6 space-y-6">
-              <UpdateTrustFavicon currentFaviconUrl={faviconUrl ?? null} />
-              <BrandSettings orgId={orgId} primaryColor={primaryColor ?? null} />
+            <div className="pt-6">
+              <TrustPortalBrandingSettings
+                enabled={enabled}
+                primaryColor={primaryColor ?? null}
+                faviconUrl={faviconUrl ?? null}
+              />
             </div>
           </TabsContent>
 
@@ -978,8 +1090,12 @@ function ComplianceFrameworkLogo({
     LogoComponent = enabled && isInProgress ? SOC2Type1InProgress : SOC2Type1;
   } else if (title === 'SOC 2 Type 2') {
     LogoComponent = enabled && isInProgress ? SOC2Type2InProgress : SOC2Type2;
+  } else if (title === 'CCPA') {
+    LogoComponent = enabled && isInProgress ? CCPAInProgress : CCPA;
   } else if (title === 'PCI DSS') {
     LogoComponent = enabled && isInProgress ? PCIDSSInProgress : PCIDSS;
+  } else if (title === 'PIPEDA') {
+    LogoComponent = enabled && isInProgress ? PIPEDAInProgress : PIPEDA;
   } else if (title === 'NEN 7510') {
     LogoComponent = enabled && isInProgress ? NEN7510InProgress : NEN7510;
   } else if (title === 'ISO 9001') {
@@ -1218,7 +1334,7 @@ function ComplianceFramework({
                 <div className="rounded-lg bg-muted/40 border border-border/50 p-4 space-y-3">
                   <div className="flex items-center gap-3 animate-in fade-in-0 slide-in-from-top-1 duration-200">
                     <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10">
-                      <FileCheck2 className="h-5 w-5 text-primary" />
+                      <CertificateCheck className="h-5 w-5 text-primary" />
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-medium text-foreground truncate">{fileName}</p>
@@ -1245,7 +1361,7 @@ function ComplianceFramework({
                             />
                           }
                         >
-                          <Eye className="h-3.5 w-3.5" />
+                          <View className="h-3.5 w-3.5" />
                           View
                         </TooltipTrigger>
                         <TooltipContent>Open certificate in new tab</TooltipContent>

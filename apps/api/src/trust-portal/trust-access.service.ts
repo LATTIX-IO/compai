@@ -1950,6 +1950,8 @@ export class TrustAccessService {
       | 'pci_dss'
       | 'nen7510'
       | 'iso9001'
+      | 'pipeda'
+      | 'ccpa'
     > = {
       [TrustFramework.iso_27001]: 'iso27001',
       [TrustFramework.iso_42001]: 'iso42001',
@@ -1961,6 +1963,8 @@ export class TrustAccessService {
       [TrustFramework.pci_dss]: 'pci_dss',
       [TrustFramework.nen_7510]: 'nen7510',
       [TrustFramework.iso_9001]: 'iso9001',
+      [TrustFramework.pipeda]: 'pipeda',
+      [TrustFramework.ccpa]: 'ccpa',
     };
 
     const enabledField = frameworkFieldMap[framework];
@@ -2735,6 +2739,8 @@ export class TrustAccessService {
       'nen 7510': 'nen7510',
       iso9001: 'iso9001',
       'iso 9001': 'iso9001',
+      pipeda: 'pipeda',
+      ccpa: 'ccpa',
     };
 
     const badges: Array<{ type: string; verified: boolean }> = [];
@@ -2783,6 +2789,7 @@ export class TrustAccessService {
       hipaa: 'HIPAA',
       pci_dss: 'PCI DSS',
       nen7510: 'NEN 7510',
+      pipeda: 'PIPEDA',
       ccpa: 'CCPA',
     };
 

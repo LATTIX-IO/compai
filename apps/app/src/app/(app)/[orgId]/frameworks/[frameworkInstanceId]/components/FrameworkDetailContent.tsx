@@ -26,6 +26,7 @@ import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useCallback, useState } from 'react';
 import { AddCustomRequirementSheet } from './AddCustomRequirementSheet';
+import { FrameworkControls } from './FrameworkControls';
 import { FrameworkDeleteDialog } from './FrameworkDeleteDialog';
 import { FrameworkProgress } from './FrameworkProgress';
 import { FrameworkRequirements } from './FrameworkRequirements';
@@ -41,7 +42,7 @@ interface FrameworkDetailContentProps {
   initialUpdateStatus?: FrameworkUpdateStatus;
 }
 
-const DEFAULT_TAB = 'requirements';
+const DEFAULT_TAB = 'controls';
 
 export function FrameworkDetailContent({
   orgId,
@@ -53,7 +54,6 @@ export function FrameworkDetailContent({
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const { hasPermission, permissions } = usePermissions();
-  const versioningEnabled = useFeatureFlag('is-framework-versioning-enabled');
   const complianceTimelineEnabled = useFeatureFlag('is-timeline-enabled');
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -81,8 +81,9 @@ export function FrameworkDetailContent({
   const tabParam = searchParams.get('tab');
   const validTabsList: string[] = [];
   if (complianceTimelineEnabled) validTabsList.push('progress');
+  validTabsList.push('controls');
   validTabsList.push('requirements');
-  if (versioningEnabled) validTabsList.push('history');
+  validTabsList.push('history');
   const validTabs = new Set(validTabsList);
   const activeTab = tabParam && validTabs.has(tabParam) ? tabParam : DEFAULT_TAB;
 
@@ -103,6 +104,7 @@ export function FrameworkDetailContent({
     tasks,
     evidenceSubmissions,
   );
+  const controlsCount = frameworkInstanceWithControls.controls.length;
   const requirementsCount = requirementDefinitions.length;
 
   const canDeleteFramework = hasPermission('framework', 'delete');
@@ -155,10 +157,13 @@ export function FrameworkDetailContent({
                     Progress <TabBadge>{compliancePct}%</TabBadge>
                   </TabsTrigger>
                 )}
+                <TabsTrigger value="controls">
+                  Controls <TabBadge>{controlsCount}</TabBadge>
+                </TabsTrigger>
                 <TabsTrigger value="requirements">
                   Requirements <TabBadge>{requirementsCount}</TabBadge>
                 </TabsTrigger>
-                {versioningEnabled && <TabsTrigger value="history">History</TabsTrigger>}
+                <TabsTrigger value="history">History</TabsTrigger>
               </TabsList>
             }
           >
@@ -188,6 +193,15 @@ export function FrameworkDetailContent({
           </TabsContent>
         )}
 
+        <TabsContent value="controls">
+          <FrameworkControls
+            frameworkInstanceWithControls={frameworkInstanceWithControls}
+            requirementDefinitions={requirementDefinitions}
+            tasks={tasks}
+            evidenceSubmissions={evidenceSubmissions}
+          />
+        </TabsContent>
+
         <TabsContent value="requirements">
           <FrameworkRequirements
             requirementDefinitions={requirementDefinitions}
@@ -197,14 +211,12 @@ export function FrameworkDetailContent({
           />
         </TabsContent>
 
-        {versioningEnabled && (
-          <TabsContent value="history">
-            <SyncHistorySection
-              frameworkInstanceId={frameworkInstanceId}
-              permissions={permissions}
-            />
-          </TabsContent>
-        )}
+        <TabsContent value="history">
+          <SyncHistorySection
+            frameworkInstanceId={frameworkInstanceId}
+            permissions={permissions}
+          />
+        </TabsContent>
       </PageLayout>
 
       <FrameworkDeleteDialog

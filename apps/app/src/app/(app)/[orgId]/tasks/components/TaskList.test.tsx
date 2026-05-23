@@ -150,6 +150,8 @@ const baseMockTask = {
   approverId: null,
   approvedAt: null,
   approvalComment: null,
+  embeddingHash: null,
+  notRelevantJustification: null,
   controls: [] as { id: string; name: string }[],
 };
 

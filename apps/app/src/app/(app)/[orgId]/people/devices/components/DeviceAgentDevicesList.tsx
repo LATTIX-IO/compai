@@ -3,6 +3,10 @@
 import {
   Badge,
   Button,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
   Empty,
   EmptyDescription,
   EmptyHeader,
@@ -19,11 +23,21 @@ import {
   TableRow,
   Text,
 } from '@trycompai/design-system';
-import { Download, Information, Search } from '@trycompai/design-system/icons';
+import {
+  Download,
+  Information,
+  OverflowMenuVertical,
+  Search,
+  TrashCan,
+} from '@trycompai/design-system/icons';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@trycompai/ui/tooltip';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useMemo, useState } from 'react';
+import { toast } from 'sonner';
+import { useSWRConfig } from 'swr';
+import { usePeopleActions } from '@/hooks/use-people-api';
+import { usePermissions } from '@/hooks/use-permissions';
 import type { DeviceWithChecks } from '../types';
 import {
   buildDevicesCsv,
@@ -31,6 +45,7 @@ import {
   downloadDevicesCsv,
 } from '../lib/devices-csv';
 import { DeviceDetails } from './DeviceDetails';
+import { RemoveDeviceAlert } from '../../all/components/RemoveDeviceAlert';
 
 export interface DeviceAgentDevicesListProps {
   devices: DeviceWithChecks[];
@@ -159,12 +174,21 @@ function CheckBadges({ device }: { device: DeviceWithChecks }) {
   );
 }
 
-export const DeviceAgentDevicesList = ({ devices }: DeviceAgentDevicesListProps) => {
+export const DeviceAgentDevicesList = ({
+  devices,
+}: DeviceAgentDevicesListProps) => {
   const { orgId } = useParams<{ orgId: string }>();
+  const { removeDeviceAgent } = usePeopleActions();
+  const { hasPermission } = usePermissions();
+  const canRemoveDevice = hasPermission('member', 'delete');
+  const { mutate } = useSWRConfig();
   const [selectedDevice, setSelectedDevice] = useState<DeviceWithChecks | null>(null);
+  const [actionDevice, setActionDevice] = useState<DeviceWithChecks | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(50);
+  const [isRemoveDeviceAlertOpen, setIsRemoveDeviceAlertOpen] = useState(false);
+  const [isRemovingDevice, setIsRemovingDevice] = useState(false);
 
   const filteredDevices = useMemo(() => {
     if (!searchQuery) return devices;
@@ -188,6 +212,32 @@ export const DeviceAgentDevicesList = ({ devices }: DeviceAgentDevicesListProps)
     const contents = buildDevicesCsv(devices);
     const filename = devicesCsvFilename({ orgId });
     downloadDevicesCsv(filename, contents);
+  }
+
+  async function handleRemoveDevice() {
+    if (!actionDevice) return;
+    setIsRemovingDevice(true);
+    try {
+      await removeDeviceAgent(actionDevice.id);
+      await mutate(
+        ['people-agent-devices', orgId],
+        (currentDevices: DeviceWithChecks[] | undefined) =>
+          Array.isArray(currentDevices)
+            ? currentDevices.filter((device) => device.id !== actionDevice.id)
+            : currentDevices,
+        false,
+      );
+      toast.success('Device removed successfully');
+      if (selectedDevice?.id === actionDevice.id) {
+        setSelectedDevice(null);
+      }
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : 'Failed to remove device');
+    } finally {
+      setIsRemovingDevice(false);
+      setIsRemoveDeviceAlertOpen(false);
+      setActionDevice(null);
+    }
   }
 
   if (selectedDevice) {
@@ -251,6 +301,7 @@ export const DeviceAgentDevicesList = ({ devices }: DeviceAgentDevicesListProps)
               <TableHead>Last Check-in</TableHead>
               <TableHead>Checks</TableHead>
               <TableHead>Compliant</TableHead>
+              <TableHead>ACTIONS</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -295,11 +346,50 @@ export const DeviceAgentDevicesList = ({ devices }: DeviceAgentDevicesListProps)
                 <TableCell>
                   <CompliantBadge device={device} />
                 </TableCell>
+                <TableCell>
+                  <div className="flex justify-center">
+                    <DropdownMenu>
+                      <DropdownMenuTrigger
+                        onClick={(e) => e.stopPropagation()}
+                        className="inline-flex h-8 w-8 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+                      >
+                        <OverflowMenuVertical />
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end" style={{ width: 'auto' }}>
+                        <DropdownMenuItem
+                          disabled={!canRemoveDevice}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setActionDevice(device);
+                            setIsRemoveDeviceAlertOpen(true);
+                          }}
+                          variant="destructive"
+                        >
+                          <TrashCan size={16} className="mr-2" />
+                          <span className="whitespace-nowrap">Remove Device</span>
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </div>
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       )}
+      <RemoveDeviceAlert
+        open={isRemoveDeviceAlertOpen}
+        title="Remove Device"
+        description={
+          <>
+            Are you sure you want to remove this device{' '}
+            <strong>{actionDevice?.name ?? 'device'}</strong>?
+          </>
+        }
+        onOpenChange={setIsRemoveDeviceAlertOpen}
+        onRemove={handleRemoveDevice}
+        isRemoving={isRemovingDevice}
+      />
     </Stack>
   );
 };

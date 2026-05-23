@@ -1,5 +1,12 @@
+// `export *` from `@prisma/client` (CommonJS) makes Turbopack emit a warning
+// on every compile because it can't statically resolve the export list.
+// Listing the runtime values explicitly + `export type *` for types gives the
+// same public surface with a clean compile. Keep enum names alphabetized so
+// additions are obvious in diffs.
+export type * from '@prisma/client';
 export {
-  $Enums,
+  Prisma,
+  PrismaClient,
   AttachmentEntityType,
   AttachmentType,
   AuditLogEntityType,
@@ -33,8 +40,6 @@ export {
   PolicyDisplayFormat,
   PolicyStatus,
   PolicyVisibility,
-  Prisma,
-  PrismaClient,
   QuestionnaireAnswerStatus,
   QuestionnaireStatus,
   RiskCategory,
@@ -59,5 +64,3 @@ export {
   VendorCategory,
   VendorStatus,
 } from '@prisma/client';
-
-export type * from '@prisma/client';

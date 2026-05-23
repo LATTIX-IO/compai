@@ -5,10 +5,20 @@ import { CredentialInput } from '@/components/integrations/CredentialInput';
 import type { IntegrationProvider } from '@/hooks/use-integration-platform';
 import { useIntegrationMutations } from '@/hooks/use-integration-platform';
 import { Button, Label } from '@trycompai/design-system';
-import { awsRemediationScript } from '@trycompai/integration-platform';
+import {
+  getAwsCloudShellUrl,
+  getAwsCloudShellScript,
+  getAwsRemediationScript,
+  normalizeAwsEnvironment,
+} from '@trycompai/integration-platform';
 import { ArrowRight, Shield } from 'lucide-react';
 import { useCallback, useMemo, useState } from 'react';
 import { toast } from 'sonner';
+import {
+  AwsScanModeStep,
+  DEFAULT_AWS_SCAN_MODE_CHOICE,
+  type AwsScanModeChoice,
+} from './AwsScanModeStep';
 
 // ─── Primitives ─────────────────────────────────────────────────────────
 
@@ -28,11 +38,15 @@ function FieldRow({
   value,
   error,
   onChange,
+  optionsOverride,
+  disabled,
 }: {
   field: { id: string; label: string; required?: boolean; helpText?: string; type?: string };
   value: string | string[];
   error?: string;
   onChange: (value: string | string[]) => void;
+  optionsOverride?: { value: string; label: string }[];
+  disabled?: boolean;
 }) {
   return (
     <div className="space-y-1.5">
@@ -44,17 +58,25 @@ function FieldRow({
         field={field as Parameters<typeof CredentialInput>[0]['field']}
         value={value}
         onChange={onChange}
+        optionsOverride={optionsOverride}
+        disabled={disabled}
       />
-      {field.helpText && (
-        <p className="text-[11px] text-muted-foreground/70">{field.helpText}</p>
-      )}
+      {field.helpText && <p className="text-[11px] text-muted-foreground/70">{field.helpText}</p>}
       {error && <p className="text-xs text-destructive">{error}</p>}
     </div>
   );
 }
 
 /** Compact setup guide — shows only headings as collapsible sections, max 3-4 key steps each. */
-function SetupGuide({ text, fallback, docsUrl }: { text?: string | null; fallback: string; docsUrl?: string | null }) {
+function SetupGuide({
+  text,
+  fallback,
+  docsUrl,
+}: {
+  text?: string | null;
+  fallback: string;
+  docsUrl?: string | null;
+}) {
   const raw = text || fallback;
   const [expandedSection, setExpandedSection] = useState<number | null>(null);
 
@@ -85,9 +107,7 @@ function SetupGuide({ text, fallback, docsUrl }: { text?: string | null; fallbac
 
   // No structured content — simple fallback
   if (sections.length === 0) {
-    return (
-      <p className="text-xs text-muted-foreground leading-relaxed">{formatInline(raw)}</p>
-    );
+    return <p className="text-xs text-muted-foreground leading-relaxed">{formatInline(raw)}</p>;
   }
 
   return (
@@ -105,7 +125,10 @@ function SetupGuide({ text, fallback, docsUrl }: { text?: string | null; fallbac
             >
               <svg
                 className={`h-3 w-3 shrink-0 text-muted-foreground transition-transform ${isOpen ? 'rotate-90' : ''}`}
-                fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
               >
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
               </svg>
@@ -118,7 +141,7 @@ function SetupGuide({ text, fallback, docsUrl }: { text?: string | null; fallbac
             </button>
             {isOpen && (
               <div className="ml-5 pb-2 space-y-1.5">
-                {(previewSteps).map((step, j) => (
+                {previewSteps.map((step, j) => (
                   <div key={j} className="flex items-start gap-2">
                     <span className="flex h-4 w-4 shrink-0 items-center justify-center rounded bg-muted text-[8px] font-semibold text-muted-foreground mt-0.5">
                       {j + 1}
@@ -130,7 +153,8 @@ function SetupGuide({ text, fallback, docsUrl }: { text?: string | null; fallbac
                 ))}
                 {section.steps.length > 3 && (
                   <p className="text-[10px] text-muted-foreground/50 pl-6">
-                    +{section.steps.length - 3} more step{section.steps.length - 3 !== 1 ? 's' : ''} in docs
+                    +{section.steps.length - 3} more step{section.steps.length - 3 !== 1 ? 's' : ''}{' '}
+                    in docs
                   </p>
                 )}
               </div>
@@ -158,14 +182,35 @@ function formatInline(text: string): React.ReactNode {
   const parts = text.split(/(\*\*[^*]+\*\*|`[^`]+`|\[[^\]]+\]\([^)]+\))/g);
   return parts.map((part, i) => {
     if (part.startsWith('**') && part.endsWith('**')) {
-      return <span key={i} className="font-medium text-foreground">{part.slice(2, -2)}</span>;
+      return (
+        <span key={i} className="font-medium text-foreground">
+          {part.slice(2, -2)}
+        </span>
+      );
     }
     if (part.startsWith('`') && part.endsWith('`')) {
-      return <code key={i} className="rounded bg-muted px-1 py-0.5 text-[10px] font-mono text-foreground/80">{part.slice(1, -1)}</code>;
+      return (
+        <code
+          key={i}
+          className="rounded bg-muted px-1 py-0.5 text-[10px] font-mono text-foreground/80"
+        >
+          {part.slice(1, -1)}
+        </code>
+      );
     }
     const linkMatch = part.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
     if (linkMatch) {
-      return <a key={i} href={linkMatch[2]} target="_blank" rel="noopener noreferrer" className="text-primary underline underline-offset-2">{linkMatch[1]}</a>;
+      return (
+        <a
+          key={i}
+          href={linkMatch[2]}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-primary underline underline-offset-2"
+        >
+          {linkMatch[1]}
+        </a>
+      );
     }
     return <span key={i}>{part}</span>;
   });
@@ -203,23 +248,11 @@ export function EmptyStateOnboarding({
 
   // Cloud providers with setup scripts get the full guided flow
   if (isCloudProvider && provider.setupScript) {
-    return (
-      <CloudSetup
-        provider={provider}
-        orgId={orgId}
-        onConnected={onConnected}
-      />
-    );
+    return <CloudSetup provider={provider} orgId={orgId} onConnected={onConnected} />;
   }
 
   // Everything else: API key / basic / custom credentials
-  return (
-    <CredentialSetup
-      provider={provider}
-      orgId={orgId}
-      onConnected={onConnected}
-    />
-  );
+  return <CredentialSetup provider={provider} orgId={orgId} onConnected={onConnected} />;
 }
 
 // ─── OAuth (GitHub, Google Workspace, etc.) ─────────────────────────────
@@ -261,9 +294,7 @@ function OAuthSetup({
     <div className="py-6">
       <div className="flex items-center justify-between rounded-xl border bg-background shadow-sm px-6 py-5">
         <div className="flex items-center gap-4">
-          {provider.logoUrl && (
-            <img src={provider.logoUrl} alt="" className="h-9 w-9 rounded-lg" />
-          )}
+          {provider.logoUrl && <img src={provider.logoUrl} alt="" className="h-9 w-9 rounded-lg" />}
           <div>
             <h3 className="text-sm font-semibold">Connect {provider.name}</h3>
             <p className="text-xs text-muted-foreground mt-0.5">
@@ -423,7 +454,9 @@ function CredentialSetup({
           </div>
           <div className="border-t bg-muted/30 px-6 py-5 rounded-b-xl">
             <Button onClick={handleConnect} disabled={connecting} loading={connecting}>
-              {connecting ? 'Connecting...' : (
+              {connecting ? (
+                'Connecting...'
+              ) : (
                 <>
                   Connect account
                   <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
@@ -469,6 +502,12 @@ function CloudSetup({
   const [connecting, setConnecting] = useState(false);
   const [credentials, setCredentials] = useState<Record<string, string | string[]>>({});
   const [errors, setErrors] = useState<Record<string, string>>({});
+  // AWS only — which scan engine the customer is choosing for this
+  // connection. Sent in createConnection's credentials payload as the
+  // `awsScanMode` variable, then read on every scan in cloud-security.service.
+  const [awsScanMode, setAwsScanMode] = useState<AwsScanModeChoice>(
+    DEFAULT_AWS_SCAN_MODE_CHOICE,
+  );
 
   const allFields = provider.credentialFields ?? [];
   const visibleFields = allFields.filter(
@@ -476,7 +515,11 @@ function CloudSetup({
   );
 
   const updateCredential = (fieldId: string, value: string | string[]) => {
-    setCredentials((prev) => ({ ...prev, [fieldId]: value }));
+    setCredentials((prev) => ({
+      ...prev,
+      [fieldId]: value,
+      ...(fieldId === 'awsType' ? { regions: [] } : {}),
+    }));
     if (errors[fieldId]) {
       setErrors((prev) => {
         const next = { ...prev };
@@ -492,6 +535,13 @@ function CloudSetup({
     if (!finalCredentials.connectionName) {
       const arnMatch = String(finalCredentials.roleArn ?? '').match(/:(\d{12}):/);
       finalCredentials.connectionName = arnMatch ? `AWS ${arnMatch[1]}` : 'AWS Account';
+    }
+    // AWS only — persist the customer's scan engine choice on the
+    // connection. The scan service reads this from variables on every
+    // run. resolveAwsScanMode() handles the missing-field case for
+    // every other provider and for pre-feature historical connections.
+    if (provider.id === 'aws') {
+      finalCredentials.awsScanMode = awsScanMode;
     }
 
     const newErrors: Record<string, string> = {};
@@ -526,11 +576,33 @@ function CloudSetup({
     } finally {
       setConnecting(false);
     }
-  }, [allFields, credentials, createConnection, provider, orgId, onConnected]);
+  }, [allFields, awsScanMode, credentials, createConnection, provider, orgId, onConnected]);
 
-  const connectionFields = visibleFields.filter((f) => f.id !== 'remediationRoleArn' && f.id !== 'regions');
+  const connectionFields = visibleFields.filter(
+    (f) => f.id !== 'remediationRoleArn' && f.id !== 'regions' && f.id !== 'awsType',
+  );
   const regionFields = visibleFields.filter((f) => f.id === 'regions');
   const remediationFields = visibleFields.filter((f) => f.id === 'remediationRoleArn');
+  const awsTypeFields = visibleFields.filter((f) => f.id === 'awsType');
+  const hasSelectedAwsEnvironment =
+    provider.id !== 'aws' || typeof credentials.awsType === 'string';
+  const awsEnvironment = normalizeAwsEnvironment(credentials.awsType);
+  const regionOptions = regionFields[0]?.options ?? [];
+  const filteredRegionOptions =
+    provider.id === 'aws'
+      ? regionOptions.filter((option) =>
+          awsEnvironment === 'aws-us-gov'
+            ? option.value.startsWith('us-gov-')
+            : !option.value.startsWith('us-gov-'),
+        )
+      : regionOptions;
+  const setupScript =
+    provider.id === 'aws'
+      ? getAwsCloudShellScript(awsEnvironment)
+      : (provider.setupScript ?? '');
+  const remediationScript = getAwsRemediationScript(awsEnvironment);
+  const cloudShellUrl = getAwsCloudShellUrl(awsEnvironment);
+
   const hasRemediation = provider.id === 'aws' && remediationFields.length > 0;
 
   return (
@@ -542,25 +614,65 @@ function CloudSetup({
         </p>
       </div>
 
-      <div className={`grid grid-cols-1 ${hasRemediation ? 'lg:grid-cols-[1fr_320px]' : ''} gap-6 items-start`}>
+      <div
+        className={`grid grid-cols-1 ${hasRemediation ? 'lg:grid-cols-[1fr_320px]' : ''} gap-6 items-start`}
+      >
         {/* ─── Left: Unified setup flow ─── */}
         <div className="rounded-xl border bg-background shadow-sm">
-          {/* Step 1 */}
+          {/* Step 1 — AWS only — Scan engine choice. Mutually exclusive
+              between Comp AI scanners (default) and AWS Security Hub.
+              Customers can switch later from CloudSettingsModal. */}
+          {provider.id === 'aws' && (
+            <div className="p-6 space-y-4">
+              <StepHeader step={1} title="Scan Engine" />
+              <AwsScanModeStep
+                value={awsScanMode}
+                onChange={setAwsScanMode}
+                disabled={connecting}
+              />
+            </div>
+          )}
+
+          {/* Step 2 — AWS only — Commercial vs GovCloud */}
+          {awsTypeFields.length > 0 && (
+            <>
+              {provider.id === 'aws' && <div className="border-t" />}
+              <div className="p-6 space-y-4">
+                <StepHeader step={2} title="AWS Environment" />
+                {awsTypeFields.map((field) => (
+                  <FieldRow
+                    key={field.id}
+                    field={field}
+                    value={credentials[field.id] || ''}
+                    error={errors[field.id]}
+                    onChange={(v) => updateCredential(field.id, v)}
+                  />
+                ))}
+              </div>
+            </>
+          )}
+          {/* Step 3 — AWS only — IAM role creation script */}
           {provider.setupScript && (
             <div className="p-6 space-y-4">
-              <StepHeader step={1} title="Create IAM Role" />
-              <CloudShellSetup script={provider.setupScript} externalId={orgId} />
+              <StepHeader step={3} title="Create IAM Role" />
+              <CloudShellSetup
+                script={setupScript}
+                externalId={orgId}
+                cloudShellUrl={cloudShellUrl}
+                disabled={!hasSelectedAwsEnvironment}
+              />
               <p className="text-[11px] text-muted-foreground/60">
-                Connecting multiple accounts? Run the script in each account and add them one by one.
+                Connecting multiple accounts? Run the script in each account and add them one by
+                one.
               </p>
             </div>
           )}
 
           <div className="border-t" />
 
-          {/* Step 2 */}
+          {/* Step 4 — Connection details (Role ARN etc.) */}
           <div className="p-6 space-y-4">
-            <StepHeader step={2} title="Connection Details" />
+            <StepHeader step={4} title="Connection Details" />
             {connectionFields.map((field) => (
               <FieldRow
                 key={field.id}
@@ -572,12 +684,12 @@ function CloudSetup({
             ))}
           </div>
 
-          {/* Step 3 */}
+          {/* Step 5 — Scan configuration (regions) */}
           {regionFields.length > 0 && (
             <>
               <div className="border-t" />
               <div className="p-6 space-y-4">
-                <StepHeader step={3} title="Scan Configuration" />
+                <StepHeader step={5} title="Scan Configuration" />
                 {regionFields.map((field) => (
                   <FieldRow
                     key={field.id}
@@ -585,6 +697,8 @@ function CloudSetup({
                     value={credentials[field.id] || []}
                     error={errors[field.id]}
                     onChange={(v) => updateCredential(field.id, v)}
+                    optionsOverride={filteredRegionOptions}
+                    disabled={!hasSelectedAwsEnvironment}
                   />
                 ))}
               </div>
@@ -594,7 +708,9 @@ function CloudSetup({
           {/* CTA */}
           <div className="border-t bg-muted/30 px-6 py-5 rounded-b-xl">
             <Button onClick={handleConnect} disabled={connecting} loading={connecting}>
-              {connecting ? 'Connecting...' : (
+              {connecting ? (
+                'Connecting...'
+              ) : (
                 <>
                   Connect Account
                   <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
@@ -619,11 +735,14 @@ function CloudSetup({
               </div>
               <div className="px-5 pb-5 space-y-3">
                 <p className="text-xs text-muted-foreground leading-relaxed">
-                  Enable one-click fixes for security findings. This creates a separate write-access role — your audit role stays read-only.
+                  Enable one-click fixes for security findings. This creates a separate write-access
+                  role — your audit role stays read-only.
                 </p>
                 <CloudShellSetup
-                  script={awsRemediationScript}
+                  script={remediationScript}
                   externalId={orgId}
+                  cloudShellUrl={cloudShellUrl}
+                  disabled={!hasSelectedAwsEnvironment}
                   title="Remediation Role"
                   subtitle="Write-access role for auto-fix"
                   footnote=""

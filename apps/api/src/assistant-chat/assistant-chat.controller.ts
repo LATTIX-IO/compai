@@ -39,6 +39,7 @@ import { AssistantChatService } from './assistant-chat.service';
 import { buildTools } from './assistant-chat-tools';
 import type { AssistantChatMessage } from './assistant-chat.types';
 import { RolesService } from '../roles/roles.service';
+import { ASSISTANT_OPENAI_PROVIDER_OPTIONS } from './openai-options';
 
 @ApiTags('Assistant Chat')
 @Controller({ path: 'assistant-chat', version: '1' })
@@ -127,8 +128,9 @@ Important:
       const result = streamText({
         model: openai('gpt-5'),
         system: systemPrompt,
-        messages: convertToModelMessages(messages),
+        messages: await convertToModelMessages(messages),
         tools,
+        providerOptions: ASSISTANT_OPENAI_PROVIDER_OPTIONS,
         stopWhen: stepCountIs(5),
       });
 

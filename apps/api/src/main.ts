@@ -10,7 +10,12 @@ import * as express from 'express';
 import helmet from 'helmet';
 import path from 'path';
 import { AppModule } from './app.module';
-import { getAuth, isTrustedOrigin } from './auth/auth.server';
+import {
+  applyPublicOpenApiMetadata,
+  PUBLIC_OPENAPI_DESCRIPTION,
+  PUBLIC_OPENAPI_TITLE,
+} from './openapi/public-docs-metadata';
+import { isTrustedOrigin } from './auth/auth.server';
 import { adminAuthRateLimiter } from './auth/admin-rate-limit.middleware';
 import { originCheckMiddleware } from './auth/origin-check.middleware';
 import { mkdirSync, writeFileSync, existsSync } from 'fs';
@@ -31,17 +36,11 @@ function describeServer(baseUrl: string): string {
 }
 
 async function bootstrap(): Promise<void> {
-  // Disable body parser globally so Better Auth can read the raw request
-  // stream for /api/auth routes before Nest/Express JSON middleware runs.
+  // Disable body parser - required for better-auth NestJS integration
+  // The library will re-add body parsers after handling auth routes
   app = await NestFactory.create(AppModule, {
     bodyParser: false,
   });
-
-  const [{ toNodeHandler }, auth] = await Promise.all([
-    import('better-auth/node'),
-    getAuth(),
-  ]);
-  const betterAuthHandler = toNodeHandler(auth);
 
   // Enable CORS with origin validation.
   // Uses a callback to support dynamic trust portal subdomains
@@ -84,23 +83,6 @@ async function bootstrap(): Promise<void> {
   // STEP 3b: Rate-limit better-auth admin routes (impersonation, ban, set-role, etc.)
   // These bypass NestJS controllers so the global ThrottlerGuard doesn't apply.
   app.use(adminAuthRateLimiter);
-
-  // STEP 3c: Handle Better Auth routes directly.
-  // We mount the node handler before body parsing so callback bodies and
-  // form posts reach Better Auth untouched.
-  app.use(
-    (
-      req: express.Request,
-      res: express.Response,
-      next: express.NextFunction,
-    ) => {
-      if (!req.path.startsWith('/api/auth')) {
-        return next();
-      }
-
-      Promise.resolve(betterAuthHandler(req, res)).catch(next);
-    },
-  );
 
   // STEP 4a: Configure body parser
   // NOTE: Attachment uploads are sent as base64 in JSON, so request payloads are
@@ -178,8 +160,8 @@ async function bootstrap(): Promise<void> {
   const serverDescription = describeServer(baseUrl);
 
   const config = new DocumentBuilder()
-    .setTitle('API Documentation')
-    .setDescription('The API documentation for this application')
+    .setTitle(PUBLIC_OPENAPI_TITLE)
+    .setDescription(PUBLIC_OPENAPI_DESCRIPTION)
     .setVersion('1.0')
     .addApiKey(
       {
@@ -193,6 +175,8 @@ async function bootstrap(): Promise<void> {
     .addServer(baseUrl, serverDescription)
     .build();
   const document: OpenAPIObject = SwaggerModule.createDocument(app, config);
+
+  applyPublicOpenApiMetadata(document);
 
   // Setup Swagger UI at /api/docs
   SwaggerModule.setup('api/docs', app, document, {

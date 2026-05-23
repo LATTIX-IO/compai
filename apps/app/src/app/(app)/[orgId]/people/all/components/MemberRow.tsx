@@ -1,5 +1,6 @@
 'use client';
 
+import { format } from 'date-fns';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useState } from 'react';
@@ -32,6 +33,7 @@ import {
 import {
   Checkmark,
   Edit,
+  Email,
   Laptop,
   OverflowMenuVertical,
   TrashCan,
@@ -51,6 +53,7 @@ interface MemberRowProps {
   onRemoveDevice: (memberId: string) => void;
   onUpdateRole: (memberId: string, roles: string[]) => void;
   onReactivate: (memberId: string) => void;
+  onResendPortalInvite?: (memberId: string) => void;
   canEdit: boolean;
   isCurrentUserOwner: boolean;
   customRoles?: CustomRoleOption[];
@@ -116,6 +119,7 @@ export function MemberRow({
   onRemoveDevice,
   onUpdateRole,
   onReactivate,
+  onResendPortalInvite,
   canEdit,
   isCurrentUserOwner,
   customRoles = [],
@@ -136,6 +140,7 @@ export function MemberRow({
   const [isRemoving, setIsRemoving] = useState(false);
   const [isRemovingDevice, setIsRemovingDevice] = useState(false);
   const [isReactivating, setIsReactivating] = useState(false);
+  const [isSendingInvite, setIsSendingInvite] = useState(false);
 
   const memberName = member.user.name || member.user.email || 'Member';
   const memberEmail = member.user.email || '';
@@ -241,6 +246,20 @@ export function MemberRow({
     }
   };
 
+  const handleResendPortalInviteClick = async () => {
+    if (!onResendPortalInvite) return;
+    setDropdownOpen(false);
+    setIsSendingInvite(true);
+    try {
+      await onResendPortalInvite(memberId);
+      toast.success('Portal invite email sent');
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : 'Failed to send portal invite');
+    } finally {
+      setIsSendingInvite(false);
+    }
+  };
+
   const handleRemoveDeviceClick = async () => {
     try {
       setIsRemoveDeviceAlertOpen(false);
@@ -309,6 +328,28 @@ export function MemberRow({
           </div>
         </TableCell>
 
+        {/* ONBOARDED */}
+        <TableCell>
+          {member.onboardDate ? (
+            <Text size="sm" variant="muted">
+              {format(member.onboardDate, 'MMM d, yyyy')}
+            </Text>
+          ) : (
+            <Text size="sm" variant="muted">—</Text>
+          )}
+        </TableCell>
+
+        {/* OFFBOARDED */}
+        <TableCell>
+          {member.offboardDate ? (
+            <Text size="sm" variant="muted">
+              {format(member.offboardDate, 'MMM d, yyyy')}
+            </Text>
+          ) : (
+            <Text size="sm" variant="muted">—</Text>
+          )}
+        </TableCell>
+
         {/* TASKS */}
         <TableCell>
           {taskItems.length > 0 ? (
@@ -358,6 +399,15 @@ export function MemberRow({
                   <DropdownMenuItem onClick={handleEditRolesClick}>
                     <Edit size={16} className="mr-2" />
                     <span>Edit Roles</span>
+                  </DropdownMenuItem>
+                )}
+                {!isDeactivated && canEdit && (
+                  <DropdownMenuItem
+                    onClick={handleResendPortalInviteClick}
+                    disabled={isSendingInvite}
+                  >
+                    <Email size={16} className="mr-2" />
+                    <span>{isSendingInvite ? 'Sending...' : 'Resend Portal Invite'}</span>
                   </DropdownMenuItem>
                 )}
                 {!isDeactivated &&

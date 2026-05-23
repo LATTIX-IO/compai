@@ -19,6 +19,7 @@ interface Props {
   inviteLink: string;
   email?: string;
   appName?: string;
+  portalLink?: string;
 }
 
 export const InviteEmail = ({
@@ -26,6 +27,7 @@ export const InviteEmail = ({
   inviteLink,
   email,
   appName = 'Comp AI',
+  portalLink,
 }: Props) => {
   return (
     <Html>
@@ -74,6 +76,21 @@ export const InviteEmail = ({
                 {inviteLink}
               </Link>
             </Text>
+
+            {portalLink && (
+              <>
+                <Text className="text-[14px] leading-[24px] text-[#121212] mt-[24px]">
+                  You also have access to the <strong>{organizationName} Employee Portal</strong> for
+                  completing compliance tasks like signing policies and security training.
+                  Once you've accepted your invite above, you can access the portal at:
+                </Text>
+                <Text className="text-[14px] leading-[24px] break-all text-[#707070]">
+                  <Link href={portalLink} className="text-[#707070] underline">
+                    {portalLink}
+                  </Link>
+                </Text>
+              </>
+            )}
 
             <br />
             {email && (
